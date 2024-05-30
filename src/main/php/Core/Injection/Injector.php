@@ -1,6 +1,6 @@
 <?php
 
-namespace Mys\Injection;
+namespace Mys\Core\Injection;
 
 use ReflectionClass;
 use ReflectionException;
@@ -48,9 +48,8 @@ class Injector
         $constructor = $reflector->getConstructor();
         if($constructor) {
             $reflectionParameters = $constructor->getParameters();
-
             foreach ($reflectionParameters AS $parameter) {
-                $dependencies[] = $this->get($parameter->getClass()->name);
+                $dependencies[] = $this->get($parameter->getType()->getName());
             }
         }
 

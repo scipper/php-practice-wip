@@ -1,6 +1,6 @@
 <?php
 
-namespace Mys\test;
+namespace Mys\Modules\Test;
 
 class TestService
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace Mys\test;
+namespace Mys\Modules\Test;
+
+use Mys\Core\Module\Module;
 
 class TestModule implements Module
 {

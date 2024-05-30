@@ -1,6 +1,6 @@
 <?php
 
-namespace Mys\Injection;
+namespace Mys\Core\Injection;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionException;

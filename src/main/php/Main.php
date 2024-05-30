@@ -2,33 +2,31 @@
 
 namespace Mys;
 
-use Mys\test\Module;
+use Mys\Core\Application\Application;
+use Mys\Core\Injection\ClassAlreadyRegisteredException;
+use Mys\Core\Injection\Injector;
+use Mys\Modules\Test\TestModule;
 
 class Main
 {
+    /**
+     * @throws ClassAlreadyRegisteredException
+     */
     public static function main(): void
     {
         echo "Hello World!\n";
-
-        $files = glob(realpath(".") . "/**/*Module.php");
-
-        if (count($files) > 0) {
-            foreach ($files as $file) {
-                $info = pathinfo($file);
-                print_r($info);
-                $classPath = $info["dirname"] . "/" . $info["basename"];
-                $className = $info["filename"];
-                $c = require_once($classPath);
-                if($className instanceof Module) {
-                    /**
-                     * @var Module $module
-                     */
-                    $module = new $info["filename"]();
-                    print_r($module->getClasses());
-                }
-            }
-        }
+        $injector = new Injector();
+        $classList = [TestModule::class];
+        $application = new Application($injector, $classList);
+        $application->init();
     }
 }
 
-Main::main();
+try
+{
+    Main::main();
+}
+catch (ClassAlreadyRegisteredException $e)
+{
+    echo $e->getMessage();
+}
