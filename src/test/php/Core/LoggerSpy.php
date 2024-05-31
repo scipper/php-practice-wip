@@ -35,4 +35,9 @@ class LoggerSpy implements Logger
     {
         return $this->warningMessage;
     }
+
+    public function info(string $infoMessage): void
+    {
+
+    }
 }

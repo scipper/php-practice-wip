@@ -63,9 +63,9 @@ class Application
                 }
                 else
                 {
-                    foreach ($module->getClasses() as $innerClass)
+                    foreach ($module->getClasses() as $injectionToken => $innerClass)
                     {
-                        $this->injector->register($innerClass);
+                        $this->injector->register($injectionToken?:$innerClass, $innerClass);
                     }
                     $this->processModuleList($module->getModules());
                 }

@@ -7,8 +7,14 @@ use Mys\Core\Injection\Injector;
 
 class InjectorSpy implements Injector
 {
-    private string $registeredClass;
+    /**
+     * @var string[] $registeredClass
+     */
+    private array $registeredClass;
 
+    /**
+     * @var int $registerCall
+     */
     private int $registerCall;
 
     public function __construct()
@@ -23,15 +29,21 @@ class InjectorSpy implements Injector
 
     public function register(string $injectionToken, string $class = null): void
     {
-        $this->registeredClass = $injectionToken;
+        $this->registeredClass = [$injectionToken, $class];
         $this->registerCall++;
     }
 
-    public function registerWasCalledWith(): string
+    /**
+     * @return string[]
+     */
+    public function registerWasCalledWith(): array
     {
         return $this->registeredClass;
     }
 
+    /**
+     * @return int
+     */
     public function registerWasCalledTimes(): int
     {
         return $this->registerCall;

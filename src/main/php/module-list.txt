@@ -1,2 +1,3 @@
 Mys\Modules\Test\TestModule
 Mys\Modules\Welcome\WelcomeModule
+Mys\Modules\Logging\LoggingModule

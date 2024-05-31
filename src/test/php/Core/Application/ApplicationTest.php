@@ -64,7 +64,7 @@ class ApplicationTest extends TestCase
 
         $application->init();
 
-        $this->assertEquals(DummyComponent::class, $this->injector->registerWasCalledWith());
+        $this->assertEquals([DummyComponent::class, DummyComponent::class], $this->injector->registerWasCalledWith());
     }
 
     /**
@@ -90,6 +90,16 @@ class ApplicationTest extends TestCase
 
         $application->init();
 
-        $this->assertEquals(DummyComponent::class, $this->injector->registerWasCalledWith());
+        $this->assertEquals([DummyComponent::class, DummyComponent::class], $this->injector->registerWasCalledWith());
+    }
+
+    public function test_registers_a_class_with_an_interface_as_injection_token(): void
+    {
+        $moduleList = [DummyModuleWithInjectionToken::class];
+        $application = new Application($this->injector, $moduleList, $this->loggerSpy);
+
+        $application->init();
+
+        $this->assertEquals([DummyInterface::class, DummyComponent::class], $this->injector->registerWasCalledWith());
     }
 }

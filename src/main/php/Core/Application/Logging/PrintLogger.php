@@ -14,6 +14,11 @@ class PrintLogger implements Logger
 
     public function warning(string $warningMessage): void
     {
-        print_r("WARNING: " . $warningMessage);
+        print_r("WARNING: $warningMessage\n");
+    }
+
+    public function info(string $infoMessage): void
+    {
+        print_r("INFO: $infoMessage\n");
     }
 }

@@ -16,4 +16,9 @@ class SysLogger implements Logger
     {
         syslog(LOG_WARNING, $warningMessage);
     }
+
+    public function info(string $infoMessage): void
+    {
+        syslog(LOG_INFO, $infoMessage);
+    }
 }

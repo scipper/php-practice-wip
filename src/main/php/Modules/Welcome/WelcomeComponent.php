@@ -6,16 +6,22 @@ use Mys\Core\Application\Logging\Logger;
 
 class WelcomeComponent
 {
+    /**
+     * @var Logger
+     */
+    private Logger $logger;
+
     public function __construct(Logger $logger)
     {
+        $this->logger = $logger;
     }
 
     public function printWelcomeMessage(): void
     {
-        print_r("####################################\n");
-        print_r("# Project: PHPInjection            #\n");
-        print_r("# Version: 1.0.0                   #\n");
-        print_r("#                                  #\n");
-        print_r("####################################\n");
+        $this->logger->info("####################################");
+        $this->logger->info("# Project: PHPInjection            #");
+        $this->logger->info("# Version: 1.0.0                   #");
+        $this->logger->info("#                                  #");
+        $this->logger->info("####################################");
     }
 }

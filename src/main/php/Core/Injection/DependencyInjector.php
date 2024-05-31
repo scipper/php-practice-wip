@@ -38,7 +38,7 @@ class DependencyInjector implements Injector
     {
         if (in_array($injectionToken, $this->classList))
         {
-            $this->logger->warning("Class is already registered");
+            $this->logger->warning("Class is already registered: $injectionToken");
         }
 
         $this->classList[$injectionToken] = $class ?: $injectionToken;
