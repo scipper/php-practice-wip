@@ -4,6 +4,7 @@ namespace Mys\Core\Application;
 
 use Mys\Core\Application\Logging\Logger;
 use Mys\Core\Injection\ClassNotFoundException;
+use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\Injector;
 use Mys\Core\LoggerSpy;
 use PHPUnit\Framework\TestCase;
@@ -59,6 +60,7 @@ class ApplicationTest extends TestCase
     /**
      * @return void
      * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
     public function test_registers_a_class_of_a_module()
     {

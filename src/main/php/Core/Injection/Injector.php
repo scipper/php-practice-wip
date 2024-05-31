@@ -41,12 +41,30 @@ class Injector
      * @param string $class
      * @return mixed
      * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
     public function get(string $class)
+    {
+        return $this->getWithCyclicDependencyDetection($class);
+    }
+
+    /**
+     * @param string $class
+     * @param array $callChain
+     * @return mixed
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    private function getWithCyclicDependencyDetection(string $class, array $callChain = [])
     {
         if (!in_array($class, $this->classList, true)) {
             throw new ClassNotFoundException();
         }
+
+        if(in_array($class, $callChain)) {
+            throw new CyclicDependencyDetectedException($callChain);
+        }
+        $callChain[] = $class;
 
         try {
             $dependencies = [];
@@ -55,7 +73,7 @@ class Injector
             if ($constructor) {
                 $reflectionParameters = $constructor->getParameters();
                 foreach ($reflectionParameters as $parameter) {
-                    $dependencies[] = $this->get($parameter->getType()->getName());
+                    $dependencies[] = $this->getWithCyclicDependencyDetection($parameter->getType()->getName(), $callChain);
                 }
             }
         } catch (ReflectionException $e) {

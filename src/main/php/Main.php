@@ -24,7 +24,7 @@ class Main
             /**
              * @var TestComponent $testComponent
              */
-            $testComponent = $injector->get("ASD");
+            $testComponent = $injector->get(TestComponent::class);
 
             $testComponent->greeting();
         } catch (ClassNotFoundException $e) {
