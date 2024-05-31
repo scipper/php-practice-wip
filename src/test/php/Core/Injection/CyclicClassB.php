@@ -6,6 +6,5 @@ class CyclicClassB
 {
     public function __construct(CyclicClassA $classA)
     {
-
     }
 }

@@ -27,7 +27,7 @@ class Application
     /**
      * @param Injector $injector
      * @param string[] $moduleList
-     * @param Logger $logger
+     * @param Logger   $logger
      */
     public function __construct(Injector $injector, array $moduleList, Logger $logger)
     {
@@ -41,18 +41,26 @@ class Application
      */
     public function init(): void
     {
-        foreach ($this->moduleList as $class) {
-            try {
+        foreach ($this->moduleList as $class)
+        {
+            try
+            {
                 $module = new $class();
 
-                if (!($module instanceof Module)) {
+                if (!($module instanceof Module))
+                {
                     $this->logger->error(new ClassIsNotModuleException());
-                } else {
-                    foreach ($module->getClasses() as $innerClass) {
+                }
+                else
+                {
+                    foreach ($module->getClasses() as $innerClass)
+                    {
                         $this->injector->register($innerClass);
                     }
                 }
-            } catch (Error $e) {
+            }
+            catch (Error $e)
+            {
                 $this->logger->error(new InvalidClassException());
             }
         }

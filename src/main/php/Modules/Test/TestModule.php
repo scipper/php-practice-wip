@@ -10,7 +10,7 @@ class TestModule implements Module
     {
         return [
             TestComponent::class,
-            TestService::class
+            TestService::class,
         ];
     }
 }

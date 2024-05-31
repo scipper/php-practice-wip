@@ -3,9 +3,6 @@
 namespace Mys\Core\Application;
 
 use Mys\Core\Application\Logging\Logger;
-use Mys\Core\Injection\ClassNotFoundException;
-use Mys\Core\Injection\CyclicDependencyDetectedException;
-use Mys\Core\Injection\Injector;
 use Mys\Core\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
@@ -18,9 +15,9 @@ class ApplicationTest extends TestCase
     private Logger $loggerSpy;
 
     /**
-     * @var Injector $injector
+     * @var InjectorSpy $injector
      */
-    private Injector $injector;
+    private InjectorSpy $injector;
 
     /**
      * @return void
@@ -28,7 +25,7 @@ class ApplicationTest extends TestCase
     public function setUp(): void
     {
         $this->loggerSpy = new LoggerSpy();
-        $this->injector = new Injector($this->loggerSpy);
+        $this->injector = new InjectorSpy();
     }
 
     /**
@@ -59,8 +56,6 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
-     * @throws ClassNotFoundException
-     * @throws CyclicDependencyDetectedException
      */
     public function test_registers_a_class_of_a_module(): void
     {
@@ -68,8 +63,20 @@ class ApplicationTest extends TestCase
         $application = new Application($this->injector, $moduleList, $this->loggerSpy);
 
         $application->init();
-        $injection = $this->injector->get(DummyComponent::class);
 
-        $this->assertInstanceOf(DummyComponent::class, $injection);
+        $this->assertEquals(DummyComponent::class, $this->injector->registerWasCalledWith());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_registers_multiple_classes_of_a_module(): void
+    {
+        $moduleList = [DummyModule::class, AnotherDummyModule::class];
+        $application = new Application($this->injector, $moduleList, $this->loggerSpy);
+
+        $application->init();
+
+        $this->assertEquals(2, $this->injector->registerWasCalledTimes());
     }
 }

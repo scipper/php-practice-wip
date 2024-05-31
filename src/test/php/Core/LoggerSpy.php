@@ -9,6 +9,7 @@ class LoggerSpy implements Logger
 {
 
     private Exception $errorClass;
+
     private string $warningMessage;
 
     public function __construct()

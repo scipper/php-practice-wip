@@ -6,7 +6,7 @@ use Mys\Core\Application\Logging\Logger;
 use Mys\Core\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
-class InjectorTest extends TestCase
+class DependencyInjectorTest extends TestCase
 {
 
     /**
@@ -25,7 +25,7 @@ class InjectorTest extends TestCase
     public function setUp(): void
     {
         $this->loggerSpy = new LoggerSpy();
-        $this->injector = new Injector($this->loggerSpy);
+        $this->injector = new DependencyInjector($this->loggerSpy);
     }
 
     /**
