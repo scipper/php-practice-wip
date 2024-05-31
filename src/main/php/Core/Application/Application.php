@@ -3,7 +3,7 @@
 namespace Mys\Core\Application;
 
 use Error;
-use Mys\Core\Application\Logging\Logger;
+use Mys\Core\Logging\Logger;
 use Mys\Core\Injection\Injector;
 use Mys\Core\Module\Module;
 

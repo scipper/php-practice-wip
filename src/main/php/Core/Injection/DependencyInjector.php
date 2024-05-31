@@ -2,7 +2,7 @@
 
 namespace Mys\Core\Injection;
 
-use Mys\Core\Application\Logging\Logger;
+use Mys\Core\Logging\Logger;
 use ReflectionClass;
 use ReflectionException;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mys\Core\Application\Logging;
+namespace Mys\Core\Logging;
 
 use Exception;
 

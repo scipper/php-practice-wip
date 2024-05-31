@@ -3,12 +3,10 @@
 namespace Mys;
 
 use Mys\Core\Application\Application;
-use Mys\Core\Application\Logging\PrintLogger;
+use Mys\Core\Logging\PrintLogger;
 use Mys\Core\Injection\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
-use Mys\Modules\Test\TestComponent;
-use Mys\Modules\Test\TestModule;
 use Mys\Modules\Welcome\WelcomeComponent;
 
 class Main

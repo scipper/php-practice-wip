@@ -2,7 +2,7 @@
 
 namespace Mys\Modules\Welcome;
 
-use Mys\Core\Application\Logging\Logger;
+use Mys\Core\Logging\Logger;
 
 class WelcomeComponent
 {

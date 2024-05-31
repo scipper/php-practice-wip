@@ -2,7 +2,7 @@
 
 namespace Mys\Core\Injection;
 
-use Mys\Core\Application\Logging\Logger;
+use Mys\Core\Logging\Logger;
 use Mys\Core\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
@@ -62,7 +62,7 @@ class DependencyInjectorTest extends TestCase
         $this->injector->register(DummyClass::class);
         $this->injector->register(DummyClass::class);
 
-        $this->assertEquals("Class is already registered", $this->loggerSpy->warningWasCalledWith());
+        $this->assertEquals("Class is already registered: Mys\Core\Injection\DummyClass", $this->loggerSpy->warningWasCalledWith());
     }
 
     /**

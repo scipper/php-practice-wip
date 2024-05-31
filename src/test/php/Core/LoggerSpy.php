@@ -3,7 +3,7 @@
 namespace Mys\Core;
 
 use Exception;
-use Mys\Core\Application\Logging\Logger;
+use Mys\Core\Logging\Logger;
 
 class LoggerSpy implements Logger
 {
