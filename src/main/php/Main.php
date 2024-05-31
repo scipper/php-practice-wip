@@ -9,6 +9,7 @@ use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Modules\Test\TestComponent;
 use Mys\Modules\Test\TestModule;
+use Mys\Modules\Welcome\WelcomeComponent;
 
 class Main
 {
@@ -18,17 +19,21 @@ class Main
 
         $logger = new PrintLogger();
         $injector = new DependencyInjector($logger);
-        $moduleList = [TestModule::class];
+        $moduleListText = file_get_contents("./module-list.txt");
+        $moduleList = [];
+        if($moduleListText) {
+            array_push($moduleList, ...explode("\n", $moduleListText));
+        }
         $application = new Application($injector, $moduleList, $logger);
         try
         {
             $application->init();
             /**
-             * @var TestComponent $testComponent
+             * @var WelcomeComponent $welcomeComponent
              */
-            $testComponent = $injector->get(TestComponent::class);
+            $welcomeComponent = $injector->get(WelcomeComponent::class);
 
-            $testComponent->greeting();
+            $welcomeComponent->printWelcomeMessage();
         }
         catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
         {

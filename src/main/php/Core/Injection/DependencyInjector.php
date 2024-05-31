@@ -28,57 +28,59 @@ class DependencyInjector implements Injector
     }
 
     /**
-     * @param string $class
+     *
+     * @param string      $injectionToken
+     * @param string|null $class
      *
      * @return void
      */
-    public function register(string $class): void
+    public function register(string $injectionToken, string $class = null): void
     {
-        if (in_array($class, $this->classList))
+        if (in_array($injectionToken, $this->classList))
         {
             $this->logger->warning("Class is already registered");
         }
 
-        $this->classList[$class] = $class;
+        $this->classList[$injectionToken] = $class ?: $injectionToken;
     }
 
     /**
-     * @param string $class
+     * @param string $injectionToken
      *
      * @return mixed
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function get(string $class): mixed
+    public function get(string $injectionToken): mixed
     {
-        return $this->getWithCyclicDependencyDetection($class);
+        return $this->getWithCyclicDependencyDetection($injectionToken);
     }
 
     /**
-     * @param string $class
+     * @param string $injectionToken
      * @param array  $callChain
      *
      * @return mixed
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    private function getWithCyclicDependencyDetection(string $class, array $callChain = []): mixed
+    private function getWithCyclicDependencyDetection(string $injectionToken, array $callChain = []): mixed
     {
-        if (!in_array($class, $this->classList, true))
+        if (!array_key_exists($injectionToken, $this->classList))
         {
             throw new ClassNotFoundException();
         }
 
-        if (in_array($class, $callChain))
+        if (in_array($injectionToken, $callChain))
         {
             throw new CyclicDependencyDetectedException($callChain);
         }
-        $callChain[] = $class;
+        $callChain[] = $injectionToken;
 
         try
         {
             $dependencies = [];
-            $reflector = new ReflectionClass($class);
+            $reflector = new ReflectionClass($injectionToken);
             $constructor = $reflector->getConstructor();
             if ($constructor)
             {
@@ -94,6 +96,6 @@ class DependencyInjector implements Injector
             throw new ClassNotFoundException();
         }
 
-        return new $this->classList[$class](...$dependencies);
+        return new $this->classList[$injectionToken](...$dependencies);
     }
 }

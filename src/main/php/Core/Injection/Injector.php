@@ -5,18 +5,19 @@ namespace Mys\Core\Injection;
 interface Injector
 {
     /**
-     * @param string $class
+     * @param string      $injectionToken
+     * @param string|null $class
      *
      * @return void
      */
-    public function register(string $class): void;
+    public function register(string $injectionToken, string $class = null): void;
 
     /**
-     * @param string $class
+     * @param string $injectionToken
      *
      * @return mixed
      * @throws CyclicDependencyDetectedException
      * @throws ClassNotFoundException
      */
-    public function get(string $class): mixed;
+    public function get(string $injectionToken): mixed;
 }

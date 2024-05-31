@@ -16,14 +16,14 @@ class InjectorSpy implements Injector
         $this->registerCall = 0;
     }
 
-    public function get(string $class): mixed
+    public function get(string $injectionToken): mixed
     {
         throw new Exception("Not implemented");
     }
 
-    public function register(string $class): void
+    public function register(string $injectionToken, string $class = null): void
     {
-        $this->registeredClass = $class;
+        $this->registeredClass = $injectionToken;
         $this->registerCall++;
     }
 

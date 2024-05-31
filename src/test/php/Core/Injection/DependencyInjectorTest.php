@@ -96,4 +96,18 @@ class DependencyInjectorTest extends TestCase
         $this->injector->register(CyclicClassB::class);
         $this->injector->get(CyclicClassA::class);
     }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    public function test_map_an_interface_to_an_implementation(): void
+    {
+        $this->injector->register(DummyInterface::class, DummyClass::class);
+
+        $injection = $this->injector->get(DummyInterface::class);
+
+        $this->assertInstanceOf(DummyClass::class, $injection);
+    }
 }
