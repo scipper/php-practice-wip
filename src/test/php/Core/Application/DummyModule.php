@@ -13,4 +13,12 @@ class DummyModule implements Module
     {
         return [DummyComponent::class];
     }
+
+    /**
+     * @return string[]
+     */
+    public function getModules(): array
+    {
+        return [];
+    }
 }

@@ -79,4 +79,17 @@ class ApplicationTest extends TestCase
 
         $this->assertEquals(2, $this->injector->registerWasCalledTimes());
     }
+
+    /**
+     * @return void
+     */
+    public function test_registers_a_class_of_a_sub_module(): void
+    {
+        $moduleList = [ModuleWithSubModule::class];
+        $application = new Application($this->injector, $moduleList, $this->loggerSpy);
+
+        $application->init();
+
+        $this->assertEquals(DummyComponent::class, $this->injector->registerWasCalledWith());
+    }
 }

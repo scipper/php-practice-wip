@@ -41,7 +41,17 @@ class Application
      */
     public function init(): void
     {
-        foreach ($this->moduleList as $class)
+        $this->processModuleList($this->moduleList);
+    }
+
+    /**
+     * @param array $moduleList
+     *
+     * @return void
+     */
+    private function processModuleList(array $moduleList): void
+    {
+        foreach ($moduleList as $class)
         {
             try
             {
@@ -57,6 +67,7 @@ class Application
                     {
                         $this->injector->register($innerClass);
                     }
+                    $this->processModuleList($module->getModules());
                 }
             }
             catch (Error $e)

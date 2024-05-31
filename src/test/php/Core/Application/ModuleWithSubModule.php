@@ -4,14 +4,14 @@ namespace Mys\Core\Application;
 
 use Mys\Core\Module\Module;
 
-class AnotherDummyModule implements Module
+class ModuleWithSubModule implements Module
 {
     /**
      * @return string[]
      */
     public function getClasses(): array
     {
-        return [AnotherDummyComponent::class];
+        return [];
     }
 
     /**
@@ -19,6 +19,6 @@ class AnotherDummyModule implements Module
      */
     public function getModules(): array
     {
-        return [];
+        return [DummyModule::class];
     }
 }

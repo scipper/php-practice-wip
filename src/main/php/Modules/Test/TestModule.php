@@ -14,4 +14,9 @@ class TestModule implements Module
             TestBService::class,
         ];
     }
+
+    public function getModules(): array
+    {
+        return [];
+    }
 }
