@@ -11,6 +11,7 @@ class TestModule implements Module
         return [
             TestComponent::class,
             TestService::class,
+            TestBService::class,
         ];
     }
 }
