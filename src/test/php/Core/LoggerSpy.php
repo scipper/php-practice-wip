@@ -15,7 +15,7 @@ class LoggerSpy implements Logger
     {
     }
 
-    public function error(Exception $errorClass)
+    public function error(Exception $errorClass): void
     {
         $this->errorClass = $errorClass;
     }
@@ -25,7 +25,7 @@ class LoggerSpy implements Logger
         return $this->errorClass;
     }
 
-    public function warning(string $warningMessage)
+    public function warning(string $warningMessage): void
     {
         $this->warningMessage = $warningMessage;
     }

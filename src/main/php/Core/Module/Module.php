@@ -4,7 +4,6 @@ namespace Mys\Core\Module;
 
 interface Module
 {
-
     /**
      * @return string[]
      */

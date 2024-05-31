@@ -11,7 +11,7 @@ class TestComponent
         $this->testService = $testService;
     }
 
-    public function greeting()
+    public function greeting(): void
     {
         echo $this->testService->sayHello();
     }

@@ -33,7 +33,7 @@ class InjectorTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function test_throws_when_requested_class_is_not_registered()
+    public function test_throws_when_requested_class_is_not_registered(): void
     {
         $this->expectException(ClassNotFoundException::class);
 
@@ -45,7 +45,7 @@ class InjectorTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function test_returns_instance_of_registered_class()
+    public function test_returns_instance_of_registered_class(): void
     {
         $this->injector->register(DummyClass::class);
 
@@ -57,7 +57,7 @@ class InjectorTest extends TestCase
     /**
      * @return void
      */
-    public function test_logs_warning_when_class_is_already_registered()
+    public function test_logs_warning_when_class_is_already_registered(): void
     {
         $this->injector->register(DummyClass::class);
         $this->injector->register(DummyClass::class);
@@ -70,7 +70,7 @@ class InjectorTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function test_resolves_dependencies_of_class_when_requesting()
+    public function test_resolves_dependencies_of_class_when_requesting(): void
     {
         $this->injector->register(DummyClassWithDependency::class);
         $this->injector->register(DummyDependency::class);
@@ -88,7 +88,7 @@ class InjectorTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function test_throws_when_a_cyclic_dependency_is_detected()
+    public function test_throws_when_a_cyclic_dependency_is_detected(): void
     {
         $this->expectException(CyclicDependencyDetectedException::class);
 

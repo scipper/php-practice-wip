@@ -6,7 +6,7 @@ use Exception;
 
 interface Logger
 {
-    public function error(Exception $errorClass);
+    public function error(Exception $errorClass): void;
 
-    public function warning(string $warningMessage);
+    public function warning(string $warningMessage): void;
 }

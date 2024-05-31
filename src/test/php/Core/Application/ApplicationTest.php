@@ -34,7 +34,7 @@ class ApplicationTest extends TestCase
     /**
      * @return void
      */
-    public function test_logs_error_when_class_in_module_list_is_not_instance_of_module()
+    public function test_logs_error_when_class_in_module_list_is_not_instance_of_module(): void
     {
         $moduleList = [DummyComponent::class];
         $application = new Application($this->injector, $moduleList, $this->loggerSpy);
@@ -47,7 +47,7 @@ class ApplicationTest extends TestCase
     /**
      * @return void
      */
-    public function test_logs_error_when_class_in_module_list_can_not_be_instantiated()
+    public function test_logs_error_when_class_in_module_list_can_not_be_instantiated(): void
     {
         $moduleList = ["Invalid"];
         $application = new Application($this->injector, $moduleList, $this->loggerSpy);
@@ -62,7 +62,7 @@ class ApplicationTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_a_class_of_a_module()
+    public function test_registers_a_class_of_a_module(): void
     {
         $moduleList = [DummyModule::class];
         $application = new Application($this->injector, $moduleList, $this->loggerSpy);

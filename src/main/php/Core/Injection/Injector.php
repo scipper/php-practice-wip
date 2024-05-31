@@ -18,6 +18,9 @@ class Injector
      */
     private Logger $logger;
 
+    /**
+     * @param Logger $logger
+     */
     public function __construct(Logger $logger)
     {
         $this->classList = [];
@@ -28,7 +31,7 @@ class Injector
      * @param string $class
      * @return void
      */
-    public function register(string $class)
+    public function register(string $class): void
     {
         if (in_array($class, $this->classList)) {
             $this->logger->warning("Class is already registered");
@@ -43,7 +46,7 @@ class Injector
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function get(string $class)
+    public function get(string $class): mixed
     {
         return $this->getWithCyclicDependencyDetection($class);
     }
@@ -55,7 +58,7 @@ class Injector
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    private function getWithCyclicDependencyDetection(string $class, array $callChain = [])
+    private function getWithCyclicDependencyDetection(string $class, array $callChain = []): mixed
     {
         if (!in_array($class, $this->classList, true)) {
             throw new ClassNotFoundException();

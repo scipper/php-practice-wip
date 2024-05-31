@@ -39,7 +39,7 @@ class Application
     /**
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         foreach ($this->moduleList as $class) {
             try {

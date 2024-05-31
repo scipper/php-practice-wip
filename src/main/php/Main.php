@@ -5,6 +5,7 @@ namespace Mys;
 use Mys\Core\Application\Application;
 use Mys\Core\Application\Logging\PrintLogger;
 use Mys\Core\Injection\ClassNotFoundException;
+use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\Injector;
 use Mys\Modules\Test\TestComponent;
 use Mys\Modules\Test\TestModule;
@@ -27,7 +28,7 @@ class Main
             $testComponent = $injector->get(TestComponent::class);
 
             $testComponent->greeting();
-        } catch (ClassNotFoundException $e) {
+        } catch (ClassNotFoundException|CyclicDependencyDetectedException $e) {
             $logger->error($e);
         }
     }
