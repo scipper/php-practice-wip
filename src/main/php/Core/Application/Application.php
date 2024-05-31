@@ -2,16 +2,17 @@
 
 namespace Mys\Core\Application;
 
-use Mys\Core\Injection\ClassAlreadyRegisteredException;
+use Error;
+use Mys\Core\Application\Logging\Logger;
 use Mys\Core\Injection\Injector;
 use Mys\Core\Module\Module;
 
 class Application
 {
     /**
-     * @var string[] $classList
+     * @var string[] $moduleList
      */
-    private array $classList;
+    private array $moduleList;
 
     /**
      * @var Injector $injector
@@ -19,28 +20,42 @@ class Application
     private Injector $injector;
 
     /**
-     * @param Injector $injector
-     * @param string[] $classList
+     * @var Logger $logger
      */
-    public function __construct(Injector $injector, array $classList)
+    private Logger $logger;
+
+    /**
+     * @param Injector $injector
+     * @param string[] $moduleList
+     * @param Logger $logger
+     */
+    public function __construct(Injector $injector, array $moduleList, Logger $logger)
     {
-        $this->classList = $classList;
+        $this->moduleList = $moduleList;
         $this->injector = $injector;
+        $this->logger = $logger;
     }
 
     /**
-     * @throws ClassAlreadyRegisteredException
+     * @return void
      */
     public function init()
     {
-        foreach ($this->classList as $class) {
-            /**
-             * @var Module $class
-             */
-            $module = new $class();
-            foreach ($module->getClasses() as $innerClass) {
-                $this->injector->register($innerClass);
+        foreach ($this->moduleList as $class) {
+            try {
+                $module = new $class();
+
+                if (!($module instanceof Module)) {
+                    $this->logger->error(new ClassIsNotModuleException());
+                } else {
+                    foreach ($module->getClasses() as $innerClass) {
+                        $this->injector->register($innerClass);
+                    }
+                }
+            } catch (Error $e) {
+                $this->logger->error(new InvalidClassException());
             }
         }
     }
+
 }

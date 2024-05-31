@@ -9,7 +9,8 @@ class TestModule implements Module
     public function getClasses(): array
     {
         return [
-            TestComponent::class
+            TestComponent::class,
+            TestService::class
         ];
     }
 }
