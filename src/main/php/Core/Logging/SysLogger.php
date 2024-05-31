@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Mys\Core\Logging;
 
@@ -9,7 +9,7 @@ class SysLogger implements Logger
 
     public function error(Exception $errorClass): void
     {
-        syslog(LOG_ERR, $errorClass);
+        syslog(LOG_ERR, $errorClass->getTraceAsString());
     }
 
     public function warning(string $warningMessage): void

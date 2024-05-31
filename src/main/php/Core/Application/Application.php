@@ -1,10 +1,11 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mys\Core\Application;
 
 use Error;
-use Mys\Core\Logging\Logger;
 use Mys\Core\Injection\Injector;
+use Mys\Core\Logging\Logger;
 use Mys\Core\Module\Module;
 
 class Application
@@ -65,12 +66,12 @@ class Application
                 {
                     foreach ($module->getClasses() as $injectionToken => $innerClass)
                     {
-                        $this->injector->register($injectionToken?:$innerClass, $innerClass);
+                        $this->injector->register(is_string($injectionToken) ? $injectionToken : $innerClass, $innerClass);
                     }
                     $this->processModuleList($module->getModules());
                 }
             }
-            catch (Error $e)
+            catch (Error $_)
             {
                 $this->logger->error(new InvalidClassException());
             }
