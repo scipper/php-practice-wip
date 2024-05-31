@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Modules\Welcome;
 
@@ -11,11 +11,17 @@ class WelcomeComponent
      */
     private Logger $logger;
 
+    /**
+     * @param Logger $logger
+     */
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @return void
+     */
     public function printWelcomeMessage(): void
     {
         $this->logger->info("####################################");

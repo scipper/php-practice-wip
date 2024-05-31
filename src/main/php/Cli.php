@@ -7,14 +7,21 @@ use Mys\Core\Injection\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\PrintLogger;
-use Mys\Modules\Welcome\WelcomeComponent;
 
-class Main
+class Cli
 {
-    public static function main(): void
+    /**
+     * @param string[] $arguments
+     *
+     * @return void
+     */
+    public static function main(array $arguments): void
     {
         require "../../../vendor/autoload.php";
 
+        $functionCall = $arguments[1];
+        $normalisedFunctionCall = str_replace(".", "\\", $functionCall);
+        [$injectionToken, $function] = explode("::", $normalisedFunctionCall);
         $logger = new PrintLogger();
         $injector = new DependencyInjector($logger);
         $moduleListText = file_get_contents("./module-list.txt");
@@ -28,11 +35,8 @@ class Main
 
         try
         {
-            /**
-             * @var WelcomeComponent $class
-             */
-            $class = $injector->get(WelcomeComponent::class);
-            $class->printWelcomeMessage();
+            $class = $injector->get($injectionToken);
+            $class->$function();
         }
         catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
         {
@@ -41,4 +45,4 @@ class Main
     }
 }
 
-Main::main();
+Cli::main($_SERVER["argv"]);
