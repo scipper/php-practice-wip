@@ -7,6 +7,7 @@ use Mys\Core\Injection\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\PrintLogger;
+use Mys\Core\ParameterRecognition\ParameterRecognition;
 
 class Cli
 {
@@ -19,11 +20,14 @@ class Cli
     {
         require "../../../vendor/autoload.php";
 
-        $functionCall = $arguments[1];
+        array_shift($arguments);
+        $functionCall = array_shift($arguments);
+        $payload = $arguments;
         $normalisedFunctionCall = str_replace(".", "\\", $functionCall);
         [$injectionToken, $function] = explode("::", $normalisedFunctionCall);
         $logger = new PrintLogger();
         $injector = new DependencyInjector($logger);
+        $parameterRecognition = new ParameterRecognition();
         $moduleListText = file_get_contents("./module-list.txt");
         $moduleList = [];
         if ($moduleListText)
@@ -35,8 +39,9 @@ class Cli
 
         try
         {
+            $parameterList = $parameterRecognition->recognise($injectionToken, $function, ...$payload);
             $class = $injector->get($injectionToken);
-            $class->$function();
+            $class->$function(...$parameterList);
         }
         catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
         {
