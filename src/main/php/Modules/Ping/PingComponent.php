@@ -3,6 +3,7 @@
 namespace Mys\Modules\Ping;
 
 use Mys\Core\Logging\Logger;
+use Mys\Modules\Ping\Request\PingRequest;
 
 class PingComponent
 {
@@ -29,8 +30,27 @@ class PingComponent
         $this->logger->info($request);
     }
 
+    /**
+     * @param PingRequest $request
+     *
+     * @return void
+     */
     public function pingObject(PingRequest $request): void
     {
         print_r($request);
+    }
+
+    /**
+     * @param int $id
+     * @param PingRequest $request
+     *
+     * @return void
+     */
+    public function pingUpdateObject(int $id, PingRequest $request): void
+    {
+        print_r($id);
+        print_r("\n");
+        print_r($request);
+        print_r("\n");
     }
 }

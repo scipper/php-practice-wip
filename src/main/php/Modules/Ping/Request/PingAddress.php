@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Modules\Ping;
+namespace Mys\Modules\Ping\Request;
 
 class PingAddress
 {
