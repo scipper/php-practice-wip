@@ -20,13 +20,21 @@ FROM php:8.3.6-apache
 ARG HOME=/var/www/html
 
 COPY config/virtual-host.conf /etc/apache2/sites-available/virtual-host.conf
-COPY src/main/php $HOME/src/main/php
 
 RUN echo "ServerName phpinjector" >> /etc/apache2/apache2.conf && \
     a2enmod rewrite && \
     a2dissite 000-default && \
     a2ensite virtual-host && \
     service apache2 restart
+
+RUN pecl install xdebug \
+    && apt update \
+    && apt install libzip-dev -y \
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-install zip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 WORKDIR $HOME
 
