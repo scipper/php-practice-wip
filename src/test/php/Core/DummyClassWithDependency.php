@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Mys\Core\Injection;
+namespace Mys\Core;
 
 class DummyClassWithDependency
 {
+    public static bool $getDependencyWasCalled = false;
+
     private DummyDependency $dependency;
 
     public function __construct(DummyDependency $dependency)
@@ -13,6 +15,7 @@ class DummyClassWithDependency
 
     public function getDependency(): DummyDependency
     {
+        self::$getDependencyWasCalled = true;
         return $this->dependency;
     }
 }

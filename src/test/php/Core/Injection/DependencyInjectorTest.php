@@ -2,8 +2,10 @@
 
 namespace Mys\Core\Injection;
 
-use Mys\Core\Logging\Logger;
+use Mys\Core\DummyClassWithDependency;
+use Mys\Core\DummyDependency;
 use Mys\Core\LoggerSpy;
+use Mys\Core\Logging\Logger;
 use PHPUnit\Framework\TestCase;
 
 class DependencyInjectorTest extends TestCase

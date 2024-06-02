@@ -14,15 +14,15 @@ class Router
     public static function main(): void
     {
         require "../../../vendor/autoload.php";
-//        echo "<pre>";
-//        echo "GET";
-//        var_dump($_GET);
-//        echo "POST";
-//        var_dump($_POST);
-//        echo "SERVER";
-//        var_dump($_SERVER);
-//        echo "REQUEST";
-//        var_dump($_REQUEST);
+        echo "<pre>";
+        echo "GET";
+        var_dump($_GET);
+        echo "POST";
+        var_dump($_POST);
+        echo "SERVER";
+        var_dump($_SERVER);
+        echo "REQUEST";
+        var_dump($_REQUEST);
 //        echo "</pre>";
 
         require "../../../vendor/autoload.php";

@@ -11,10 +11,10 @@ class ParameterRecognition
     {
     }
 
-    public function recognise(string $class, string $function, ...$payload): array
+    public function recognise(string $injectionToken, string $function, ...$payload): array
     {
         $parameters = [];
-        $reflectionClass = new ReflectionClass($class);
+        $reflectionClass = new ReflectionClass($injectionToken);
         $reflectionMethod = $reflectionClass->getMethod($function);
         $reflectionParameters = $reflectionMethod->getParameters();
         foreach ($reflectionParameters as $index => $reflectionParameter)

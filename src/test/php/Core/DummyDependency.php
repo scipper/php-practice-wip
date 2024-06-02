@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mys\Core\Injection;
+namespace Mys\Core;
 
 class DummyDependency
 {
