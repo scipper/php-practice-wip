@@ -2,42 +2,47 @@
 
 namespace Mys;
 
-use Mys\Core\Application\Application;
-use Mys\Core\Injection\ClassNotFoundException;
-use Mys\Core\Injection\CyclicDependencyDetectedException;
-use Mys\Core\Injection\DependencyInjector;
-use Mys\Core\Logging\PrintLogger;
-use Mys\Modules\Welcome\WelcomeComponent;
+use Mys\Api\PingApi;
 
 class Main
 {
     public static function main(): void
     {
         require "../../../vendor/autoload.php";
+        $reflector = new \ReflectionClass(PingApi::class);
+        $attrs = $reflector->getAttributes();
 
-        $logger = new PrintLogger();
-        $injector = new DependencyInjector($logger);
-        $moduleListText = file_get_contents("./module-list.txt");
-        $moduleList = [];
-        if ($moduleListText)
+        foreach ($attrs as $attribute)
         {
-            array_push($moduleList, ...explode("\n", $moduleListText));
+            var_dump($attribute->getName());
+            var_dump("\n");
+            var_dump($attribute->getArguments());
+            var_dump("\n");
+            var_dump($attribute->newInstance());
         }
-        $application = new Application($injector, $moduleList, $logger);
-        $application->init();
-
-        try
-        {
-            /**
-             * @var WelcomeComponent $class
-             */
-            $class = $injector->get(WelcomeComponent::class);
-            $class->printWelcomeMessage();
-        }
-        catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
-        {
-            $logger->error($e);
-        }
+//        $logger = new PrintLogger();
+//        $injector = new DependencyInjector($logger);
+//        $moduleListText = file_get_contents("./module-list.txt");
+//        $moduleList = [];
+//        if ($moduleListText)
+//        {
+//            array_push($moduleList, ...explode("\n", $moduleListText));
+//        }
+//        $application = new Application($injector, $moduleList, $logger);
+//        $application->init();
+//
+//        try
+//        {
+//            /**
+//             * @var WelcomeComponent $class
+//             */
+//            $class = $injector->get(WelcomeComponent::class);
+//            $class->printWelcomeMessage();
+//        }
+//        catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
+//        {
+//            $logger->error($e);
+//        }
     }
 }
 
