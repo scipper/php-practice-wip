@@ -32,6 +32,7 @@ RUN pecl install xdebug \
     && apt install libzip-dev -y \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install zip \
+    && docker-php-ext-install opcache \
     && rm -rf /var/lib/apt/lists/*
 
 COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
