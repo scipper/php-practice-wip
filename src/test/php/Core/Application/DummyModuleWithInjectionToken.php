@@ -16,4 +16,9 @@ class DummyModuleWithInjectionToken implements Module
     {
         return [];
     }
+
+    public function getEndpoints(): array
+    {
+        return [];
+    }
 }

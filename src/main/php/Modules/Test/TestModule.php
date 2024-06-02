@@ -19,4 +19,9 @@ class TestModule implements Module
     {
         return [];
     }
+
+    public function getEndpoints(): array
+    {
+        return [];
+    }
 }

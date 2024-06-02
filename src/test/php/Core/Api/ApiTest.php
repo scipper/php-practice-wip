@@ -17,7 +17,7 @@ class ApiTest extends TestCase
     /**
      * @var RouteRegister $routeRegister
      */
-    private RouteRegister $routeRegister;
+    private HttpRouteRegister $routeRegister;
 
     /**
      * @var Injector $injector
@@ -33,7 +33,7 @@ class ApiTest extends TestCase
         $this->injector = new DependencyInjector($logger);
         $this->injector->register(DummyApi::class);
         $parameterRecognition = new ParameterRecognition();
-        $this->routeRegister = new RouteRegister($parameterRecognition, $this->injector);
+        $this->routeRegister = new HttpRouteRegister($parameterRecognition, $this->injector);
     }
 
     /**

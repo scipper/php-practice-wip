@@ -24,4 +24,9 @@ class LoggingModule implements Module
     {
         return [];
     }
+
+    public function getEndpoints(): array
+    {
+        return [];
+    }
 }

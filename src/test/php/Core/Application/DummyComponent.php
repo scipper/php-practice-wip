@@ -4,5 +4,7 @@ namespace Mys\Core\Application;
 
 class DummyComponent
 {
-
+    public function dummyFunction()
+    {
+    }
 }

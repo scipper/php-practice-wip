@@ -2,6 +2,7 @@
 
 namespace Mys\Modules\Ping;
 
+use Mys\Core\Api\Endpoint;
 use Mys\Core\Module\Module;
 
 class PingModule implements Module
@@ -21,5 +22,13 @@ class PingModule implements Module
     public function getModules(): array
     {
         return [];
+    }
+
+    public function getEndpoints(): array
+    {
+        $pingStringEndpoint = new Endpoint(PingComponent::class, "pingString");
+        $pingStringEndpoint->setPath("/ping");
+        $pingStringEndpoint->setMethod("post");
+        return [$pingStringEndpoint];
     }
 }

@@ -21,4 +21,9 @@ class ModuleWithSubModule implements Module
     {
         return [DummyModule::class];
     }
+
+    public function getEndpoints(): array
+    {
+        return [];
+    }
 }

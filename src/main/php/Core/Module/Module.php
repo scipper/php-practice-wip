@@ -2,6 +2,8 @@
 
 namespace Mys\Core\Module;
 
+use Mys\Core\Api\Endpoint;
+
 interface Module
 {
     /**
@@ -13,4 +15,9 @@ interface Module
      * @return string[]
      */
     public function getModules(): array;
+
+    /**
+     * @return Endpoint[]
+     */
+    public function getEndpoints(): array;
 }

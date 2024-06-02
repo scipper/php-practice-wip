@@ -3,6 +3,7 @@
 namespace Mys\Core\Application;
 
 use Error;
+use Mys\Core\Api\RouteRegister;
 use Mys\Core\Injection\Injector;
 use Mys\Core\Logging\Logger;
 use Mys\Core\Module\Module;
@@ -25,15 +26,22 @@ class Application
     private Logger $logger;
 
     /**
+     * @var RouteRegister
+     */
+    private RouteRegister $routeRegister;
+
+    /**
      * @param Injector $injector
      * @param string[] $moduleList
-     * @param Logger   $logger
+     * @param Logger $logger
+     * @param RouteRegister $routeRegister
      */
-    public function __construct(Injector $injector, array $moduleList, Logger $logger)
+    public function __construct(Injector $injector, array $moduleList, Logger $logger, RouteRegister $routeRegister)
     {
         $this->moduleList = $moduleList;
         $this->injector = $injector;
         $this->logger = $logger;
+        $this->routeRegister = $routeRegister;
     }
 
     /**
@@ -66,6 +74,10 @@ class Application
                     foreach ($module->getClasses() as $injectionToken => $innerClass)
                     {
                         $this->injector->register(is_string($injectionToken) ? $injectionToken : $innerClass, $innerClass);
+                    }
+                    foreach ($module->getEndpoints() as $endpoint)
+                    {
+                        $this->routeRegister->registerEndpoint($endpoint);
                     }
                     $this->processModuleList($module->getModules());
                 }

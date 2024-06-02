@@ -21,4 +21,9 @@ class DummyModule implements Module
     {
         return [];
     }
+
+    public function getEndpoints(): array
+    {
+        return [];
+    }
 }

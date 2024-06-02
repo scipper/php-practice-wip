@@ -2,6 +2,7 @@
 
 namespace Mys\Modules\Welcome;
 
+use Mys\Core\Api\Endpoint;
 use Mys\Core\Module\Module;
 
 class WelcomeModule implements Module
@@ -20,5 +21,13 @@ class WelcomeModule implements Module
     public function getModules(): array
     {
         return [];
+    }
+
+    public function getEndpoints(): array
+    {
+        $welcomeEndpoint = new Endpoint(WelcomeComponent::class, "printWelcomeMessage");
+        $welcomeEndpoint->setPath("/");
+        $welcomeEndpoint->setMethod("get");
+        return [$welcomeEndpoint];
     }
 }
