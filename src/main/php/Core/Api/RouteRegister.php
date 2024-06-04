@@ -2,7 +2,7 @@
 
 namespace Mys\Core\Api;
 
-use Mys\Core\Injection\ClassNotFoundException;
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 
 interface RouteRegister

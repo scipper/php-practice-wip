@@ -3,7 +3,7 @@
 namespace Mys;
 
 use Mys\Core\Application\Application;
-use Mys\Core\Injection\ClassNotFoundException;
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\PrintLogger;

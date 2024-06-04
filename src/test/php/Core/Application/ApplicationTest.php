@@ -9,12 +9,12 @@ class ApplicationTest extends TestCase
 {
 
     /**
-     * @var LoggerSpy $loggerSpy
+     * @var LoggerSpy
      */
     private LoggerSpy $loggerSpy;
 
     /**
-     * @var InjectorSpy $injector
+     * @var InjectorSpy
      */
     private InjectorSpy $injector;
 
@@ -98,6 +98,9 @@ class ApplicationTest extends TestCase
         $this->assertEquals([DummyComponent::class, DummyComponent::class], $this->injector->registerWasCalledWith());
     }
 
+    /**
+     * @return void
+     */
     public function test_registers_a_class_with_an_interface_as_injection_token(): void
     {
         $moduleList = [DummyModuleWithInjectionToken::class];
@@ -108,6 +111,9 @@ class ApplicationTest extends TestCase
         $this->assertEquals([DummyInterface::class, DummyComponent::class], $this->injector->registerWasCalledWith());
     }
 
+    /**
+     * @return void
+     */
     public function test_registers_an_endpoint_defined_in_a_module(): void
     {
         $moduleList = [DummyModuleWithEndpointToken::class];

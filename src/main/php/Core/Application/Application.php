@@ -11,17 +11,17 @@ use Mys\Core\Module\Module;
 class Application
 {
     /**
-     * @var string[] $moduleList
+     * @var string[]
      */
     private array $moduleList;
 
     /**
-     * @var Injector $injector
+     * @var Injector
      */
     private Injector $injector;
 
     /**
-     * @var Logger $logger
+     * @var Logger
      */
     private Logger $logger;
 

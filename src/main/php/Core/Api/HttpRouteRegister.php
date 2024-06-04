@@ -2,7 +2,7 @@
 
 namespace Mys\Core\Api;
 
-use Mys\Core\Injection\ClassNotFoundException;
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\Injector;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
@@ -10,7 +10,7 @@ use Mys\Core\ParameterRecognition\ParameterRecognition;
 class HttpRouteRegister implements RouteRegister
 {
     /**
-     * @var Endpoint[] $endpoints
+     * @var Endpoint[]
      */
     private array $endpoints;
 

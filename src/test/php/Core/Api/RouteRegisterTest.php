@@ -2,25 +2,25 @@
 
 namespace Mys\Core\Api;
 
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\DummyClassWithDependency;
 use Mys\Core\DummyDependency;
 use Mys\Core\DummyLogger;
-use Mys\Core\Injection\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Injection\Injector;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use PHPUnit\Framework\TestCase;
 
-class ApiTest extends TestCase
+class RouteRegisterTest extends TestCase
 {
     /**
-     * @var RouteRegister $routeRegister
+     * @var RouteRegister
      */
-    private HttpRouteRegister $routeRegister;
+    private RouteRegister $routeRegister;
 
     /**
-     * @var Injector $injector
+     * @var Injector
      */
     private Injector $injector;
 

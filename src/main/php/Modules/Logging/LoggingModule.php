@@ -2,6 +2,7 @@
 
 namespace Mys\Modules\Logging;
 
+use Mys\Core\Api\Endpoint;
 use Mys\Core\Logging\Logger;
 use Mys\Core\Logging\PrintLogger;
 use Mys\Core\Module\Module;
@@ -25,6 +26,9 @@ class LoggingModule implements Module
         return [];
     }
 
+    /**
+     * @return Endpoint[]
+     */
     public function getEndpoints(): array
     {
         return [];

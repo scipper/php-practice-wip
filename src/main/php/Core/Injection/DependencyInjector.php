@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Core\Injection;
 
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\Logging\Logger;
 use ReflectionClass;
 use ReflectionException;
@@ -9,12 +10,12 @@ use ReflectionException;
 class DependencyInjector implements Injector
 {
     /**
-     * @var string[] $classList
+     * @var string[]
      */
     private array $classList;
 
     /**
-     * @var Logger $logger
+     * @var Logger
      */
     private Logger $logger;
 
@@ -29,7 +30,7 @@ class DependencyInjector implements Injector
 
     /**
      *
-     * @param string      $injectionToken
+     * @param string $injectionToken
      * @param string|null $class
      *
      * @return void
@@ -58,7 +59,7 @@ class DependencyInjector implements Injector
 
     /**
      * @param string $injectionToken
-     * @param array  $callChain
+     * @param array $callChain
      *
      * @return mixed
      * @throws ClassNotFoundException

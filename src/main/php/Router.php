@@ -24,8 +24,6 @@ class Router
 //        var_dump($_REQUEST);
 //        echo "</pre>";
 
-        require "../../../vendor/autoload.php";
-
         $logger = new PrintLogger();
         $injector = new DependencyInjector($logger);
         $parameterRecognition = new ParameterRecognition();
@@ -39,27 +37,13 @@ class Router
         $application = new Application($injector, $moduleList, $logger, $routeRegister);
         $application->init();
 
-        $payload = file_get_contents('php://input');
+        $payload = file_get_contents("php://input");
         $path = "/";
         if (array_key_exists("REDIRECT_URL", $_SERVER))
         {
             $path = $_SERVER["REDIRECT_URL"];
         }
         $routeRegister->routeTo($path, $_SERVER["REQUEST_METHOD"], $payload);
-
-//        [$injectionToken, $method] = explode("/", trim(str_replace(".", "\\", $_SERVER["REQUEST_URI"]), "/"));
-//
-//
-//        try
-//        {
-//            $parameterList = $parameterRecognition->recognise($injectionToken, $method, $payload);
-//            $class = $injector->get($injectionToken);
-//            $class->$method(...$parameterList);
-//        }
-//        catch (ClassNotFoundException|CyclicDependencyDetectedException $e)
-//        {
-//            $logger->error($e);
-//        }
     }
 }
 

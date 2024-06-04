@@ -2,37 +2,57 @@
 
 namespace Mys\Core\ParameterRecognition;
 
+use Mys\Core\ClassNotFoundException;
 use ReflectionClass;
+use ReflectionException;
 use ValueError;
 
 class ParameterRecognition
 {
-    public function __construct()
-    {
-    }
-
+    /**
+     * @param string $injectionToken
+     * @param string $function
+     * @param string[] $payload
+     *
+     * @return array
+     * @throws ClassNotFoundException
+     * @throws FunctionNotFoundException
+     */
     public function recognise(string $injectionToken, string $function, ...$payload): array
     {
         $parameters = [];
-        $reflectionClass = new ReflectionClass($injectionToken);
-        $reflectionMethod = $reflectionClass->getMethod($function);
-        $reflectionParameters = $reflectionMethod->getParameters();
-        foreach ($reflectionParameters as $index => $reflectionParameter)
+
+        try
         {
-            $reflectionIntersectionType = $reflectionParameter->getType();
-            $type = $reflectionIntersectionType->getName();
-            try
+            $reflectionClass = new ReflectionClass($injectionToken);
+            if (!method_exists($injectionToken, $function))
             {
-                settype($payload[$index], $type);
-                $parameters[] = $payload[$index];
+                throw new FunctionNotFoundException();
             }
-            catch (ValueError $error)
+            $reflectionMethod = $reflectionClass->getMethod($function);
+            $reflectionParameters = $reflectionMethod->getParameters();
+            foreach ($reflectionParameters as $index => $reflectionParameter)
             {
-                $json = json_decode($payload[$index]);
-                $classParam = new $type($json);
-                $parameters[] = $classParam;
+                $reflectionIntersectionType = $reflectionParameter->getType();
+                $type = $reflectionIntersectionType->getName();
+                try
+                {
+                    settype($payload[$index], $type);
+                    $parameters[] = $payload[$index];
+                }
+                catch (ValueError $_)
+                {
+                    $json = json_decode($payload[$index]);
+                    $classParam = new $type($json);
+                    $parameters[] = $classParam;
+                }
             }
         }
+        catch (ReflectionException $_)
+        {
+            throw new ClassNotFoundException();
+        }
+
         return $parameters;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Mys\Core\Injection;
 
+use Mys\Core\ClassNotFoundException;
 use Mys\Core\DummyClassWithDependency;
 use Mys\Core\DummyDependency;
 use Mys\Core\LoggerSpy;
@@ -12,12 +13,12 @@ class DependencyInjectorTest extends TestCase
 {
 
     /**
-     * @var Logger $loggerSpy
+     * @var Logger
      */
     private Logger $loggerSpy;
 
     /**
-     * @var Injector $injector
+     * @var Injector
      */
     private Injector $injector;
 

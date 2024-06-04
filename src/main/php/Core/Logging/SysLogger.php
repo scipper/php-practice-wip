@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Core\Logging;
 
@@ -6,7 +6,6 @@ use Exception;
 
 class SysLogger implements Logger
 {
-
     /**
      * @param Exception $errorClass
      *
