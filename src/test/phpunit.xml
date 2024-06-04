@@ -30,7 +30,7 @@
         </exclude>
 
         <report>
-            <clover outputFile="../../reports/coverage.xml"/>
+            <clover outputFile="../../clover.xml"/>
         </report>
     </coverage>
 
