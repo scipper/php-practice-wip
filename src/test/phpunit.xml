@@ -28,6 +28,10 @@
             <file>../main/php/Main.php</file>
             <file>../main/php/Router.php</file>
         </exclude>
+
+        <report>
+            <clover outputFile="../../reports/coverage.xml"/>
+        </report>
     </coverage>
 
 </phpunit>
