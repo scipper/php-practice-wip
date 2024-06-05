@@ -418,10 +418,8 @@ class RouteRegisterTest extends TestCase
      * @throws NotFoundException
      * @throws UnsupportedMediaTypeException
      */
-    public function test_throws_when_sending_wrong_content_type()
+    public function test_response_is_error_of_unsupported_media_type()
     {
-        $this->expectException(UnsupportedMediaTypeException::class);
-
         $endpoint = new Endpoint(DummyApi::class, "pathParam");
         $endpoint->setPath("/path");
         $endpoint->setConsumes("text/plain");
@@ -429,6 +427,33 @@ class RouteRegisterTest extends TestCase
 
         $request = new Request("/path");
         $request->setHeader("Content-Type", "application/json");
-        $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(415, $response->getStatusCode());
+        $this->assertEquals("Unsupported Media Type", $response->getStatusText());
+    }
+
+    public function test_returns_a_response_object()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertInstanceOf(Response::class, $response);
+    }
+
+    public function test_response_has_status_code_200()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

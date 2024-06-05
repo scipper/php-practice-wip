@@ -11,5 +11,5 @@ interface RouteRegister
      */
     public function registerEndpoint(Endpoint $endpoint): void;
 
-    public function routeTo(Request $request): void;
+    public function routeTo(Request $request): Response;
 }

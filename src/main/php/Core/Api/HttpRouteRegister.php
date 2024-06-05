@@ -54,7 +54,7 @@ class HttpRouteRegister implements RouteRegister
     /**
      * @param Request $request
      *
-     * @return void
+     * @return Response
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
@@ -64,7 +64,7 @@ class HttpRouteRegister implements RouteRegister
      * @throws NotFoundException
      * @throws UnsupportedMediaTypeException
      */
-    public function routeTo(Request $request): void
+    public function routeTo(Request $request): Response
     {
         if (!array_key_exists($request->getPath(), $this->endpoints))
         {
@@ -96,5 +96,7 @@ class HttpRouteRegister implements RouteRegister
 
         $class = $this->injector->get($injectionToken);
         $class->{$function}(...$payload);
+
+        return new Response();
     }
 }

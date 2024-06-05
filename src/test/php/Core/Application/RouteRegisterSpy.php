@@ -4,6 +4,7 @@ namespace Mys\Core\Application;
 
 use Mys\Core\Api\Endpoint;
 use Mys\Core\Api\Request;
+use Mys\Core\Api\Response;
 use Mys\Core\Api\RouteRegister;
 
 class RouteRegisterSpy implements RouteRegister
@@ -20,8 +21,9 @@ class RouteRegisterSpy implements RouteRegister
         $this->registerCalled = [$endpoint->getClass(), $endpoint->getFunction(), $endpoint->getPath(), $endpoint->getMethod()];
     }
 
-    public function routeTo(Request $request): void
+    public function routeTo(Request $request): Response
     {
+        return new Response();
     }
 
     public function registerEndpointWasCalledWith()
