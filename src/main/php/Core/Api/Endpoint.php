@@ -25,6 +25,11 @@ class Endpoint
     private string $method;
 
     /**
+     * @var string
+     */
+    private string $produces;
+
+    /**
      * @param string $class
      * @param string $function
      */
@@ -34,6 +39,7 @@ class Endpoint
         $this->function = $function;
         $this->path = "";
         $this->method = "get";
+        $this->produces = "application/json";
     }
 
     /**
@@ -86,5 +92,23 @@ class Endpoint
     public function setMethod(string $method): void
     {
         $this->method = strtolower($method);
+    }
+
+    /**
+     * @return string
+     */
+    public function getProduces(): string
+    {
+        return $this->produces;
+    }
+
+    /**
+     * @param string $contentType
+     *
+     * @return void
+     */
+    public function setProduces(string $contentType): void
+    {
+        $this->produces = $contentType;
     }
 }

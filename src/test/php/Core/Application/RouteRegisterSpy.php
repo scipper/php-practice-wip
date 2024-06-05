@@ -3,6 +3,7 @@
 namespace Mys\Core\Application;
 
 use Mys\Core\Api\Endpoint;
+use Mys\Core\Api\Request;
 use Mys\Core\Api\RouteRegister;
 
 class RouteRegisterSpy implements RouteRegister
@@ -19,7 +20,7 @@ class RouteRegisterSpy implements RouteRegister
         $this->registerCalled = [$endpoint->getClass(), $endpoint->getFunction(), $endpoint->getPath(), $endpoint->getMethod()];
     }
 
-    public function routeTo(string $path, string $method = "get", string $rawPayload = null): void
+    public function routeTo(Request $request): void
     {
     }
 

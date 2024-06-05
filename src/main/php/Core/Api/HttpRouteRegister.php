@@ -52,38 +52,42 @@ class HttpRouteRegister implements RouteRegister
     }
 
     /**
-     * @param string $path
-     * @param string $method
-     * @param string|null $rawPayload
+     * @param Request $request
      *
      * @return void
-     * @throws MethodNotAllowedException
-     * @throws NotFoundException
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
-     * @throws MissingPayloadException
      * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
      */
-    public function routeTo(string $path, string $method = "get", string $rawPayload = null): void
+    public function routeTo(Request $request): void
     {
-        $normalPath = strtolower($path);
-        $normalMethod = strtolower($method);
-        if (!array_key_exists($normalPath, $this->endpoints))
+        if (!array_key_exists($request->getPath(), $this->endpoints))
         {
             throw new NotFoundException();
         }
 
-        $methods = $this->endpoints[$normalPath];
-        if (!array_key_exists($normalMethod, $methods))
+        $methods = $this->endpoints[$request->getPath()];
+        if (!array_key_exists($request->getMethod(), $methods))
         {
             throw new MethodNotAllowedException();
         }
 
-        $endpoint = $methods[$normalMethod];
+        /** @var Endpoint $endpoint */
+        $endpoint = $methods[$request->getMethod()];
+
+        if ($endpoint->getProduces() !== $request->getHeaders()["Accept"])
+        {
+            throw new NotAcceptableException();
+        }
+
         $injectionToken = $endpoint->getClass();
         $function = $endpoint->getFunction();
 
-        $payload = $this->parameterRecognition->recognise($injectionToken, $function, $rawPayload);
+        $payload = $this->parameterRecognition->recognise($injectionToken, $function, $request->getPayload());
 
         $class = $this->injector->get($injectionToken);
         $class->{$function}(...$payload);

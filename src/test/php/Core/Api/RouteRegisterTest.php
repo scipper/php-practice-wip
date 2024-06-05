@@ -9,6 +9,8 @@ use Mys\Core\DummyLogger;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Injection\Injector;
+use Mys\Core\ParameterRecognition\FunctionNotFoundException;
+use Mys\Core\ParameterRecognition\MissingPayloadException;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +42,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_call_class_function_from_path()
@@ -49,7 +54,8 @@ class RouteRegisterTest extends TestCase
         $endpoint->setPath("/path");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path");
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -58,7 +64,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_case_of_registered_path_gets_normalised()
@@ -67,7 +76,8 @@ class RouteRegisterTest extends TestCase
         $endpoint->setPath("/PaTh");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path");
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -76,7 +86,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_case_of_calling_path_gets_normalised()
@@ -85,7 +98,8 @@ class RouteRegisterTest extends TestCase
         $endpoint->setPath("/path");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/PaTh");
+        $request = new Request("/PaTh");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -94,7 +108,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_throw_when_path_is_not_found()
@@ -104,14 +121,18 @@ class RouteRegisterTest extends TestCase
         $endpoint = new Endpoint(DummyApi::class, "pathGet");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path");
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
     }
 
     /**
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_throw_when_path_is_called_with_wrong_method()
@@ -123,14 +144,18 @@ class RouteRegisterTest extends TestCase
         $endpoint->setMethod("POST");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path");
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
     }
 
     /**
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_case_of_registered_method_gets_normalised()
@@ -140,7 +165,9 @@ class RouteRegisterTest extends TestCase
         $endpoint->setMethod("PoSt");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path", "post");
+        $request = new Request("/path");
+        $request->setMethod("post");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
     }
@@ -149,7 +176,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_case_of_calling_method_gets_normalised()
@@ -159,7 +189,9 @@ class RouteRegisterTest extends TestCase
         $endpoint->setMethod("post");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path", "PoSt");
+        $request = new Request("/path");
+        $request->setMethod("PoSt");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
     }
@@ -168,7 +200,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_registers_two_methods_to_one_path()
@@ -182,8 +217,11 @@ class RouteRegisterTest extends TestCase
         $endpoint->setMethod("get");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path", "get");
-        $this->routeRegister->routeTo("/path", "post");
+        $request1 = new Request("/path");
+        $this->routeRegister->routeTo($request1);
+        $request2 = new Request("/path");
+        $request2->setMethod("post");
+        $this->routeRegister->routeTo($request2);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
         $this->assertTrue(DummyApi::$pathGetWasCalled);
@@ -193,7 +231,10 @@ class RouteRegisterTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
      * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
      * @throws NotFoundException
      */
     public function test_parses_raw_payload_to_correct_function_parameter()
@@ -203,17 +244,23 @@ class RouteRegisterTest extends TestCase
         $endpoint->setMethod("post");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path", "post", "1");
+        $request = new Request("/path");
+        $request->setMethod("post");
+        $request->setPayload("1");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyApi::$pathParamWasCalledCorrectly);
     }
 
     /**
      * @return void
-     * @throws MethodNotAllowedException
-     * @throws NotFoundException
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
      */
     public function test_call_class_with_dependencies()
     {
@@ -221,11 +268,34 @@ class RouteRegisterTest extends TestCase
         $this->injector->register(DummyClassWithDependency::class);
         $endpoint = new Endpoint(DummyClassWithDependency::class, "getDependency");
         $endpoint->setPath("/path");
-        $endpoint->setMethod("get");
         $this->routeRegister->registerEndpoint($endpoint);
 
-        $this->routeRegister->routeTo("/path");
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
 
         $this->assertTrue(DummyClassWithDependency::$getDependencyWasCalled);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     */
+    public function test_throws_when_requesting_a_response_format_but_the_endpoint_produces_something_else()
+    {
+        $this->expectException(NotAcceptableException::class);
+
+        $endpoint = new Endpoint(DummyApi::class, "pathParam");
+        $endpoint->setPath("/path");
+        $endpoint->setProduces("text/plain");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
     }
 }
