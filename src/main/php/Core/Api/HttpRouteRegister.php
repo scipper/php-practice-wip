@@ -5,6 +5,8 @@ namespace Mys\Core\Api;
 use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\Injector;
+use Mys\Core\ParameterRecognition\FunctionNotFoundException;
+use Mys\Core\ParameterRecognition\MissingPayloadException;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 
 class HttpRouteRegister implements RouteRegister
@@ -59,6 +61,8 @@ class HttpRouteRegister implements RouteRegister
      * @throws NotFoundException
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws MissingPayloadException
+     * @throws FunctionNotFoundException
      */
     public function routeTo(string $path, string $method = "get", string $rawPayload = null): void
     {

@@ -17,6 +17,7 @@ class ParameterRecognition
      * @return array
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function recognise(string $injectionToken, string $function, ...$payload): array
     {
@@ -37,6 +38,10 @@ class ParameterRecognition
                 $type = $reflectionIntersectionType->getName();
                 try
                 {
+                    if (!array_key_exists($index, $payload))
+                    {
+                        throw new MissingPayloadException();
+                    }
                     settype($payload[$index], $type);
                     $parameters[] = $payload[$index];
                 }

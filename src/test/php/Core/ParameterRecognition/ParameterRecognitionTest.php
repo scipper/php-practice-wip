@@ -24,6 +24,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_void_when_function_does_not_have_any_parameter()
     {
@@ -36,6 +37,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_string_when_function_has_string_parameter()
     {
@@ -48,6 +50,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_two_strings_when_function_has_two_string_parameters()
     {
@@ -60,6 +63,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_int_when_function_has_int_parameter()
     {
@@ -72,6 +76,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_mixed_parameters()
     {
@@ -84,6 +89,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_returns_instance_of_class()
     {
@@ -96,6 +102,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_json_payload_is_mapped_correctly_to_class()
     {
@@ -108,6 +115,7 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_throws_when_class_is_not_found()
     {
@@ -120,11 +128,25 @@ class ParameterRecognitionTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
      */
     public function test_throws_when_function_is_not_found()
     {
         $this->expectException(FunctionNotFoundException::class);
 
         $this->parameterRecognition->recognise(DummyParameterComponent::class, "missingFunction", "{\"type\": \"test\"}");
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
+     */
+    public function test_throws_when_no_payload_is_provided_but_needed()
+    {
+        $this->expectException(MissingPayloadException::class);
+
+        $this->parameterRecognition->recognise(DummyParameterComponent::class, "stringFunction");
     }
 }
