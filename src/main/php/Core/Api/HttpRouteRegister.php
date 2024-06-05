@@ -62,6 +62,7 @@ class HttpRouteRegister implements RouteRegister
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function routeTo(Request $request): void
     {
@@ -79,9 +80,13 @@ class HttpRouteRegister implements RouteRegister
         /** @var Endpoint $endpoint */
         $endpoint = $methods[$request->getMethod()];
 
-        if ($endpoint->getProduces() !== $request->getHeaders()["Accept"])
+        if ($endpoint->getProduces() !== $request->getHeaders()["accept"])
         {
             throw new NotAcceptableException();
+        }
+        if ($endpoint->getConsumes() !== $request->getHeaders()["content-type"])
+        {
+            throw new UnsupportedMediaTypeException();
         }
 
         $injectionToken = $endpoint->getClass();

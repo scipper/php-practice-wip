@@ -47,6 +47,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_call_class_function_from_path()
     {
@@ -69,6 +70,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_registered_path_gets_normalised()
     {
@@ -91,6 +93,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_calling_path_gets_normalised()
     {
@@ -113,6 +116,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_throw_when_path_is_not_found()
     {
@@ -134,6 +138,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_throw_when_path_is_called_with_wrong_method()
     {
@@ -157,6 +162,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_registered_method_gets_normalised()
     {
@@ -181,6 +187,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_calling_method_gets_normalised()
     {
@@ -205,6 +212,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_registers_two_methods_to_one_path()
     {
@@ -236,6 +244,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_parses_raw_payload_to_correct_function_parameter()
     {
@@ -261,6 +270,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_call_class_with_dependencies()
     {
@@ -285,6 +295,7 @@ class RouteRegisterTest extends TestCase
      * @throws MissingPayloadException
      * @throws NotAcceptableException
      * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
      */
     public function test_throws_when_requesting_a_response_format_but_the_endpoint_produces_something_else()
     {
@@ -296,6 +307,128 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
+     */
+    public function test_case_of_produces_of_endpoint_gets_normalised()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $endpoint->setProduces("AppLicAtion/JSOn");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
+
+        $this->assertTrue(DummyApi::$pathGetWasCalled);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
+     */
+    public function test_case_of_consumes_of_endpoint_gets_normalised()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $endpoint->setConsumes("AppLicAtion/JSOn");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $this->routeRegister->routeTo($request);
+
+        $this->assertTrue(DummyApi::$pathGetWasCalled);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
+     */
+    public function test_case_of_header_value_gets_normalised()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $request->setHeader("Accept", "AppLicAtion/JSOn");
+        $this->routeRegister->routeTo($request);
+
+        $this->assertTrue(DummyApi::$pathGetWasCalled);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
+     */
+    public function test_case_of_header_key_gets_normalised()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $endpoint->setConsumes("text/plain");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $request->setHeader("ContEnt-TyPE", "text/plain");
+        $this->routeRegister->routeTo($request);
+
+        $this->assertTrue(DummyApi::$pathGetWasCalled);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MethodNotAllowedException
+     * @throws MissingPayloadException
+     * @throws NotAcceptableException
+     * @throws NotFoundException
+     * @throws UnsupportedMediaTypeException
+     */
+    public function test_throws_when_sending_wrong_content_type()
+    {
+        $this->expectException(UnsupportedMediaTypeException::class);
+
+        $endpoint = new Endpoint(DummyApi::class, "pathParam");
+        $endpoint->setPath("/path");
+        $endpoint->setConsumes("text/plain");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $request->setHeader("Content-Type", "application/json");
         $this->routeRegister->routeTo($request);
     }
 }

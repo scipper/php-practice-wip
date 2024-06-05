@@ -30,6 +30,11 @@ class Endpoint
     private string $produces;
 
     /**
+     * @var string
+     */
+    private string $consumes;
+
+    /**
      * @param string $class
      * @param string $function
      */
@@ -40,6 +45,7 @@ class Endpoint
         $this->path = "";
         $this->method = "get";
         $this->produces = "application/json";
+        $this->consumes = "application/json";
     }
 
     /**
@@ -109,6 +115,24 @@ class Endpoint
      */
     public function setProduces(string $contentType): void
     {
-        $this->produces = $contentType;
+        $this->produces = strtolower($contentType);
+    }
+
+    /**
+     * @param string $consumes
+     *
+     * @return void
+     */
+    public function setConsumes(string $consumes): void
+    {
+        $this->consumes = strtolower($consumes);
+    }
+
+    /**
+     * @return string
+     */
+    public function getConsumes(): string
+    {
+        return $this->consumes;
     }
 }

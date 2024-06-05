@@ -32,7 +32,10 @@ class Request
         $this->path = strtolower($path);
         $this->method = "get";
         $this->payload = null;
-        $this->headers = ["Accept" => "application/json"];
+        $this->headers = [
+            "accept" => "application/json",
+            "content-type" => "application/json",
+        ];
     }
 
     /**
@@ -85,5 +88,16 @@ class Request
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setHeader(string $key, string $value): void
+    {
+        $this->headers[strtolower($key)] = strtolower($value);
     }
 }
