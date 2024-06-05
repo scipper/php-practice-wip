@@ -48,6 +48,20 @@ class DependencyInjectorTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
+    public function test_throws_when_requested_class_is_not_a_valid_class(): void
+    {
+        $this->expectException(ClassNotFoundException::class);
+
+        $this->injector->register("InvalidClass");
+
+        $this->injector->get("InvalidClass");
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
     public function test_returns_instance_of_registered_class(): void
     {
         $this->injector->register(DummyClass::class);
