@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1717618303">
-  <project timestamp="1717618303">
+<coverage generated="1717619324">
+  <project timestamp="1717619324">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
-        <metrics complexity="9" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="22" coveredelements="22"/>
+        <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
       </class>
-      <line num="36" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="38" type="stmt" count="12"/>
-      <line num="39" type="stmt" count="12"/>
-      <line num="40" type="stmt" count="12"/>
-      <line num="41" type="stmt" count="12"/>
-      <line num="42" type="stmt" count="12"/>
-      <line num="48" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="50" type="stmt" count="12"/>
-      <line num="58" type="method" name="setPath" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="60" type="stmt" count="11"/>
-      <line num="66" type="method" name="getClass" visibility="public" complexity="1" crap="1" count="9"/>
-      <line num="68" type="stmt" count="9"/>
-      <line num="74" type="method" name="getFunction" visibility="public" complexity="1" crap="1" count="9"/>
-      <line num="76" type="stmt" count="9"/>
-      <line num="82" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="84" type="stmt" count="12"/>
-      <line num="92" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="5"/>
-      <line num="94" type="stmt" count="5"/>
-      <line num="100" type="method" name="getProduces" visibility="public" complexity="1" crap="1" count="9"/>
-      <line num="102" type="stmt" count="9"/>
-      <line num="110" type="method" name="setProduces" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="112" type="stmt" count="1"/>
-      <metrics loc="114" ncloc="65" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="22" coveredelements="22"/>
+      <line num="41" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="17"/>
+      <line num="43" type="stmt" count="17"/>
+      <line num="44" type="stmt" count="17"/>
+      <line num="45" type="stmt" count="17"/>
+      <line num="46" type="stmt" count="17"/>
+      <line num="47" type="stmt" count="17"/>
+      <line num="48" type="stmt" count="17"/>
+      <line num="54" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="17"/>
+      <line num="56" type="stmt" count="17"/>
+      <line num="64" type="method" name="setPath" visibility="public" complexity="1" crap="1" count="16"/>
+      <line num="66" type="stmt" count="16"/>
+      <line num="72" type="method" name="getClass" visibility="public" complexity="1" crap="1" count="13"/>
+      <line num="74" type="stmt" count="13"/>
+      <line num="80" type="method" name="getFunction" visibility="public" complexity="1" crap="1" count="13"/>
+      <line num="82" type="stmt" count="13"/>
+      <line num="88" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="17"/>
+      <line num="90" type="stmt" count="17"/>
+      <line num="98" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="5"/>
+      <line num="100" type="stmt" count="5"/>
+      <line num="106" type="method" name="getProduces" visibility="public" complexity="1" crap="1" count="14"/>
+      <line num="108" type="stmt" count="14"/>
+      <line num="116" type="method" name="setProduces" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="118" type="stmt" count="2"/>
+      <line num="126" type="method" name="setConsumes" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="128" type="stmt" count="3"/>
+      <line num="134" type="method" name="getConsumes" visibility="public" complexity="1" crap="1" count="13"/>
+      <line num="136" type="stmt" count="13"/>
+      <metrics loc="138" ncloc="78" classes="1" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
     </file>
     <file name="/app/src/main/php/Core/Api/HttpRouteRegister.php">
       <class name="Mys\Core\Api\HttpRouteRegister" namespace="global">
-        <metrics complexity="7" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
+        <metrics complexity="8" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="24" coveredelements="24"/>
       </class>
-      <line num="33" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="35" type="stmt" count="11"/>
-      <line num="36" type="stmt" count="11"/>
-      <line num="37" type="stmt" count="11"/>
-      <line num="45" type="method" name="registerEndpoint" visibility="public" complexity="2" crap="2" count="11"/>
-      <line num="47" type="stmt" count="11"/>
-      <line num="49" type="stmt" count="11"/>
-      <line num="51" type="stmt" count="11"/>
-      <line num="66" type="method" name="routeTo" visibility="public" complexity="4" crap="4" count="11"/>
-      <line num="68" type="stmt" count="11"/>
-      <line num="70" type="stmt" count="1"/>
-      <line num="73" type="stmt" count="10"/>
-      <line num="74" type="stmt" count="10"/>
-      <line num="76" type="stmt" count="1"/>
-      <line num="80" type="stmt" count="9"/>
-      <line num="82" type="stmt" count="9"/>
-      <line num="84" type="stmt" count="1"/>
-      <line num="87" type="stmt" count="8"/>
-      <line num="88" type="stmt" count="8"/>
-      <line num="90" type="stmt" count="8"/>
-      <line num="92" type="stmt" count="8"/>
-      <line num="93" type="stmt" count="8"/>
-      <metrics loc="95" ncloc="64" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
+      <line num="33" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="16"/>
+      <line num="35" type="stmt" count="16"/>
+      <line num="36" type="stmt" count="16"/>
+      <line num="37" type="stmt" count="16"/>
+      <line num="45" type="method" name="registerEndpoint" visibility="public" complexity="2" crap="2" count="16"/>
+      <line num="47" type="stmt" count="16"/>
+      <line num="49" type="stmt" count="16"/>
+      <line num="51" type="stmt" count="16"/>
+      <line num="67" type="method" name="routeTo" visibility="public" complexity="5" crap="5" count="16"/>
+      <line num="69" type="stmt" count="16"/>
+      <line num="71" type="stmt" count="1"/>
+      <line num="74" type="stmt" count="15"/>
+      <line num="75" type="stmt" count="15"/>
+      <line num="77" type="stmt" count="1"/>
+      <line num="81" type="stmt" count="14"/>
+      <line num="83" type="stmt" count="14"/>
+      <line num="85" type="stmt" count="1"/>
+      <line num="87" type="stmt" count="13"/>
+      <line num="89" type="stmt" count="1"/>
+      <line num="92" type="stmt" count="12"/>
+      <line num="93" type="stmt" count="12"/>
+      <line num="95" type="stmt" count="12"/>
+      <line num="97" type="stmt" count="12"/>
+      <line num="98" type="stmt" count="12"/>
+      <metrics loc="100" ncloc="68" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="24" coveredelements="24"/>
     </file>
     <file name="/app/src/main/php/Core/Api/MethodNotAllowedException.php">
       <class name="Mys\Core\Api\MethodNotAllowedException" namespace="global">
@@ -83,29 +90,39 @@
     </file>
     <file name="/app/src/main/php/Core/Api/Request.php">
       <class name="Mys\Core\Api\Request" namespace="global">
-        <metrics complexity="7" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="17" coveredelements="17"/>
+        <metrics complexity="8" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="19" coveredelements="19"/>
       </class>
-      <line num="30" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="32" type="stmt" count="11"/>
-      <line num="33" type="stmt" count="11"/>
-      <line num="34" type="stmt" count="11"/>
-      <line num="35" type="stmt" count="11"/>
-      <line num="41" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="43" type="stmt" count="11"/>
-      <line num="49" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="10"/>
-      <line num="51" type="stmt" count="10"/>
-      <line num="59" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="4"/>
-      <line num="61" type="stmt" count="4"/>
-      <line num="67" type="method" name="getPayload" visibility="public" complexity="1" crap="1" count="8"/>
-      <line num="69" type="stmt" count="8"/>
-      <line num="77" type="method" name="setPayload" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="79" type="stmt" count="1"/>
-      <line num="85" type="method" name="getHeaders" visibility="public" complexity="1" crap="1" count="9"/>
-      <line num="87" type="stmt" count="9"/>
-      <metrics loc="89" ncloc="52" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="17" coveredelements="17"/>
+      <line num="30" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="16"/>
+      <line num="32" type="stmt" count="16"/>
+      <line num="33" type="stmt" count="16"/>
+      <line num="34" type="stmt" count="16"/>
+      <line num="35" type="stmt" count="16"/>
+      <line num="44" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="16"/>
+      <line num="46" type="stmt" count="16"/>
+      <line num="52" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="15"/>
+      <line num="54" type="stmt" count="15"/>
+      <line num="62" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="4"/>
+      <line num="64" type="stmt" count="4"/>
+      <line num="70" type="method" name="getPayload" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="72" type="stmt" count="12"/>
+      <line num="80" type="method" name="setPayload" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="82" type="stmt" count="1"/>
+      <line num="88" type="method" name="getHeaders" visibility="public" complexity="1" crap="1" count="14"/>
+      <line num="90" type="stmt" count="14"/>
+      <line num="99" type="method" name="setHeader" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="101" type="stmt" count="3"/>
+      <metrics loc="103" ncloc="60" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="19" coveredelements="19"/>
     </file>
     <file name="/app/src/main/php/Core/Api/RouteRegister.php">
       <metrics loc="15" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/app/src/main/php/Core/Api/UnsupportedMediaTypeException.php">
+      <class name="Mys\Core\Api\UnsupportedMediaTypeException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </class>
+      <line num="12" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="14" type="stmt" count="1"/>
+      <metrics loc="16" ncloc="13" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
     </file>
     <file name="/app/src/main/php/Core/Application/Application.php">
       <class name="Mys\Core\Application\Application" namespace="global">
@@ -169,31 +186,31 @@
       <class name="Mys\Core\Injection\DependencyInjector" namespace="global">
         <metrics complexity="11" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="25" coveredelements="25"/>
       </class>
-      <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="18"/>
-      <line num="27" type="stmt" count="18"/>
-      <line num="28" type="stmt" count="18"/>
-      <line num="38" type="method" name="register" visibility="public" complexity="3" crap="3" count="17"/>
-      <line num="40" type="stmt" count="17"/>
+      <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="23"/>
+      <line num="27" type="stmt" count="23"/>
+      <line num="28" type="stmt" count="23"/>
+      <line num="38" type="method" name="register" visibility="public" complexity="3" crap="3" count="22"/>
+      <line num="40" type="stmt" count="22"/>
       <line num="42" type="stmt" count="1"/>
-      <line num="45" type="stmt" count="17"/>
-      <line num="55" type="method" name="get" visibility="public" complexity="1" crap="1" count="14"/>
-      <line num="57" type="stmt" count="14"/>
-      <line num="68" type="method" name="getWithCyclicDependencyDetection" visibility="private" complexity="6" crap="6" count="14"/>
-      <line num="70" type="stmt" count="14"/>
+      <line num="45" type="stmt" count="22"/>
+      <line num="55" type="method" name="get" visibility="public" complexity="1" crap="1" count="18"/>
+      <line num="57" type="stmt" count="18"/>
+      <line num="68" type="method" name="getWithCyclicDependencyDetection" visibility="private" complexity="6" crap="6" count="18"/>
+      <line num="70" type="stmt" count="18"/>
       <line num="72" type="stmt" count="1"/>
-      <line num="75" type="stmt" count="13"/>
+      <line num="75" type="stmt" count="17"/>
       <line num="77" type="stmt" count="1"/>
-      <line num="79" type="stmt" count="13"/>
-      <line num="83" type="stmt" count="13"/>
-      <line num="84" type="stmt" count="13"/>
-      <line num="85" type="stmt" count="12"/>
-      <line num="86" type="stmt" count="12"/>
+      <line num="79" type="stmt" count="17"/>
+      <line num="83" type="stmt" count="17"/>
+      <line num="84" type="stmt" count="17"/>
+      <line num="85" type="stmt" count="16"/>
+      <line num="86" type="stmt" count="16"/>
       <line num="88" type="stmt" count="3"/>
-      <line num="89" type="stmt" count="12"/>
+      <line num="89" type="stmt" count="16"/>
       <line num="91" type="stmt" count="3"/>
       <line num="95" type="stmt" count="2"/>
       <line num="97" type="stmt" count="1"/>
-      <line num="100" type="stmt" count="11"/>
+      <line num="100" type="stmt" count="15"/>
       <metrics loc="102" ncloc="71" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="25" coveredelements="25"/>
     </file>
     <file name="/app/src/main/php/Core/Injection/Injector.php">
@@ -222,14 +239,14 @@
       <class name="Mys\Core\ParameterRecognition\ParameterRecognition" namespace="global">
         <metrics complexity="6" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="21" coveredelements="21"/>
       </class>
-      <line num="22" type="method" name="recognise" visibility="public" complexity="6" crap="6" count="18"/>
-      <line num="24" type="stmt" count="18"/>
-      <line num="28" type="stmt" count="18"/>
-      <line num="29" type="stmt" count="17"/>
+      <line num="22" type="method" name="recognise" visibility="public" complexity="6" crap="6" count="22"/>
+      <line num="24" type="stmt" count="22"/>
+      <line num="28" type="stmt" count="22"/>
+      <line num="29" type="stmt" count="21"/>
       <line num="31" type="stmt" count="1"/>
-      <line num="33" type="stmt" count="16"/>
-      <line num="34" type="stmt" count="16"/>
-      <line num="35" type="stmt" count="16"/>
+      <line num="33" type="stmt" count="20"/>
+      <line num="34" type="stmt" count="20"/>
+      <line num="35" type="stmt" count="20"/>
       <line num="37" type="stmt" count="8"/>
       <line num="38" type="stmt" count="8"/>
       <line num="41" type="stmt" count="8"/>
@@ -242,9 +259,9 @@
       <line num="52" type="stmt" count="2"/>
       <line num="56" type="stmt" count="3"/>
       <line num="58" type="stmt" count="1"/>
-      <line num="61" type="stmt" count="15"/>
+      <line num="61" type="stmt" count="19"/>
       <metrics loc="63" ncloc="53" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="21" coveredelements="21"/>
     </file>
-    <metrics files="18" loc="763" ncloc="525" classes="15" methods="36" coveredmethods="36" conditionals="0" coveredconditionals="0" statements="109" coveredstatements="109" elements="145" coveredelements="145"/>
+    <metrics files="19" loc="822" ncloc="563" classes="16" methods="40" coveredmethods="40" conditionals="0" coveredconditionals="0" statements="116" coveredstatements="116" elements="156" coveredelements="156"/>
   </project>
 </coverage>
