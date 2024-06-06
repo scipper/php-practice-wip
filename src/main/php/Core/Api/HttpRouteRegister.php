@@ -2,6 +2,10 @@
 
 namespace Mys\Core\Api;
 
+use Mys\Core\Api\HttpExceptions\ClientExceptions\MethodNotAllowedException;
+use Mys\Core\Api\HttpExceptions\ClientExceptions\NotAcceptableException;
+use Mys\Core\Api\HttpExceptions\ClientExceptions\NotFoundException;
+use Mys\Core\Api\HttpExceptions\ClientExceptions\UnsupportedMediaTypeException;
 use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\Injector;
@@ -58,23 +62,19 @@ class HttpRouteRegister implements RouteRegister
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function routeTo(Request $request): Response
     {
         if (!array_key_exists($request->getPath(), $this->endpoints))
         {
-            throw new NotFoundException();
+            return new Response(new NotFoundException());
         }
 
         $methods = $this->endpoints[$request->getPath()];
         if (!array_key_exists($request->getMethod(), $methods))
         {
-            throw new MethodNotAllowedException();
+            return new Response(new MethodNotAllowedException());
         }
 
         /** @var Endpoint $endpoint */
@@ -82,11 +82,11 @@ class HttpRouteRegister implements RouteRegister
 
         if ($endpoint->getProduces() !== $request->getHeaders()["accept"])
         {
-            throw new NotAcceptableException();
+            return new Response(new NotAcceptableException());
         }
         if ($endpoint->getConsumes() !== $request->getHeaders()["content-type"])
         {
-            throw new UnsupportedMediaTypeException();
+            return new Response(new UnsupportedMediaTypeException());
         }
 
         $injectionToken = $endpoint->getClass();

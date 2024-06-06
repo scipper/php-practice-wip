@@ -43,11 +43,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_call_class_function_from_path()
     {
@@ -66,11 +62,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_registered_path_gets_normalised()
     {
@@ -89,11 +81,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_calling_path_gets_normalised()
     {
@@ -112,21 +100,18 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
-    public function test_throw_when_path_is_not_found()
+    public function test_response_is_error_of_not_found_when_path_is_not_found()
     {
-        $this->expectException(NotFoundException::class);
-
         $endpoint = new Endpoint(DummyApi::class, "pathGet");
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals("Not Found", $response->getStatusText());
     }
 
     /**
@@ -134,23 +119,20 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
-    public function test_throw_when_path_is_called_with_wrong_method()
+    public function test_response_is_error_of_method_not_allowed_when_path_is_called_with_wrong_method()
     {
-        $this->expectException(MethodNotAllowedException::class);
-
         $endpoint = new Endpoint(DummyApi::class, "pathGet");
         $endpoint->setPath("/path");
         $endpoint->setMethod("POST");
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(405, $response->getStatusCode());
+        $this->assertEquals("Method Not Allowed", $response->getStatusText());
     }
 
     /**
@@ -158,11 +140,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_registered_method_gets_normalised()
     {
@@ -183,11 +161,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_calling_method_gets_normalised()
     {
@@ -208,11 +182,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_registers_two_methods_to_one_path()
     {
@@ -240,11 +210,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_parses_raw_payload_to_correct_function_parameter()
     {
@@ -266,11 +232,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_call_class_with_dependencies()
     {
@@ -291,23 +253,20 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
-    public function test_throws_when_requesting_a_response_format_but_the_endpoint_produces_something_else()
+    public function test_response_is_error_of_not_acceptable_when_requesting_a_response_format_but_the_endpoint_produces_something_else()
     {
-        $this->expectException(NotAcceptableException::class);
-
         $endpoint = new Endpoint(DummyApi::class, "pathParam");
         $endpoint->setPath("/path");
         $endpoint->setProduces("text/plain");
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(406, $response->getStatusCode());
+        $this->assertEquals("Not Acceptable", $response->getStatusText());
     }
 
     /**
@@ -315,11 +274,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_produces_of_endpoint_gets_normalised()
     {
@@ -339,11 +294,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_consumes_of_endpoint_gets_normalised()
     {
@@ -363,11 +314,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_header_value_gets_normalised()
     {
@@ -387,11 +334,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_case_of_header_key_gets_normalised()
     {
@@ -412,11 +355,7 @@ class RouteRegisterTest extends TestCase
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      * @throws FunctionNotFoundException
-     * @throws MethodNotAllowedException
      * @throws MissingPayloadException
-     * @throws NotAcceptableException
-     * @throws NotFoundException
-     * @throws UnsupportedMediaTypeException
      */
     public function test_response_is_error_of_unsupported_media_type()
     {
@@ -433,6 +372,13 @@ class RouteRegisterTest extends TestCase
         $this->assertEquals("Unsupported Media Type", $response->getStatusText());
     }
 
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
+     */
     public function test_returns_a_response_object()
     {
         $endpoint = new Endpoint(DummyApi::class, "pathGet");
@@ -445,6 +391,13 @@ class RouteRegisterTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
+     */
     public function test_response_has_status_code_200()
     {
         $endpoint = new Endpoint(DummyApi::class, "pathGet");
@@ -455,5 +408,6 @@ class RouteRegisterTest extends TestCase
         $response = $this->routeRegister->routeTo($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals("Ok", $response->getStatusText());
     }
 }

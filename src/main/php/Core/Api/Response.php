@@ -2,19 +2,47 @@
 
 namespace Mys\Core\Api;
 
+use Mys\Core\Api\HttpExceptions\HttpException;
+
 class Response
 {
-    public function __construct()
+    /**
+     * @var int
+     */
+    private int $statusCode;
+
+    /**
+     * @var string
+     */
+    private string $statusText;
+
+    /**
+     * @param HttpException|null $exception
+     */
+    public function __construct(HttpException $exception = null)
     {
+        $this->statusCode = 200;
+        $this->statusText = "Ok";
+        if ($exception)
+        {
+            $this->statusCode = $exception->getStatusCode();
+            $this->statusText = $exception->getStatusText();
+        }
     }
 
+    /**
+     * @return int
+     */
     public function getStatusCode(): int
     {
-        return 200;
+        return $this->statusCode;
     }
 
-    public function getStatusText()
+    /**
+     * @return string
+     */
+    public function getStatusText(): string
     {
-        return "Unsupported Media Type";
+        return $this->statusText;
     }
 }
