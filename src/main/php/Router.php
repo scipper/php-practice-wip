@@ -3,13 +3,24 @@
 namespace Mys;
 
 use Mys\Core\Api\HttpRouteRegister;
+use Mys\Core\Api\Request;
 use Mys\Core\Application\Application;
+use Mys\Core\ClassNotFoundException;
+use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\PrintLogger;
+use Mys\Core\ParameterRecognition\FunctionNotFoundException;
+use Mys\Core\ParameterRecognition\MissingPayloadException;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 
 class Router
 {
+    /**
+     * @throws FunctionNotFoundException
+     * @throws MissingPayloadException
+     * @throws CyclicDependencyDetectedException
+     * @throws ClassNotFoundException
+     */
     public static function main(): void
     {
         require "../../../vendor/autoload.php";
@@ -43,7 +54,12 @@ class Router
         {
             $path = $_SERVER["REDIRECT_URL"];
         }
-        $routeRegister->routeTo($path, $_SERVER["REQUEST_METHOD"], $payload);
+        $request = new Request($path);
+        $request->setMethod($_SERVER["REQUEST_METHOD"]);
+        $request->setPayload($payload);
+        $response = $routeRegister->routeTo($request);
+
+        var_dump($response);
     }
 }
 

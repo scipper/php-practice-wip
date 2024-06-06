@@ -29,6 +29,8 @@ class PingModule implements Module
         $pingStringEndpoint = new Endpoint(PingComponent::class, "pingString");
         $pingStringEndpoint->setPath("/ping");
         $pingStringEndpoint->setMethod("post");
-        return [$pingStringEndpoint];
+        $pingPongEndpoint = new Endpoint(PingComponent::class, "ping");
+        $pingPongEndpoint->setPath("/ping");
+        return [$pingStringEndpoint, $pingPongEndpoint];
     }
 }

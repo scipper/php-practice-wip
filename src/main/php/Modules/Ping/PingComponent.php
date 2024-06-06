@@ -31,6 +31,14 @@ class PingComponent
     }
 
     /**
+     * @return void
+     */
+    public function ping(): void
+    {
+        $this->logger->info("pong");
+    }
+
+    /**
      * @param PingRequest $request
      *
      * @return void
