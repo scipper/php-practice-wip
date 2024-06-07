@@ -4,6 +4,7 @@ namespace Mys\Core\Api;
 
 use Exception;
 use Mys\Core\Api\HttpStatus\ServerExceptions\InternalServerErrorException;
+use TypeError;
 
 class DummyApi
 {
@@ -38,6 +39,11 @@ class DummyApi
     public function unhandledException()
     {
         throw new Exception("Something went wrong");
+    }
+
+    public function typeError()
+    {
+        throw new TypeError("Something typed wrong");
     }
 
     public function getNumber()

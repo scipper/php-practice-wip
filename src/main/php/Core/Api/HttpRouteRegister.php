@@ -9,9 +9,11 @@ use Mys\Core\Api\HttpStatus\ClientExceptions\NotFoundException;
 use Mys\Core\Api\HttpStatus\ClientExceptions\UnsupportedMediaTypeException;
 use Mys\Core\Api\HttpStatus\HttpStatus;
 use Mys\Core\Api\HttpStatus\ServerExceptions\InternalServerErrorException;
+use Mys\Core\Api\HttpStatus\Success\NoContent;
 use Mys\Core\Api\HttpStatus\Success\Ok;
 use Mys\Core\Injection\Injector;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
+use TypeError;
 
 class HttpRouteRegister implements RouteRegister
 {
@@ -94,13 +96,20 @@ class HttpRouteRegister implements RouteRegister
             $class = $this->injector->get($injectionToken);
             $content = $class->{$function}(...$payload);
 
-            return new Response(new Ok(), $content);
+            if ($content === null)
+            {
+                return new Response(new NoContent(), $content, $endpoint->getProduces());
+            }
+            else
+            {
+                return new Response(new Ok(), $content, $endpoint->getProduces());
+            }
         }
         catch (HttpStatus $exception)
         {
             return new Response($exception);
         }
-        catch (Exception $exception)
+        catch (Exception|TypeError $exception)
         {
             return new Response(new InternalServerErrorException($exception));
         }

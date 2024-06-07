@@ -145,6 +145,23 @@ class ResponseTest extends TestCase
     /**
      * @return void
      */
+    public function test_response_has_status_code_204_when_content_is_empty()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathPost");
+        $endpoint->setPath("/path");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(204, $response->getStatusCode());
+        $this->assertEquals("No Content", $response->getStatusText());
+        $this->assertEquals(null, $response->getErrorMessage());
+    }
+
+    /**
+     * @return void
+     */
     public function test_response_is_error_of_not_found_when_path_is_not_found()
     {
         $request = new Request("/pathMissing");
@@ -267,5 +284,40 @@ class ResponseTest extends TestCase
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
         $this->assertEquals("ClassNotFoundException", $response->getErrorMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_maps_type_error_to_internal_server_error()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "typeError");
+        $endpoint->setPath("/path");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertEquals("Internal Server Error", $response->getStatusText());
+        $this->assertEquals("Something typed wrong", $response->getErrorMessage());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_response_contains_content_type_header_based_on_endpoint_produces_value()
+    {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/path");
+        $endpoint->setProduces("text/plain");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/path");
+        $request->setHeader("Accept", "text/plain");
+        $response = $this->routeRegister->routeTo($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals("text/plain", $response->getContentType());
     }
 }

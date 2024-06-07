@@ -38,14 +38,9 @@ class PingComponent
         $this->logger->info("pong");
     }
 
-    /**
-     * @param PingRequest $request
-     *
-     * @return void
-     */
-    public function pingObject(PingRequest $request): void
+    public function pingObject(PingRequest $request): PingRequest
     {
-        print_r($request);
+        return $request;
     }
 
     /**

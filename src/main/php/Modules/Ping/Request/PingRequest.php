@@ -7,17 +7,17 @@ class PingRequest
     /**
      * @var string|null
      */
-    private ?string $firstName;
+    public ?string $firstName;
 
     /**
      * @var string|null
      */
-    private ?string $lastName;
+    public ?string $lastName;
 
     /**
      * @var PingAddress|null
      */
-    private ?PingAddress $address;
+    public ?PingAddress $address;
 
     /**
      * @param mixed $rawData

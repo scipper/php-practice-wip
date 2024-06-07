@@ -2,9 +2,11 @@
 
 namespace Mys\Core\Api;
 
+use JsonSerializable;
 use Mys\Core\Api\HttpStatus\HttpStatus;
+use stdClass;
 
-class Response
+class Response implements JsonSerializable
 {
     /**
      * @var int
@@ -27,15 +29,21 @@ class Response
     private ?string $content;
 
     /**
+     * @var string
+     */
+    private string $contentType;
+
+    /**
      * @param HttpStatus|null $exception
      * @param mixed|null $content
      */
-    public function __construct(HttpStatus $exception = null, mixed $content = null)
+    public function __construct(HttpStatus $exception = null, mixed $content = null, string $contentType = "application/json")
     {
         $this->statusCode = 200;
         $this->statusText = "Ok";
         $this->errorMessage = null;
         $this->content = null;
+        $this->contentType = $contentType;
         if ($exception)
         {
             $this->statusCode = $exception->getStatusCode();
@@ -88,8 +96,33 @@ class Response
         return $this->errorMessage;
     }
 
-    public function getContent(): string
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
     {
         return $this->content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * @return stdClass
+     */
+    public function jsonSerialize(): stdClass
+    {
+        $json = new stdClass();
+        $json->statusCode = $this->statusCode;
+        $json->statusText = $this->statusText;
+        $json->errorMessage = $this->errorMessage;
+        $json->contentType = $this->contentType;
+
+        return $json;
     }
 }
