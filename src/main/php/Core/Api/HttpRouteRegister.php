@@ -2,15 +2,15 @@
 
 namespace Mys\Core\Api;
 
-use Mys\Core\Api\HttpExceptions\ClientExceptions\MethodNotAllowedException;
-use Mys\Core\Api\HttpExceptions\ClientExceptions\NotAcceptableException;
-use Mys\Core\Api\HttpExceptions\ClientExceptions\NotFoundException;
-use Mys\Core\Api\HttpExceptions\ClientExceptions\UnsupportedMediaTypeException;
-use Mys\Core\ClassNotFoundException;
-use Mys\Core\Injection\CyclicDependencyDetectedException;
+use Exception;
+use Mys\Core\Api\HttpStatus\ClientExceptions\MethodNotAllowedException;
+use Mys\Core\Api\HttpStatus\ClientExceptions\NotAcceptableException;
+use Mys\Core\Api\HttpStatus\ClientExceptions\NotFoundException;
+use Mys\Core\Api\HttpStatus\ClientExceptions\UnsupportedMediaTypeException;
+use Mys\Core\Api\HttpStatus\HttpStatus;
+use Mys\Core\Api\HttpStatus\ServerExceptions\InternalServerErrorException;
+use Mys\Core\Api\HttpStatus\Success\Ok;
 use Mys\Core\Injection\Injector;
-use Mys\Core\ParameterRecognition\FunctionNotFoundException;
-use Mys\Core\ParameterRecognition\MissingPayloadException;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 
 class HttpRouteRegister implements RouteRegister
@@ -59,10 +59,6 @@ class HttpRouteRegister implements RouteRegister
      * @param Request $request
      *
      * @return Response
-     * @throws ClassNotFoundException
-     * @throws CyclicDependencyDetectedException
-     * @throws FunctionNotFoundException
-     * @throws MissingPayloadException
      */
     public function routeTo(Request $request): Response
     {
@@ -92,11 +88,21 @@ class HttpRouteRegister implements RouteRegister
         $injectionToken = $endpoint->getClass();
         $function = $endpoint->getFunction();
 
-        $payload = $this->parameterRecognition->recognise($injectionToken, $function, $request->getPayload());
+        try
+        {
+            $payload = $this->parameterRecognition->recognise($injectionToken, $function, $request->getPayload());
+            $class = $this->injector->get($injectionToken);
+            $content = $class->{$function}(...$payload);
 
-        $class = $this->injector->get($injectionToken);
-        $class->{$function}(...$payload);
-
-        return new Response();
+            return new Response(new Ok(), $content);
+        }
+        catch (HttpStatus $exception)
+        {
+            return new Response($exception);
+        }
+        catch (Exception $exception)
+        {
+            return new Response(new InternalServerErrorException($exception));
+        }
     }
 }

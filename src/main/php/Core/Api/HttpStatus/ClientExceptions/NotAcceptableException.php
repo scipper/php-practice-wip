@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Core\Api\HttpExceptions\ClientExceptions;
+namespace Mys\Core\Api\HttpStatus\ClientExceptions;
 
-use Mys\Core\Api\HttpExceptions\HttpException;
+use Mys\Core\Api\HttpStatus\HttpException;
 
 class NotAcceptableException extends HttpException
 {

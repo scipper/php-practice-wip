@@ -13,9 +13,13 @@ class DummyClassWithDependency
         $this->dependency = $dependency;
     }
 
-    public function getDependency(): DummyDependency
+    public function path()
     {
         self::$getDependencyWasCalled = true;
+    }
+
+    public function getDependency(): DummyDependency
+    {
         return $this->dependency;
     }
 }

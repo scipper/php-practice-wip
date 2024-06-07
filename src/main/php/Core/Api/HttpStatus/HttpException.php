@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Core\Api\HttpExceptions;
+namespace Mys\Core\Api\HttpStatus;
 
 use Exception;
 
-class HttpException extends Exception
+class HttpException extends Exception implements HttpStatus
 {
     /**
      * @var int
@@ -17,14 +17,25 @@ class HttpException extends Exception
     protected string $statusText;
 
     /**
+     * @var string
+     */
+    private string $errorMessage;
+
+    /**
      * @param int $statusCode
      * @param string $statusText
+     * @param Exception|null $exception
      */
-    public function __construct(int $statusCode, string $statusText)
+    public function __construct(int $statusCode, string $statusText, Exception $exception = null)
     {
         parent::__construct("HttpException");
         $this->statusCode = $statusCode;
         $this->statusText = $statusText;
+        $this->errorMessage = "Http Exception";
+        if ($exception)
+        {
+            $this->errorMessage = $exception->getMessage();
+        }
     }
 
     /**
@@ -41,5 +52,13 @@ class HttpException extends Exception
     public function getStatusText(): string
     {
         return $this->statusText;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string
+    {
+        return $this->errorMessage;
     }
 }

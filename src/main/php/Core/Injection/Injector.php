@@ -18,8 +18,8 @@ interface Injector
      * @param string $injectionToken
      *
      * @return mixed
-     * @throws CyclicDependencyDetectedException
      * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
     public function get(string $injectionToken): mixed;
 }
