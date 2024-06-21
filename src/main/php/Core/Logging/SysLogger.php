@@ -3,6 +3,7 @@
 namespace Mys\Core\Logging;
 
 use Exception;
+use function error_log;
 
 class SysLogger implements Logger
 {
@@ -13,7 +14,7 @@ class SysLogger implements Logger
      */
     public function error(Exception $errorClass): void
     {
-        syslog(LOG_ERR, $errorClass->getTraceAsString());
+        error_log($errorClass->getTraceAsString());
     }
 
     /**
@@ -23,7 +24,7 @@ class SysLogger implements Logger
      */
     public function warning(string $warningMessage): void
     {
-        syslog(LOG_WARNING, $warningMessage);
+        error_log($warningMessage);
     }
 
     /**
@@ -33,6 +34,6 @@ class SysLogger implements Logger
      */
     public function info(string $infoMessage): void
     {
-        syslog(LOG_INFO, $infoMessage);
+        error_log($infoMessage);
     }
 }

@@ -10,12 +10,15 @@ RUN composer install \
     --no-plugins \
     --no-scripts \
     --no-dev \
-    --prefer-dist
+    --prefer-dist \
+    --optimize-autoloader \
+    --classmap-authoritative \
+    --apcu-autoloader
 
 COPY . .
-RUN composer dump-autoload
+RUN composer dump-autoload --optimize --classmap-authoritative --apcu
 
-FROM php:8.3.6-apache
+FROM php:8.3.6-apache-bullseye
 
 ARG HOME=/var/www/html
 

@@ -1,28 +1,24 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Mys;
 
 use Mys\Core\Api\HttpRouteRegister;
 use Mys\Core\Api\Request;
 use Mys\Core\Application\Application;
-use Mys\Core\ClassNotFoundException;
-use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\SysLogger;
-use Mys\Core\ParameterRecognition\FunctionNotFoundException;
-use Mys\Core\ParameterRecognition\MissingPayloadException;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
+use function error_log;
+use function microtime;
+use function trigger_error;
 
 class Router
 {
     /**
-     * @throws FunctionNotFoundException
-     * @throws MissingPayloadException
-     * @throws CyclicDependencyDetectedException
-     * @throws ClassNotFoundException
      */
     public static function main(): void
     {
+        $start = microtime(true);
         require "../../../vendor/autoload.php";
 //        echo "<pre>";
 //        echo "GET";
@@ -41,8 +37,7 @@ class Router
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleListText = file_get_contents("./module-list.txt");
         $moduleList = [];
-        if ($moduleListText)
-        {
+        if ($moduleListText) {
             array_push($moduleList, ...explode("\n", $moduleListText));
         }
         $application = new Application($injector, $moduleList, $logger, $routeRegister);
@@ -50,8 +45,7 @@ class Router
 
         $payload = file_get_contents("php://input");
         $path = "/";
-        if (array_key_exists("REDIRECT_URL", $_SERVER))
-        {
+        if (array_key_exists("REDIRECT_URL", $_SERVER)) {
             $path = $_SERVER["REDIRECT_URL"];
         }
         $request = new Request($path);
@@ -67,14 +61,15 @@ class Router
         header("Content-Type: {$response->getContentType()}; charset=utf-8");
         http_response_code($response->getStatusCode());
         $content = $response->getContent();
-        if ($content)
-        {
+        if ($content) {
             echo json_encode($content);
         }
-        if ($response->getStatusCode() >= 400)
-        {
+        if ($response->getStatusCode() >= 400) {
             echo json_encode($response);
         }
+
+        $end = microtime(true);
+        error_log((string)($end - $start));
         exit();
     }
 }
