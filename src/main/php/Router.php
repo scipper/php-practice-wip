@@ -8,9 +8,9 @@ use Mys\Core\Application\Application;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\SysLogger;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
+
 use function error_log;
 use function microtime;
-use function trigger_error;
 
 class Router
 {
@@ -62,7 +62,7 @@ class Router
         http_response_code($response->getStatusCode());
         $content = $response->getContent();
         if ($content) {
-            echo json_encode($content);
+            echo($content);
         }
         if ($response->getStatusCode() >= 400) {
             echo json_encode($response);

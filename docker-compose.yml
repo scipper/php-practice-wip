@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/html/
+      - ./src/main/php:/var/www/html/src/main/php
     ports:
       - "8080:80"
     extra_hosts:

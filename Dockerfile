@@ -43,5 +43,6 @@ COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-x
 WORKDIR $HOME
 
 COPY --from=composer app/vendor/ ./vendor/
+COPY config/.htaccess ./src/main/.htaccess
 
 EXPOSE 80

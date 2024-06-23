@@ -23,11 +23,11 @@ class PingComponent
     /**
      * @param string $request
      *
-     * @return void
+     * @return string
      */
-    public function pingString(string $request): void
+    public function pingString(string $request): string
     {
-        $this->logger->info($request);
+        return $request;
     }
 
     /**
