@@ -108,7 +108,7 @@ class Router
         $injector = new DependencyInjector($logger);
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
-        $moduleList = new ModuleList(new FileModuleLoader("./module-list.txt"));
+        $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));
 
         $router = new Router($injector, $routeRegister, $moduleList, $logger);
         $router->route();

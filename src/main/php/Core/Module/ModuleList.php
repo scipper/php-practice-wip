@@ -28,6 +28,7 @@ class ModuleList
         $trimmedModules = array_map(function ($module) {
             return trim($module);
         }, $removedEmptyModules);
-        return [...$trimmedModules];
+        $uniqueModules = array_unique($trimmedModules);
+        return [...$uniqueModules];
     }
 }

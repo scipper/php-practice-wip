@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src/main/php:/var/www/html/src/main/php
+      - ./src/main/resources:/var/www/html/src/main/resources
     ports:
       - "8080:80"
     extra_hosts:
