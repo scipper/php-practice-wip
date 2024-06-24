@@ -10,10 +10,10 @@ use Mys\Core\Application\Application;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Injection\Injector;
 use Mys\Core\Logging\Logger;
-use Mys\Core\Logging\SysLogger;
 use Mys\Core\Module\FileModuleLoader;
 use Mys\Core\Module\ModuleList;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
+use Mys\CoreModules\Logging\SysLogger;
 
 use function error_log;
 use function microtime;
@@ -70,7 +70,7 @@ class Router
         $path = "/";
         if (array_key_exists("REDIRECT_URL", $_SERVER))
         {
-            $path = $_SERVER["REDIRECT_URL"];
+            $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
         }
         $request = new Request($path);
         $request->setMethod($_SERVER["REQUEST_METHOD"]);

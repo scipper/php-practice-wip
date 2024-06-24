@@ -1,13 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Modules\Logging;
+namespace Mys\CoreModules\Home;
 
 use Mys\Core\Api\Endpoint;
-use Mys\Core\Logging\Logger;
-use Mys\Core\Logging\SysLogger;
 use Mys\Core\Module\Module;
 
-class LoggingModule implements Module
+class HomeModule implements Module
 {
 
     /**
@@ -15,7 +13,7 @@ class LoggingModule implements Module
      */
     public function getClasses(): array
     {
-        return [Logger::class => SysLogger::class];
+        return [];
     }
 
     /**

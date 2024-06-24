@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Core\Logging;
+namespace Mys\CoreModules\Logging;
 
 use Exception;
-use function error_log;
+use Mys\Core\Logging\Logger;
 
-class SysLogger implements Logger
+class PrintLogger implements Logger
 {
     /**
      * @param Exception $errorClass
@@ -14,7 +14,7 @@ class SysLogger implements Logger
      */
     public function error(Exception $errorClass): void
     {
-        error_log($errorClass->getTraceAsString());
+        print_r("ERROR: " . $errorClass);
     }
 
     /**
@@ -24,7 +24,7 @@ class SysLogger implements Logger
      */
     public function warning(string $warningMessage): void
     {
-        error_log($warningMessage);
+        print_r("WARNING: $warningMessage\n");
     }
 
     /**
@@ -34,6 +34,6 @@ class SysLogger implements Logger
      */
     public function info(string $infoMessage): void
     {
-        error_log($infoMessage);
+        print_r("INFO: $infoMessage\n");
     }
 }

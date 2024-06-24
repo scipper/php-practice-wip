@@ -1,4 +1,5 @@
+Mys\CoreModules\Logging\LoggingModule
+Mys\CoreModules\Home\HomeModule
 Mys\Modules\Test\TestModule
 Mys\Modules\Welcome\WelcomeModule
-Mys\Modules\Logging\LoggingModule
 Mys\Modules\Ping\PingModule
