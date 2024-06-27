@@ -62,7 +62,7 @@ class HttpRouteRegister implements RouteRegister
      *
      * @return Response
      */
-    public function routeTo(Request $request): Response
+    public function processRequest(Request $request): Response
     {
         if (!array_key_exists($request->getPath(), $this->endpoints))
         {

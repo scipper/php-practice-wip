@@ -2,81 +2,53 @@
 
 namespace Mys;
 
-use JetBrains\PhpStorm\NoReturn;
 use Mys\Core\Api\HttpRouteRegister;
 use Mys\Core\Api\Request;
+use Mys\Core\Api\Response;
 use Mys\Core\Api\RouteRegister;
 use Mys\Core\Application\Application;
 use Mys\Core\Injection\DependencyInjector;
-use Mys\Core\Injection\Injector;
-use Mys\Core\Logging\Logger;
 use Mys\Core\Module\FileModuleLoader;
 use Mys\Core\Module\ModuleList;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use Mys\CoreModules\Logging\SysLogger;
-
-use function error_log;
-use function microtime;
 
 require "../../../vendor/autoload.php";
 
 class Router
 {
     /**
-     * @var Injector
-     */
-    private Injector $injector;
-
-    /**
      * @var RouteRegister
      */
     private RouteRegister $routeRegister;
 
     /**
-     * @var ModuleList
+     * @param RouteRegister $routeRegister
      */
-    private ModuleList $moduleList;
-
-    /**
-     * @var Logger
-     */
-    private Logger $logger;
-
-    /**
-     * @param Injector $i
-     * @param RouteRegister $rr
-     * @param ModuleList $ml
-     * @param Logger $l
-     */
-    public function __construct(Injector $i, RouteRegister $rr, ModuleList $ml, Logger $l)
+    public function __construct(RouteRegister $routeRegister)
     {
-        $this->injector = $i;
-        $this->routeRegister = $rr;
-        $this->moduleList = $ml;
-        $this->logger = $l;
+        $this->routeRegister = $routeRegister;
     }
 
     /**
+     * @param $request
+     *
      * @return void
      */
-    #[NoReturn] public function route(): void
+    public function route($request): void
     {
-        $start = microtime(true);
+        $response = $this->routeRegister->processRequest($request);
 
-        $application = new Application($this->injector, $this->moduleList->get(), $this->logger, $this->routeRegister);
-        $application->init();
+        $this->respond($response);
+    }
 
-        $payload = file_get_contents("php://input");
-        $path = "/";
-        if (array_key_exists("REDIRECT_URL", $_SERVER))
-        {
-            $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
-        }
-        $request = new Request($path);
-        $request->setMethod($_SERVER["REQUEST_METHOD"]);
-        $request->setPayload($payload);
-        $response = $this->routeRegister->routeTo($request);
-
+    /**
+     * @param Response $response
+     *
+     * @return void
+     */
+    public function respond(Response $response): void
+    {
         ob_start();
         ob_clean();
         header_remove();
@@ -94,15 +66,13 @@ class Router
             echo json_encode($response);
         }
 
-        $end = microtime(true);
-        error_log((string)($end - $start));
         exit();
     }
 
     /**
      * @return void
      */
-    #[NoReturn] public static function main(): void
+    public static function main(): void
     {
         $logger = new SysLogger();
         $injector = new DependencyInjector($logger);
@@ -110,8 +80,28 @@ class Router
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));
 
-        $router = new Router($injector, $routeRegister, $moduleList, $logger);
-        $router->route();
+        $application = new Application($injector, $moduleList->get(), $logger, $routeRegister);
+        $application->init();
+
+        $router = new Router($routeRegister);
+        $router->route(self::getRequest());
+    }
+
+    /**
+     * @return Request
+     */
+    private static function getRequest(): Request
+    {
+        $payload = file_get_contents("php://input");
+        $path = "/";
+        if (array_key_exists("REDIRECT_URL", $_SERVER))
+        {
+            $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
+        }
+        $request = new Request($path);
+        $request->setMethod($_SERVER["REQUEST_METHOD"]);
+        $request->setPayload($payload);
+        return $request;
     }
 }
 

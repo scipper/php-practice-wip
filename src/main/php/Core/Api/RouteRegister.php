@@ -16,5 +16,5 @@ interface RouteRegister
      *
      * @return Response
      */
-    public function routeTo(Request $request): Response;
+    public function processRequest(Request $request): Response;
 }

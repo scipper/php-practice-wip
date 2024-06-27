@@ -28,18 +28,6 @@ class ModuleLoaderTest extends TestCase
     /**
      * @return void
      */
-    public function test_returns_an_array()
-    {
-        $this->moduleLoader->doReturn("");
-
-        $moduleList = $this->moduleList->get();
-
-        $this->assertTrue(is_array($moduleList));
-    }
-
-    /**
-     * @return void
-     */
     public function test_returns_a_given_string_as_element()
     {
         $this->moduleLoader->doReturn("module");

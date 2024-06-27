@@ -32,7 +32,7 @@ class ResponseTest extends TestCase
     public function test_returns_a_response_object()
     {
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertInstanceOf(Response::class, $response);
     }
@@ -43,7 +43,7 @@ class ResponseTest extends TestCase
     public function test_response_has_status_code_200()
     {
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("Ok", $response->getStatusText());
@@ -56,7 +56,7 @@ class ResponseTest extends TestCase
     public function test_response_contains_result_of_component_function_execution()
     {
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("content", $response->getContent());
@@ -72,7 +72,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("1", $response->getContent());
@@ -88,7 +88,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("1.1", $response->getContent());
@@ -104,7 +104,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("false", $response->getContent());
@@ -120,7 +120,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("[\"value\"]", $response->getContent());
@@ -136,7 +136,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("{\"firstName\":\"FirstTest\",\"lastName\":\"LastTest\"}", $response->getContent());
@@ -152,7 +152,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(204, $response->getStatusCode());
         $this->assertEquals("No Content", $response->getStatusText());
@@ -165,7 +165,7 @@ class ResponseTest extends TestCase
     public function test_response_is_error_of_not_found_when_path_is_not_found()
     {
         $request = new Request("/pathMissing");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals("Not Found", $response->getStatusText());
@@ -178,7 +178,7 @@ class ResponseTest extends TestCase
     {
         $request = new Request("/path");
         $request->setMethod("POST");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(405, $response->getStatusCode());
         $this->assertEquals("Method Not Allowed", $response->getStatusText());
@@ -195,7 +195,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(406, $response->getStatusCode());
         $this->assertEquals("Not Acceptable", $response->getStatusText());
@@ -213,7 +213,7 @@ class ResponseTest extends TestCase
 
         $request = new Request("/path");
         $request->setHeader("Content-Type", "application/json");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(415, $response->getStatusCode());
         $this->assertEquals("Unsupported Media Type", $response->getStatusText());
@@ -229,7 +229,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
@@ -245,7 +245,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
@@ -262,7 +262,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
@@ -279,7 +279,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
@@ -296,7 +296,7 @@ class ResponseTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals("Internal Server Error", $response->getStatusText());
@@ -315,7 +315,7 @@ class ResponseTest extends TestCase
 
         $request = new Request("/path");
         $request->setHeader("Accept", "text/plain");
-        $response = $this->routeRegister->routeTo($request);
+        $response = $this->routeRegister->processRequest($request);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals("text/plain", $response->getContentType());

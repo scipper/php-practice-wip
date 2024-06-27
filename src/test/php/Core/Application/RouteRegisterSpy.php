@@ -21,7 +21,7 @@ class RouteRegisterSpy implements RouteRegister
         $this->registerCalled = [$endpoint->getClass(), $endpoint->getFunction(), $endpoint->getPath(), $endpoint->getMethod()];
     }
 
-    public function routeTo(Request $request): Response
+    public function processRequest(Request $request): Response
     {
         return new Response();
     }

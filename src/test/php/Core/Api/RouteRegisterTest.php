@@ -44,7 +44,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -59,7 +59,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -74,7 +74,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/PaTh");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -91,7 +91,7 @@ class RouteRegisterTest extends TestCase
 
         $request = new Request("/path");
         $request->setMethod("post");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
     }
@@ -108,7 +108,7 @@ class RouteRegisterTest extends TestCase
 
         $request = new Request("/path");
         $request->setMethod("PoSt");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
     }
@@ -128,10 +128,10 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request1 = new Request("/path");
-        $this->routeRegister->routeTo($request1);
+        $this->routeRegister->processRequest($request1);
         $request2 = new Request("/path");
         $request2->setMethod("post");
-        $this->routeRegister->routeTo($request2);
+        $this->routeRegister->processRequest($request2);
 
         $this->assertTrue(DummyApi::$pathPostWasCalled);
         $this->assertTrue(DummyApi::$pathGetWasCalled);
@@ -150,7 +150,7 @@ class RouteRegisterTest extends TestCase
         $request = new Request("/path");
         $request->setMethod("post");
         $request->setPayload("1");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathParamWasCalledCorrectly);
     }
@@ -167,7 +167,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyClassWithDependency::$getDependencyWasCalled);
     }
@@ -183,7 +183,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -199,7 +199,7 @@ class RouteRegisterTest extends TestCase
         $this->routeRegister->registerEndpoint($endpoint);
 
         $request = new Request("/path");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -215,7 +215,7 @@ class RouteRegisterTest extends TestCase
 
         $request = new Request("/path");
         $request->setHeader("Accept", "AppLicAtion/JSOn");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
@@ -232,7 +232,7 @@ class RouteRegisterTest extends TestCase
 
         $request = new Request("/path");
         $request->setHeader("ContEnt-TyPE", "text/plain");
-        $this->routeRegister->routeTo($request);
+        $this->routeRegister->processRequest($request);
 
         $this->assertTrue(DummyApi::$pathGetWasCalled);
     }
