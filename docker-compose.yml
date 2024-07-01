@@ -1,12 +1,24 @@
 services:
-  webserver:
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     volumes:
       - ./src/main/php:/var/www/html/src/main/php
       - ./src/main/resources:/var/www/html/src/main/resources
     ports:
       - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./src/main/ts:/usr/share/nginx/html
+      - ./src/main/resources:/usr/share/nginx/html/resources
+    ports:
+      - "4200:80"
     extra_hosts:
       - "host.docker.internal:host-gateway"

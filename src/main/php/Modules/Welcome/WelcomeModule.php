@@ -26,7 +26,7 @@ class WelcomeModule implements Module
     public function getEndpoints(): array
     {
         $welcomeEndpoint = new Endpoint(WelcomeComponent::class, "printWelcomeMessage");
-        $welcomeEndpoint->setPath("/");
+        $welcomeEndpoint->setPath("/welcome");
         $welcomeEndpoint->setMethod("get");
         return [$welcomeEndpoint];
     }

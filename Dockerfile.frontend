@@ -1,0 +1,5 @@
+FROM nginx:alpine
+
+ARG HOME=/usr/share/nginx/html
+
+EXPOSE 80

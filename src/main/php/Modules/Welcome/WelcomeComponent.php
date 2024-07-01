@@ -2,32 +2,19 @@
 
 namespace Mys\Modules\Welcome;
 
-use Mys\Core\Logging\Logger;
-
 class WelcomeComponent
 {
     /**
-     * @var Logger
+     * @return string
      */
-    private Logger $logger;
-
-    /**
-     * @param Logger $logger
-     */
-    public function __construct(Logger $logger)
+    public function printWelcomeMessage(): string
     {
-        $this->logger = $logger;
-    }
+        $response = "####################################\n";
+        $response .= "# Project: PHPInjection            #\n";
+        $response .= "# Version: 1.0.0                   #\n";
+        $response .= "#                                  #\n";
+        $response .= "####################################\n";
 
-    /**
-     * @return void
-     */
-    public function printWelcomeMessage(): void
-    {
-        $this->logger->info("####################################");
-        $this->logger->info("# Project: PHPInjection            #");
-        $this->logger->info("# Version: 1.0.0                   #");
-        $this->logger->info("#                                  #");
-        $this->logger->info("####################################");
+        return $response;
     }
 }
