@@ -26,7 +26,7 @@ class ParameterRecognitionTest extends TestCase
      * @throws FunctionNotFoundException
      * @throws MissingPayloadException
      */
-    public function test_returns_void_when_function_does_not_have_any_parameter()
+    public function test_returns_empty_array_when_function_does_not_have_any_parameter()
     {
         $parameter = $this->parameterRecognition->recognise(DummyParameterComponent::class, "voidFunction");
 
