@@ -20,14 +20,20 @@ class WelcomeComponent
     }
 
     /**
-     * @return void
+     * @return string
      */
-    public function printWelcomeMessage(): void
+    public function printWelcomeMessage(): string
     {
-        $this->logger->info("####################################");
-        $this->logger->info("# Project: PHPInjection            #");
-        $this->logger->info("# Version: 1.0.0                   #");
-        $this->logger->info("#                                  #");
-        $this->logger->info("####################################");
+        $response = <<<EOL
+####################################
+# Project: PHPInjection            #
+# Version: 1.0.0                   #
+#                                  #
+####################################
+EOL;
+
+        $this->logger->info($response);
+
+        return $response;
     }
 }

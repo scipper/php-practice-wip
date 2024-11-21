@@ -22,7 +22,7 @@ FROM php:8.3.6-apache-bullseye
 
 ARG HOME=/var/www/html
 
-COPY config/virtual-host.conf /etc/apache2/sites-available/virtual-host.conf
+COPY config/apache/virtual-host.conf /etc/apache2/sites-available/virtual-host.conf
 
 RUN echo "ServerName phpinjector" >> /etc/apache2/apache2.conf && \
     a2enmod rewrite && \
@@ -43,6 +43,6 @@ COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-x
 WORKDIR $HOME
 
 COPY --from=composer app/vendor/ ./vendor/
-COPY config/.htaccess ./src/main/.htaccess
+COPY config/apache/.htaccess ./src/main/.htaccess
 
 EXPOSE 80

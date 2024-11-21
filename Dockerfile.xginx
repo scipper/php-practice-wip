@@ -1,0 +1,27 @@
+FROM php:8.3-fpm
+
+RUN apt-get update && apt-get install -y \
+    nginx \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
+
+RUN pecl install xdebug opcache \
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+COPY config/xginx/nginx.conf /etc/nginx/nginx.conf
+COPY config/xginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Expose ports for Nginx and Xdebug
+EXPOSE 80
+EXPOSE 9003
+
+# Start Nginx and PHP-FPM services
+CMD service nginx start && php-fpm

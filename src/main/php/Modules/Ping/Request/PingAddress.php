@@ -7,12 +7,12 @@ class PingAddress
     /**
      * @var string
      */
-    private string $street;
+    public string $street;
 
     /**
      * @var string
      */
-    private string $postalCode;
+    public string $postalCode;
 
     /**
      * @param mixed $rawData
