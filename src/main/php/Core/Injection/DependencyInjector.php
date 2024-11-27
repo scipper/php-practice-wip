@@ -7,8 +7,7 @@ use Mys\Core\Logging\Logger;
 use ReflectionClass;
 use ReflectionException;
 
-class DependencyInjector implements Injector
-{
+class DependencyInjector implements Injector {
     /**
      * @var string[]
      */
@@ -22,8 +21,7 @@ class DependencyInjector implements Injector
     /**
      * @param Logger $logger
      */
-    public function __construct(Logger $logger)
-    {
+    public function __construct(Logger $logger) {
         $this->classList = [];
         $this->logger = $logger;
     }
@@ -35,10 +33,8 @@ class DependencyInjector implements Injector
      *
      * @return void
      */
-    public function register(string $injectionToken, string $class = null): void
-    {
-        if (in_array($injectionToken, $this->classList))
-        {
+    public function register(string $injectionToken, string $class = null): void {
+        if (in_array($injectionToken, $this->classList)) {
             $this->logger->warning("Class is already registered: $injectionToken");
         }
 
@@ -52,8 +48,7 @@ class DependencyInjector implements Injector
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public function get(string $injectionToken): mixed
-    {
+    public function get(string $injectionToken): mixed {
         return $this->getWithCyclicDependencyDetection($injectionToken);
     }
 
@@ -65,38 +60,32 @@ class DependencyInjector implements Injector
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    private function getWithCyclicDependencyDetection(string $injectionToken, array $callChain = []): mixed
-    {
-        if (!array_key_exists($injectionToken, $this->classList))
-        {
-            throw new ClassNotFoundException();
-        }
-
-        if (in_array($injectionToken, $callChain))
-        {
+    private function getWithCyclicDependencyDetection(string $injectionToken, array $callChain = []): mixed {
+        if (in_array($injectionToken, $callChain)) {
             throw new CyclicDependencyDetectedException($callChain);
         }
         $callChain[] = $injectionToken;
 
-        try
-        {
+        try {
             $dependencies = [];
             $reflector = new ReflectionClass($injectionToken);
             $constructor = $reflector->getConstructor();
-            if ($constructor)
-            {
+            if ($constructor) {
                 $reflectionParameters = $constructor->getParameters();
-                foreach ($reflectionParameters as $parameter)
-                {
+                foreach ($reflectionParameters as $parameter) {
                     $dependencies[] = $this->getWithCyclicDependencyDetection($parameter->getType()->getName(), $callChain);
                 }
             }
         }
-        catch (ReflectionException $e)
-        {
+        catch (ReflectionException $e) {
             throw new ClassNotFoundException();
         }
 
-        return new $this->classList[$injectionToken](...$dependencies);
+        if (array_key_exists($injectionToken, $this->classList)) {
+            return new $this->classList[$injectionToken](...$dependencies);
+        }
+        else {
+            return new $injectionToken(...$dependencies);
+        }
     }
 }
