@@ -7,16 +7,19 @@ use Mys\Core\Api\Request;
 use Mys\Core\Api\Response;
 use Mys\Core\Api\RouteRegister;
 use Mys\Core\Application\Application;
+use Mys\Core\ClassNotFoundException;
+use Mys\Core\Injection\ClassAlreadyRegisteredException;
+use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
+use Mys\Core\Logging\Logger;
 use Mys\Core\Module\FileModuleLoader;
 use Mys\Core\Module\ModuleList;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
-use Mys\CoreModules\Logging\SysLogger;
+use Mys\Logging\SysLogger;
 
 require "../../../vendor/autoload.php";
 
-class Router
-{
+class Router {
     /**
      * @var RouteRegister
      */
@@ -25,8 +28,7 @@ class Router
     /**
      * @param RouteRegister $routeRegister
      */
-    public function __construct(RouteRegister $routeRegister)
-    {
+    public function __construct(RouteRegister $routeRegister) {
         $this->routeRegister = $routeRegister;
     }
 
@@ -35,8 +37,7 @@ class Router
      *
      * @return void
      */
-    public function route($request): void
-    {
+    public function route($request): void {
         $response = $this->routeRegister->processRequest($request);
 
         $this->respond($response);
@@ -47,8 +48,7 @@ class Router
      *
      * @return void
      */
-    public function respond(Response $response): void
-    {
+    public function respond(Response $response): void {
         ob_start();
         ob_clean();
         header_remove();
@@ -57,12 +57,10 @@ class Router
         header("Content-Type: {$response->getContentType()}; charset=utf-8");
         http_response_code($response->getStatusCode());
         $content = $response->getContent();
-        if ($content)
-        {
+        if ($content) {
             echo($content);
         }
-        if ($response->getStatusCode() >= 400)
-        {
+        if ($response->getStatusCode() >= 400) {
             echo json_encode($response);
         }
 
@@ -71,16 +69,18 @@ class Router
 
     /**
      * @return void
+     * @throws ClassAlreadyRegisteredException
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public static function main(): void
-    {
-        $logger = new SysLogger();
+    public static function main(): void {
         $injector = new DependencyInjector();
+        $injector->register(Logger::class, SysLogger::class);
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));
 
-        $application = new Application($injector, $moduleList->get(), $logger, $routeRegister);
+        $application = new Application($injector, $moduleList->get(), $routeRegister);
         $application->init();
 
         $router = new Router($routeRegister);
@@ -90,12 +90,10 @@ class Router
     /**
      * @return Request
      */
-    private static function getRequest(): Request
-    {
+    private static function getRequest(): Request {
         $payload = file_get_contents("php://input");
         $path = "/";
-        if (array_key_exists("REDIRECT_URL", $_SERVER))
-        {
+        if (array_key_exists("REDIRECT_URL", $_SERVER)) {
             $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
         }
         $request = new Request($path);

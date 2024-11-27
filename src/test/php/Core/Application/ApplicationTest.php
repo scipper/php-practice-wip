@@ -1,17 +1,13 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Core\Application;
 
+use Mys\Core\ClassNotFoundException;
+use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
-class ApplicationTest extends TestCase
-{
-
-    /**
-     * @var LoggerSpy
-     */
-    private LoggerSpy $loggerSpy;
+class ApplicationTest extends TestCase {
 
     /**
      * @var InjectorSpy
@@ -24,22 +20,27 @@ class ApplicationTest extends TestCase
     private RouteRegisterSpy $routeRegister;
 
     /**
+     * @var LoggerSpy
+     */
+    private LoggerSpy $loggerSpy;
+
+    /**
      * @return void
      */
-    public function setUp(): void
-    {
-        $this->loggerSpy = new LoggerSpy();
-        $this->injector = new InjectorSpy();
+    public function setUp(): void {
+        $this->injector = new InjectorSpy(new LoggerSpy());
+        $this->loggerSpy = $this->injector->get("");
         $this->routeRegister = new RouteRegisterSpy();
     }
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_logs_error_when_class_in_module_list_is_not_instance_of_module(): void
-    {
+    public function test_logs_error_when_class_in_module_list_is_not_instance_of_module(): void {
         $moduleList = [DummyComponent::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -48,11 +49,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_logs_error_when_class_in_module_list_can_not_be_instantiated(): void
-    {
+    public function test_logs_error_when_class_in_module_list_can_not_be_instantiated(): void {
         $moduleList = ["Invalid"];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -61,11 +63,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_a_class_of_a_module(): void
-    {
+    public function test_registers_a_class_of_a_module(): void {
         $moduleList = [DummyModule::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -74,11 +77,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_multiple_classes_of_a_module(): void
-    {
+    public function test_registers_multiple_classes_of_a_module(): void {
         $moduleList = [DummyModule::class, AnotherDummyModule::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -87,11 +91,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_a_class_of_a_sub_module(): void
-    {
+    public function test_registers_a_class_of_a_sub_module(): void {
         $moduleList = [ModuleWithSubModule::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -100,11 +105,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_a_class_with_an_interface_as_injection_token(): void
-    {
+    public function test_registers_a_class_with_an_interface_as_injection_token(): void {
         $moduleList = [DummyModuleWithInjectionToken::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 
@@ -113,11 +119,12 @@ class ApplicationTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
      */
-    public function test_registers_an_endpoint_defined_in_a_module(): void
-    {
+    public function test_registers_an_endpoint_defined_in_a_module(): void {
         $moduleList = [DummyModuleWithEndpointToken::class];
-        $application = new Application($this->injector, $moduleList, $this->loggerSpy, $this->routeRegister);
+        $application = new Application($this->injector, $moduleList, $this->routeRegister);
 
         $application->init();
 

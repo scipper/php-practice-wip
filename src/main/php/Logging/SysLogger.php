@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\CoreModules\Logging;
+namespace Mys\Logging;
 
 use Exception;
 use Mys\Core\Logging\Logger;

@@ -1,12 +1,11 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Core\Application;
 
-use Exception;
 use Mys\Core\Injection\Injector;
+use Mys\Core\LoggerSpy;
 
-class InjectorSpy implements Injector
-{
+class InjectorSpy implements Injector {
     /**
      * @var string[] $registeredClass
      */
@@ -17,18 +16,26 @@ class InjectorSpy implements Injector
      */
     private int $registerCall;
 
-    public function __construct()
-    {
+    /**
+     * @var LoggerSpy
+     */
+    private LoggerSpy $loggerSpy;
+
+    public function __construct(LoggerSpy $loggerSpy) {
         $this->registerCall = 0;
+        $this->loggerSpy = $loggerSpy;
     }
 
-    public function get(string $injectionToken): mixed
-    {
-        throw new Exception("Not implemented");
+    /**
+     * @param string $injectionToken
+     *
+     * @return LoggerSpy
+     */
+    public function get(string $injectionToken): LoggerSpy {
+        return $this->loggerSpy;
     }
 
-    public function register(string $injectionToken, string $class = null): void
-    {
+    public function register(string $injectionToken, string $class = null): void {
         $this->registeredClass = [$injectionToken, $class];
         $this->registerCall++;
     }
@@ -36,16 +43,14 @@ class InjectorSpy implements Injector
     /**
      * @return string[]
      */
-    public function registerWasCalledWith(): array
-    {
+    public function registerWasCalledWith(): array {
         return $this->registeredClass;
     }
 
     /**
      * @return int
      */
-    public function registerWasCalledTimes(): int
-    {
+    public function registerWasCalledTimes(): int {
         return $this->registerCall;
     }
 }

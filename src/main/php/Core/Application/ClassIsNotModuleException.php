@@ -4,13 +4,11 @@ namespace Mys\Core\Application;
 
 use Exception;
 
-class ClassIsNotModuleException extends Exception
-{
+class ClassIsNotModuleException extends Exception {
     /**
      *
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct("ClassIsNotModuleException");
     }
 }
