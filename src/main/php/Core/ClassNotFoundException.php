@@ -4,13 +4,11 @@ namespace Mys\Core;
 
 use Exception;
 
-class ClassNotFoundException extends Exception
-{
+class ClassNotFoundException extends Exception {
     /**
      *
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct("ClassNotFoundException");
     }
 }

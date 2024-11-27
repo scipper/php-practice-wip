@@ -22,7 +22,6 @@
         </include>
         <exclude>
             <directory suffix=".php">../main/php/Api</directory>
-            <directory>../main/php/Modules</directory>
             <file>../main/php/Cli.php</file>
             <file>../main/php/Main.php</file>
             <file>../main/php/Router.php</file>

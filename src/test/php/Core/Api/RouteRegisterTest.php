@@ -4,7 +4,7 @@ namespace Mys\Core\Api;
 
 use Mys\Core\DummyClassWithDependency;
 use Mys\Core\DummyDependency;
-use Mys\Core\DummyLogger;
+use Mys\Core\Injection\ClassAlreadyRegisteredException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Injection\Injector;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
@@ -24,11 +24,11 @@ class RouteRegisterTest extends TestCase
 
     /**
      * @return void
+     * @throws ClassAlreadyRegisteredException
      */
     public function setUp(): void
     {
-        $logger = new DummyLogger();
-        $this->injector = new DependencyInjector($logger);
+        $this->injector = new DependencyInjector();
         $this->injector->register(DummyApi::class);
         $parameterRecognition = new ParameterRecognition();
         $this->routeRegister = new HttpRouteRegister($parameterRecognition, $this->injector);

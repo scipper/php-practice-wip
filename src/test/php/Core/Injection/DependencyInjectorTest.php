@@ -1,21 +1,13 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Mys\Core\Injection;
 
 use Mys\Core\ClassNotFoundException;
 use Mys\Core\DummyClassWithDependency;
 use Mys\Core\DummyDependency;
-use Mys\Core\LoggerSpy;
-use Mys\Core\Logging\Logger;
 use PHPUnit\Framework\TestCase;
 
-class DependencyInjectorTest extends TestCase
-{
-
-    /**
-     * @var Logger
-     */
-    private Logger $loggerSpy;
+class DependencyInjectorTest extends TestCase {
 
     /**
      * @var Injector
@@ -25,19 +17,17 @@ class DependencyInjectorTest extends TestCase
     /**
      * @return void
      */
-    public function setUp(): void
-    {
-        $this->loggerSpy = new LoggerSpy();
-        $this->injector = new DependencyInjector($this->loggerSpy);
+    public function setUp(): void {
+        $this->injector = new DependencyInjector();
     }
 
     /**
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
      */
-    public function test_throws_when_requested_class_is_not_a_valid_class(): void
-    {
+    public function test_throws_when_requested_class_is_not_a_valid_class(): void {
         $this->expectException(ClassNotFoundException::class);
 
         $this->injector->register("InvalidClass");
@@ -49,9 +39,9 @@ class DependencyInjectorTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
      */
-    public function test_returns_instance_of_registered_class(): void
-    {
+    public function test_returns_instance_of_registered_class(): void {
         $this->injector->register(DummyClass::class);
 
         $result = $this->injector->get(DummyClass::class);
@@ -73,21 +63,20 @@ class DependencyInjectorTest extends TestCase
     /**
      * @return void
      */
-    public function test_logs_warning_when_class_is_already_registered(): void
-    {
-        $this->injector->register(DummyClass::class);
-        $this->injector->register(DummyClass::class);
+    public function test_throws_when_class_is_already_registered(): void {
+        $this->expectException(ClassAlreadyRegisteredException::class);
 
-        $this->assertEquals("Class is already registered: Mys\Core\Injection\DummyClass", $this->loggerSpy->warningWasCalledWith());
+        $this->injector->register(DummyClass::class);
+        $this->injector->register(DummyClass::class);
     }
 
     /**
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
      */
-    public function test_resolves_dependencies_of_class_when_requesting(): void
-    {
+    public function test_resolves_dependencies_of_class_when_requesting(): void {
         $this->injector->register(DummyClassWithDependency::class);
         $this->injector->register(DummyDependency::class);
 
@@ -103,9 +92,9 @@ class DependencyInjectorTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
      */
-    public function test_throws_when_a_cyclic_dependency_is_detected(): void
-    {
+    public function test_throws_when_a_cyclic_dependency_is_detected(): void {
         $this->expectException(CyclicDependencyDetectedException::class);
 
         $this->injector->register(CyclicClassA::class);
@@ -117,9 +106,9 @@ class DependencyInjectorTest extends TestCase
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
      */
-    public function test_map_an_interface_to_an_implementation(): void
-    {
+    public function test_map_an_interface_to_an_implementation(): void {
         $this->injector->register(DummyInterface::class, DummyClass::class);
 
         $injection = $this->injector->get(DummyInterface::class);

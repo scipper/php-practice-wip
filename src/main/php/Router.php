@@ -75,7 +75,7 @@ class Router
     public static function main(): void
     {
         $logger = new SysLogger();
-        $injector = new DependencyInjector($logger);
+        $injector = new DependencyInjector();
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));

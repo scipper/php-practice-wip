@@ -3,7 +3,6 @@
 namespace Mys\Core\Injection;
 
 use Mys\Core\ClassNotFoundException;
-use Mys\Core\Logging\Logger;
 use ReflectionClass;
 use ReflectionException;
 
@@ -14,16 +13,10 @@ class DependencyInjector implements Injector {
     private array $classList;
 
     /**
-     * @var Logger
+     *
      */
-    private Logger $logger;
-
-    /**
-     * @param Logger $logger
-     */
-    public function __construct(Logger $logger) {
+    public function __construct() {
         $this->classList = [];
-        $this->logger = $logger;
     }
 
     /**
@@ -32,10 +25,11 @@ class DependencyInjector implements Injector {
      * @param string|null $class
      *
      * @return void
+     * @throws ClassAlreadyRegisteredException
      */
     public function register(string $injectionToken, string $class = null): void {
         if (in_array($injectionToken, $this->classList)) {
-            $this->logger->warning("Class is already registered: $injectionToken");
+            throw new ClassAlreadyRegisteredException($injectionToken);
         }
 
         $this->classList[$injectionToken] = $class ?: $injectionToken;
