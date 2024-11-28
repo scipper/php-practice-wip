@@ -2,7 +2,7 @@ services:
   webserver:
     build:
       context: .
-      dockerfile: Dockerfile.xginx
+      dockerfile: Dockerfile.apache
     volumes:
       - ./src/main/php:/var/www/html/src/main/php
       - ./src/main/resources:/var/www/html/src/main/resources

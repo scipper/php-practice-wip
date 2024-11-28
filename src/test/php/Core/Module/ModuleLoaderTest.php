@@ -28,6 +28,17 @@ class ModuleLoaderTest extends TestCase
     /**
      * @return void
      */
+    public function test_returns_an_empty_array_when_empty_string_is_given() {
+        $this->moduleLoader->doReturn("");
+
+        $moduleList = $this->moduleList->get();
+
+        $this->assertSame([], $moduleList);
+    }
+
+    /**
+     * @return void
+     */
     public function test_returns_a_given_string_as_element()
     {
         $this->moduleLoader->doReturn("module");

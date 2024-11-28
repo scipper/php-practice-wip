@@ -4,8 +4,7 @@ namespace Mys\Modules\Welcome;
 
 use Mys\Core\Logging\Logger;
 
-class WelcomeComponent
-{
+class WelcomeComponent {
     /**
      * @var Logger
      */
@@ -14,16 +13,14 @@ class WelcomeComponent
     /**
      * @param Logger $logger
      */
-    public function __construct(Logger $logger)
-    {
+    public function __construct(Logger $logger) {
         $this->logger = $logger;
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function printWelcomeMessage(): string
-    {
+    public function printWelcomeMessage(): array {
         $response = <<<EOL
 ####################################
 # Project: PHPInjection            #
@@ -31,9 +28,12 @@ class WelcomeComponent
 #                                  #
 ####################################
 EOL;
+        foreach (explode("\n", $response) as $line) {
+            $this->logger->info($line);
+        }
 
-        $this->logger->info($response);
-
-        return $response;
+        return [
+            "message" => $response,
+        ];
     }
 }
