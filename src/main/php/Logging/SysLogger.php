@@ -18,11 +18,6 @@ class SysLogger implements Logger {
     private string $logsFolder;
 
     /**
-     * @var string
-     */
-    private string $logFileName;
-
-    /**
      * @var Clock
      */
     private Clock $clock;
@@ -33,6 +28,11 @@ class SysLogger implements Logger {
     private int $maxLinesPerLog;
 
     /**
+     * @var string
+     */
+    private string $logFile;
+
+    /**
      * @param string $logsFolder
      * @param Clock $clock
      * @param int $maxLinesPerLog
@@ -41,12 +41,12 @@ class SysLogger implements Logger {
         $this->logsFolder = $logsFolder;
         $this->clock = $clock;
         $this->maxLinesPerLog = $maxLinesPerLog;
+        $this->logFile = $this->logsFolder . "/application.log";
 
         if (!is_dir($this->logsFolder)) {
             mkdir($this->logsFolder, 0777, true);
         }
-        $this->logFileName = "/application.log";
-        touch($this->logsFolder . $this->logFileName);
+        touch($this->logFile);
     }
 
     /**
@@ -98,16 +98,43 @@ class SysLogger implements Logger {
      * @return void
      */
     private function log(string $type, string $infoMessage): void {
-        $fileName = $this->logsFolder . $this->logFileName;
-        $file = new SplFileObject($fileName, "r");
-        $file->seek(PHP_INT_MAX);
-        if ($file->key() >= $this->maxLinesPerLog) {
-            $iterator = new FilesystemIterator($this->logsFolder, FilesystemIterator::SKIP_DOTS);
-            rename($fileName, $fileName . "." . iterator_count($iterator));
-            touch($fileName);
+        $numberOfCurrentLogFiles = $this->getNumberOfCurrentLogFiles($this->logFile);
+        if ($this->newLogFileNeeded($numberOfCurrentLogFiles)) {
+            $this->rotateLogFile($this->logFile);
         }
 
         $message = $this->clock->microtime() . " | $type" . $infoMessage . "\n";
-        error_log($message, 3, $fileName);
+        error_log($message, 3, $this->logFile);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return int
+     */
+    private function getNumberOfCurrentLogFiles(string $fileName): int {
+        $file = new SplFileObject($fileName, "r");
+        $file->seek(PHP_INT_MAX);
+        return $file->key();
+    }
+
+    /**
+     * @param int $numberOfCurrentLogFiles
+     *
+     * @return bool
+     */
+    private function newLogFileNeeded(int $numberOfCurrentLogFiles): bool {
+        return $numberOfCurrentLogFiles >= $this->maxLinesPerLog;
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return void
+     */
+    private function rotateLogFile(string $fileName): void {
+        $iterator = new FilesystemIterator($this->logsFolder, FilesystemIterator::SKIP_DOTS);
+        rename($fileName, $fileName . "." . iterator_count($iterator));
+        touch($fileName);
     }
 }
