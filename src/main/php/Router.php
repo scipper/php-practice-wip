@@ -78,7 +78,7 @@ class Router {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
         $injector->register(Logger::class, function () use ($clock) {
-            return new SysLogger(__DIR__ . "/../../../logs", $clock);
+            return new SysLogger(__DIR__ . "/../../../logs", $clock, 10);
         });
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);

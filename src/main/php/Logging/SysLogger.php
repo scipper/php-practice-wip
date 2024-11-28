@@ -5,6 +5,7 @@ namespace Mys\Logging;
 use Exception;
 use Mys\Core\Logging\Clock;
 use Mys\Core\Logging\Logger;
+use SplFileObject;
 
 use function error_log;
 
@@ -26,12 +27,19 @@ class SysLogger implements Logger {
     private Clock $clock;
 
     /**
+     * @var int
+     */
+    private int $maxLinesPerLog;
+
+    /**
      * @param string $logsFolder
      * @param Clock $clock
+     * @param int $maxLinesPerLog
      */
-    public function __construct(string $logsFolder, Clock $clock) {
+    public function __construct(string $logsFolder, Clock $clock, int $maxLinesPerLog = 10_000) {
         $this->logsFolder = $logsFolder;
         $this->clock = $clock;
+        $this->maxLinesPerLog = $maxLinesPerLog;
 
         if (!is_dir($this->logsFolder)) {
             mkdir($this->logsFolder, 0777, true);
@@ -89,7 +97,15 @@ class SysLogger implements Logger {
      * @return void
      */
     private function log(string $type, string $infoMessage): void {
+        $fileName = $this->logsFolder . $this->logFileName;
+        $file = new SplFileObject($fileName, "r");
+        $file->seek(PHP_INT_MAX);
+        if ($file->key() >= $this->maxLinesPerLog) {
+            rename($fileName, $fileName . ".1");
+            touch($fileName);
+        }
+
         $message = $this->clock->microtime() . " | $type" . $infoMessage . "\n";
-        error_log($message, 3, $this->logsFolder . $this->logFileName);
+        error_log($message, 3, $fileName);
     }
 }

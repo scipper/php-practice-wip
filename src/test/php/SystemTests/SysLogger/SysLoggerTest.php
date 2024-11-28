@@ -23,9 +23,12 @@ class SysLoggerTest extends TestCase {
     /**
      * @var Clock
      */
-    private $clock;
+    private Clock $clock;
 
-    private $sysLogger;
+    /**
+     * @var SysLogger
+     */
+    private SysLogger $sysLogger;
 
     /**
      * @return void
@@ -42,6 +45,9 @@ class SysLoggerTest extends TestCase {
      */
     public function tearDown(): void {
         unlink($this->logsFolder . $this->logFile);
+        if (is_file($this->logsFolder . $this->logFile . ".1")) {
+            unlink($this->logsFolder . $this->logFile . ".1");
+        }
         rmdir($this->logsFolder);
     }
 
@@ -118,5 +124,36 @@ class SysLoggerTest extends TestCase {
         $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: exception message/", $logsArray[0]);
         $this->assertStringContainsString("| #0", $logsArray[1]);
         $this->assertStringContainsString("| #1", $logsArray[2]);
+    }
+
+    public function test_rotates_logfile_after_a_certain_amount_of_lines() {
+        $this->sysLogger = new SysLogger($this->logsFolder, $this->clock, 2);
+        $this->sysLogger->info("info message 1");
+        $this->sysLogger->info("info message 2");
+        $this->sysLogger->info("info message 3");
+        $this->sysLogger->info("info message 4");
+
+        $currentLogs = file_get_contents($this->logsFolder . $this->logFile);
+        $rotatedLogs = file_get_contents($this->logsFolder . $this->logFile . ".1");
+
+        $currentLogsArray = explode("\n", $currentLogs);
+        $rotatedLogsArray = explode("\n", $rotatedLogs);
+
+        $this->assertMatchesRegularExpression(
+            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 3/",
+            $currentLogsArray[0]
+        );
+        $this->assertMatchesRegularExpression(
+            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 4/",
+            $currentLogsArray[1]
+        );
+        $this->assertMatchesRegularExpression(
+            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 1/",
+            $rotatedLogsArray[0]
+        );
+        $this->assertMatchesRegularExpression(
+            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 2/",
+            $rotatedLogsArray[1]
+        );
     }
 }
