@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1732798590">
-  <project timestamp="1732798590">
+<coverage generated="1732812238">
+  <project timestamp="1732812238">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
@@ -423,12 +423,12 @@
     </file>
     <file name="/app/src/main/php/Logging/DateTimeClock.php">
       <class name="Mys\Logging\DateTimeClock" namespace="global">
-        <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </class>
-      <line num="13" type="method" name="microtime" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="15" type="stmt" count="0"/>
-      <metrics loc="17" ncloc="14" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+      <line num="13" type="method" name="microtime" visibility="public" complexity="1" crap="1" count="5"/>
+      <line num="14" type="stmt" count="5"/>
+      <line num="15" type="stmt" count="5"/>
+      <metrics loc="17" ncloc="14" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
     </file>
     <file name="/app/src/main/php/Logging/SysLogger.php">
       <class name="Mys\Logging\SysLogger" namespace="global">
@@ -598,6 +598,6 @@
       <line num="31" type="stmt" count="0"/>
       <metrics loc="33" ncloc="27" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="9" coveredelements="0"/>
     </file>
-    <metrics files="43" loc="1762" ncloc="1235" classes="35" methods="98" coveredmethods="70" conditionals="0" coveredconditionals="0" statements="262" coveredstatements="201" elements="360" coveredelements="271"/>
+    <metrics files="43" loc="1762" ncloc="1235" classes="35" methods="98" coveredmethods="71" conditionals="0" coveredconditionals="0" statements="262" coveredstatements="203" elements="360" coveredelements="274"/>
   </project>
 </coverage>
