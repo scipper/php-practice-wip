@@ -2,17 +2,18 @@
 
 namespace Mys\Core\Injection;
 
+use Closure;
 use Mys\Core\ClassNotFoundException;
 
 interface Injector
 {
     /**
      * @param string $injectionToken
-     * @param string|null $class
+     * @param string|Closure|null $class
      *
      * @return void
      */
-    public function register(string $injectionToken, string $class = null): void;
+    public function register(string $injectionToken, Closure|string $class = null): void;
 
     /**
      * @param string $injectionToken

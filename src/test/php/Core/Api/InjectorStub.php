@@ -2,6 +2,7 @@
 
 namespace Mys\Core\Api;
 
+use Closure;
 use Mys\Core\Injection\Injector;
 
 class InjectorStub implements Injector
@@ -11,7 +12,7 @@ class InjectorStub implements Injector
         return new $injectionToken();
     }
 
-    public function register(string $injectionToken, string $class = null): void
+    public function register(string $injectionToken, Closure|string $class = null): void
     {
     }
 

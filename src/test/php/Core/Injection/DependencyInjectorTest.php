@@ -120,4 +120,21 @@ class DependencyInjectorTest extends TestCase {
 
         $this->assertSame($firstGet, $secondGet);
     }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
+     */
+    public function test_can_handle_callback_functions_to_create_instance(): void {
+        $dummyClass = new DummyClass();
+
+        $this->injector->register(DummyClass::class, function () use ($dummyClass) {
+            return $dummyClass;
+        });
+        $get = $this->injector->get(DummyClass::class);
+
+        $this->assertSame($dummyClass, $get);
+    }
 }

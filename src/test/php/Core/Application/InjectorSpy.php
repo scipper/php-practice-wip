@@ -2,6 +2,7 @@
 
 namespace Mys\Core\Application;
 
+use Closure;
 use Mys\Core\Injection\Injector;
 use Mys\Core\LoggerSpy;
 
@@ -35,7 +36,7 @@ class InjectorSpy implements Injector {
         return $this->loggerSpy;
     }
 
-    public function register(string $injectionToken, string $class = null): void {
+    public function register(string $injectionToken, Closure|string $class = null): void {
         $this->registeredClass = [$injectionToken, $class];
         $this->registerCall++;
     }

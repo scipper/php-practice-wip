@@ -2,13 +2,14 @@
 
 namespace Mys\Core\Injection;
 
+use Closure;
 use Mys\Core\ClassNotFoundException;
 use ReflectionClass;
 use ReflectionException;
 
 class DependencyInjector implements Injector {
     /**
-     * @var string[]
+     * @var Closure|string[]
      */
     private array $classList;
 
@@ -28,12 +29,12 @@ class DependencyInjector implements Injector {
     /**
      *
      * @param string $injectionToken
-     * @param string|null $class
+     * @param string|Closure|null $class
      *
      * @return void
      * @throws ClassAlreadyRegisteredException
      */
-    public function register(string $injectionToken, string $class = null): void {
+    public function register(string $injectionToken, Closure|string $class = null): void {
         if (in_array($injectionToken, $this->classList)) {
             throw new ClassAlreadyRegisteredException($injectionToken);
         }
@@ -86,9 +87,13 @@ class DependencyInjector implements Injector {
         }
 
         if (array_key_exists($injectionToken, $this->classList)) {
-            $instance = new $this->classList[$injectionToken](...$dependencies);
-        }
-        else {
+            $closureOrString = $this->classList[$injectionToken];
+            if ($closureOrString instanceof Closure) {
+                $instance = $closureOrString();
+            } else {
+                $instance = new $this->classList[$injectionToken](...$dependencies);
+            }
+        } else {
             $instance = new $injectionToken(...$dependencies);
         }
 
