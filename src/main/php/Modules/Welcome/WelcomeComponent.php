@@ -2,6 +2,7 @@
 
 namespace Mys\Modules\Welcome;
 
+use Exception;
 use Mys\Core\Logging\Logger;
 
 class WelcomeComponent {
@@ -31,6 +32,8 @@ EOL;
         foreach (explode("\n", $response) as $line) {
             $this->logger->info($line);
         }
+
+        $this->logger->exception(new Exception("BLUB"));
 
         return [
             "message" => $response,

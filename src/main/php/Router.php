@@ -15,6 +15,7 @@ use Mys\Core\Logging\Logger;
 use Mys\Core\Module\FileModuleLoader;
 use Mys\Core\Module\ModuleList;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
+use Mys\Logging\DateTimeClock;
 use Mys\Logging\SysLogger;
 
 require "../../../vendor/autoload.php";
@@ -75,7 +76,10 @@ class Router {
      */
     public static function main(): void {
         $injector = new DependencyInjector();
-        $injector->register(Logger::class, SysLogger::class);
+        $clock = new DateTimeClock();
+        $injector->register(Logger::class, function () use ($clock) {
+            return new SysLogger(__DIR__ . "/../../../logs", $clock);
+        });
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));

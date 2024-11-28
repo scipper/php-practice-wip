@@ -11,7 +11,14 @@ interface Logger
      *
      * @return void
      */
-    public function error(Exception $errorClass): void;
+    public function exception(Exception $errorClass): void;
+
+    /**
+     * @param string $errorMessage
+     *
+     * @return void
+     */
+    public function error(string $errorMessage): void;
 
     /**
      * @param string $warningMessage

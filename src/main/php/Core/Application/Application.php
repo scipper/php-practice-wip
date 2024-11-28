@@ -64,7 +64,7 @@ class Application {
                 $module = new $class();
 
                 if (!($module instanceof Module)) {
-                    $this->logger->error(new ClassIsNotModuleException());
+                    $this->logger->exception(new ClassIsNotModuleException());
                 } else {
                     foreach ($module->getClasses() as $injectionToken => $innerClass) {
                         $this->injector->register(is_string($injectionToken) ? $injectionToken : $innerClass, $innerClass);
@@ -76,7 +76,7 @@ class Application {
                 }
             }
             catch (Error $_) {
-                $this->logger->error(new InvalidClassException());
+                $this->logger->exception(new InvalidClassException());
             }
         }
     }

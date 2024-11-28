@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase {
 
         $application->init();
 
-        $this->assertInstanceOf(ClassIsNotModuleException::class, $this->loggerSpy->errorWasCalledWith());
+        $this->assertInstanceOf(ClassIsNotModuleException::class, $this->loggerSpy->exceptionWasCalledWith());
     }
 
     /**
@@ -58,7 +58,7 @@ class ApplicationTest extends TestCase {
 
         $application->init();
 
-        $this->assertInstanceOf(InvalidClassException::class, $this->loggerSpy->errorWasCalledWith());
+        $this->assertInstanceOf(InvalidClassException::class, $this->loggerSpy->exceptionWasCalledWith());
     }
 
     /**
