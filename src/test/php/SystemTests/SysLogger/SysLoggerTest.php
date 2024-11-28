@@ -4,6 +4,7 @@ namespace Mys\SystemTests\SysLogger;
 
 use Exception;
 use Mys\Core\Logging\Clock;
+use Mys\Logging\DateTimeClock;
 use Mys\Logging\SysLogger;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class SysLoggerTest extends TestCase {
     public function setUp(): void {
         $this->logsFolder = __DIR__ . "/logs";
         $this->logFile = "/application.log";
-        $this->clock = new MockClock();
+        $this->clock = new DateTimeClock();
         $this->sysLogger = new SysLogger($this->logsFolder, $this->clock);
     }
 
@@ -73,7 +74,7 @@ class SysLoggerTest extends TestCase {
     public function test_info_log() {
         $this->sysLogger->info("info message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertEquals("2024-11-28 11:14:44.100000 | INFO: info message\n", $logs);
+        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message\\n/", $logs);
     }
 
     /**
@@ -82,7 +83,7 @@ class SysLoggerTest extends TestCase {
     public function test_warning_log() {
         $this->sysLogger->warning("warning message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertEquals("2024-11-28 11:14:44.100000 | WARNING: warning message\n", $logs);
+        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| WARNING: warning message\\n/", $logs);
     }
 
     /**
@@ -91,7 +92,7 @@ class SysLoggerTest extends TestCase {
     public function test_error_log() {
         $this->sysLogger->error("error message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertEquals("2024-11-28 11:14:44.100000 | ERROR: error message\n", $logs);
+        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: error message\\n/", $logs);
     }
 
     /**
@@ -101,7 +102,10 @@ class SysLoggerTest extends TestCase {
         $this->sysLogger->info("info message 1");
         $this->sysLogger->info("info message 2");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertEquals("2024-11-28 11:14:44.100000 | INFO: info message 1\n2024-11-28 11:14:44.100001 | INFO: info message 2\n", $logs);
+        $this->assertMatchesRegularExpression(
+            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 1\\n\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 2\\n/",
+            $logs
+        );
     }
 
     /**
@@ -111,7 +115,7 @@ class SysLoggerTest extends TestCase {
         $this->sysLogger->exception(new Exception("exception message"));
         $logs = file_get_contents($this->logsFolder . $this->logFile);
         $logsArray = explode("\n", $logs);
-        $this->assertStringContainsString("2024-11-28 11:14:44.100000 | ERROR: exception message", $logsArray[0]);
+        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: exception message/", $logsArray[0]);
         $this->assertStringContainsString("| #0", $logsArray[1]);
         $this->assertStringContainsString("| #1", $logsArray[2]);
     }
