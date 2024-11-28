@@ -25,7 +25,7 @@ class HttpException extends Exception implements HttpStatus
     /**
      * @param int $statusCode
      * @param string $statusText
-     * @param Exception|null $exception
+     * @param Exception|TypeError|null $exception
      */
     public function __construct(int $statusCode, string $statusText, Exception|TypeError $exception = null)
     {
