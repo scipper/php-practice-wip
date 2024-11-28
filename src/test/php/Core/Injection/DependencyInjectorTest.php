@@ -74,12 +74,8 @@ class DependencyInjectorTest extends TestCase {
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
-     * @throws ClassAlreadyRegisteredException
      */
     public function test_resolves_dependencies_of_class_when_requesting(): void {
-        $this->injector->register(DummyClassWithDependency::class);
-        $this->injector->register(DummyDependency::class);
-
         /**
          * @var DummyClassWithDependency $result
          */
@@ -92,13 +88,10 @@ class DependencyInjectorTest extends TestCase {
      * @return void
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
-     * @throws ClassAlreadyRegisteredException
      */
     public function test_throws_when_a_cyclic_dependency_is_detected(): void {
         $this->expectException(CyclicDependencyDetectedException::class);
 
-        $this->injector->register(CyclicClassA::class);
-        $this->injector->register(CyclicClassB::class);
         $this->injector->get(CyclicClassA::class);
     }
 
@@ -114,5 +107,17 @@ class DependencyInjectorTest extends TestCase {
         $injection = $this->injector->get(DummyInterface::class);
 
         $this->assertInstanceOf(DummyClass::class, $injection);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    public function test_instantiates_class_only_once_and_returns_always_the_same_instance(): void {
+        $firstGet = $this->injector->get(DummyClass::class);
+        $secondGet = $this->injector->get(DummyClass::class);
+
+        $this->assertSame($firstGet, $secondGet);
     }
 }

@@ -13,10 +13,16 @@ class DependencyInjector implements Injector {
     private array $classList;
 
     /**
+     * @var array
+     */
+    private array $instances;
+
+    /**
      *
      */
     public function __construct() {
         $this->classList = [];
+        $this->instances = [];
     }
 
     /**
@@ -55,6 +61,10 @@ class DependencyInjector implements Injector {
      * @throws CyclicDependencyDetectedException
      */
     private function getWithCyclicDependencyDetection(string $injectionToken, array $callChain = []): mixed {
+        if (array_key_exists($injectionToken, $this->instances)) {
+            return $this->instances[$injectionToken];
+        }
+
         if (in_array($injectionToken, $callChain)) {
             throw new CyclicDependencyDetectedException($callChain);
         }
@@ -76,10 +86,14 @@ class DependencyInjector implements Injector {
         }
 
         if (array_key_exists($injectionToken, $this->classList)) {
-            return new $this->classList[$injectionToken](...$dependencies);
+            $instance = new $this->classList[$injectionToken](...$dependencies);
         }
         else {
-            return new $injectionToken(...$dependencies);
+            $instance = new $injectionToken(...$dependencies);
         }
+
+        $this->instances[$injectionToken] = $instance;
+
+        return $instance;
     }
 }
