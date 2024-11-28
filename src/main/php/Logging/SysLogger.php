@@ -3,6 +3,7 @@
 namespace Mys\Logging;
 
 use Exception;
+use FilesystemIterator;
 use Mys\Core\Logging\Clock;
 use Mys\Core\Logging\Logger;
 use SplFileObject;
@@ -101,7 +102,8 @@ class SysLogger implements Logger {
         $file = new SplFileObject($fileName, "r");
         $file->seek(PHP_INT_MAX);
         if ($file->key() >= $this->maxLinesPerLog) {
-            rename($fileName, $fileName . ".1");
+            $iterator = new FilesystemIterator($this->logsFolder, FilesystemIterator::SKIP_DOTS);
+            rename($fileName, $fileName . "." . iterator_count($iterator));
             touch($fileName);
         }
 
