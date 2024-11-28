@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1732789646">
-  <project timestamp="1732789646">
+<coverage generated="1732790140">
+  <project timestamp="1732790140">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
@@ -302,41 +302,44 @@
     </file>
     <file name="/app/src/main/php/Core/Injection/DependencyInjector.php">
       <class name="Mys\Core\Injection\DependencyInjector" namespace="global">
-        <metrics complexity="12" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="29" coveredelements="29"/>
+        <metrics complexity="13" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="28" coveredstatements="28" elements="32" coveredelements="32"/>
       </class>
-      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="20"/>
-      <line num="24" type="stmt" count="20"/>
-      <line num="25" type="stmt" count="20"/>
-      <line num="36" type="method" name="register" visibility="public" complexity="3" crap="3" count="16"/>
-      <line num="37" type="stmt" count="16"/>
-      <line num="38" type="stmt" count="1"/>
-      <line num="41" type="stmt" count="16"/>
-      <line num="51" type="method" name="get" visibility="public" complexity="1" crap="1" count="19"/>
-      <line num="52" type="stmt" count="19"/>
-      <line num="63" type="method" name="getWithCyclicDependencyDetection" visibility="private" complexity="7" crap="7" count="19"/>
-      <line num="64" type="stmt" count="19"/>
-      <line num="65" type="stmt" count="2"/>
-      <line num="68" type="stmt" count="19"/>
-      <line num="69" type="stmt" count="1"/>
-      <line num="71" type="stmt" count="19"/>
-      <line num="74" type="stmt" count="19"/>
-      <line num="75" type="stmt" count="19"/>
-      <line num="76" type="stmt" count="18"/>
-      <line num="77" type="stmt" count="18"/>
-      <line num="78" type="stmt" count="3"/>
-      <line num="79" type="stmt" count="18"/>
-      <line num="80" type="stmt" count="3"/>
-      <line num="84" type="stmt" count="2"/>
-      <line num="85" type="stmt" count="1"/>
-      <line num="88" type="stmt" count="17"/>
-      <line num="89" type="stmt" count="14"/>
-      <line num="92" type="stmt" count="3"/>
-      <line num="95" type="stmt" count="17"/>
-      <line num="97" type="stmt" count="17"/>
-      <metrics loc="99" ncloc="67" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="29" coveredelements="29"/>
+      <line num="24" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="21"/>
+      <line num="25" type="stmt" count="21"/>
+      <line num="26" type="stmt" count="21"/>
+      <line num="37" type="method" name="register" visibility="public" complexity="3" crap="3" count="17"/>
+      <line num="38" type="stmt" count="17"/>
+      <line num="39" type="stmt" count="1"/>
+      <line num="42" type="stmt" count="17"/>
+      <line num="52" type="method" name="get" visibility="public" complexity="1" crap="1" count="20"/>
+      <line num="53" type="stmt" count="20"/>
+      <line num="64" type="method" name="getWithCyclicDependencyDetection" visibility="private" complexity="8" crap="8" count="20"/>
+      <line num="65" type="stmt" count="20"/>
+      <line num="66" type="stmt" count="2"/>
+      <line num="69" type="stmt" count="20"/>
+      <line num="70" type="stmt" count="1"/>
+      <line num="72" type="stmt" count="20"/>
+      <line num="75" type="stmt" count="20"/>
+      <line num="76" type="stmt" count="20"/>
+      <line num="77" type="stmt" count="19"/>
+      <line num="78" type="stmt" count="19"/>
+      <line num="79" type="stmt" count="3"/>
+      <line num="80" type="stmt" count="19"/>
+      <line num="81" type="stmt" count="3"/>
+      <line num="85" type="stmt" count="2"/>
+      <line num="86" type="stmt" count="1"/>
+      <line num="89" type="stmt" count="18"/>
+      <line num="90" type="stmt" count="15"/>
+      <line num="91" type="stmt" count="15"/>
+      <line num="92" type="stmt" count="1"/>
+      <line num="94" type="stmt" count="14"/>
+      <line num="97" type="stmt" count="3"/>
+      <line num="100" type="stmt" count="18"/>
+      <line num="102" type="stmt" count="18"/>
+      <metrics loc="104" ncloc="72" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="28" coveredstatements="28" elements="32" coveredelements="32"/>
     </file>
     <file name="/app/src/main/php/Core/Injection/Injector.php">
-      <metrics loc="25" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="26" ncloc="13" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/app/src/main/php/Core/Logging/Logger.php">
       <metrics loc="29" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -565,6 +568,6 @@
       <line num="31" type="stmt" count="0"/>
       <metrics loc="33" ncloc="27" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="9" coveredelements="0"/>
     </file>
-    <metrics files="41" loc="1665" ncloc="1173" classes="34" methods="94" coveredmethods="64" conditionals="0" coveredconditionals="0" statements="242" coveredstatements="181" elements="336" coveredelements="245"/>
+    <metrics files="41" loc="1671" ncloc="1179" classes="34" methods="94" coveredmethods="64" conditionals="0" coveredconditionals="0" statements="245" coveredstatements="184" elements="339" coveredelements="248"/>
   </project>
 </coverage>
