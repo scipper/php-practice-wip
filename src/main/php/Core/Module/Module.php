@@ -9,6 +9,13 @@ abstract class Module
     /**
      * @return string[]
      */
+    public function getServices(): array {
+        return [];
+    }
+
+    /**
+     * @return string[]
+     */
     public function getModules(): array {
         return [];
     }

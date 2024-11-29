@@ -7,6 +7,12 @@ use Mys\Core\Module\Module;
 
 class TodoModule extends Module {
 
+    public function getServices(): array {
+        return [
+            TodoPersistence::class => MysqlTodoPersistence::class,
+        ];
+    }
+
     /**
      * @return Endpoint[]
      */

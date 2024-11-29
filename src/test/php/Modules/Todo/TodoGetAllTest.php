@@ -62,11 +62,12 @@ class TodoGetAllTest extends TestCase {
      * @throws Exception
      */
     public function test_returns_todo() {
-        $this->mockPersistence->getAllReturns(["todo"]);
+        $todoEntry = new TodoEntry(0, "");
+        $this->mockPersistence->getAllReturns([$todoEntry]);
 
         $result = $this->controller->getAll();
 
-        $this->assertSame($result, ["todo"]);
+        $this->assertSame($result, [$todoEntry]);
     }
 
     /**

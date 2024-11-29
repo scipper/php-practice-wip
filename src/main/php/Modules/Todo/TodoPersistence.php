@@ -6,10 +6,10 @@ use Exception;
 
 interface TodoPersistence {
     /**
-     * @return array|null
+     * @return TodoEntry|null
      * @throws Exception
      */
-    public function getAllTodos(): ?array;
+    public function getAll(): ?array;
 
     /**
      * @param CreateTodoRequest $request

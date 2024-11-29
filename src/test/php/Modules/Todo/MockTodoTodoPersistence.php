@@ -15,7 +15,7 @@ class MockTodoTodoPersistence implements TodoPersistence {
 
     private string $deleteReturnValue;
 
-    public function getAllTodos(): ?array {
+    public function getAll(): ?array {
         if ($this->getAllReturnValue === "throw") {
             throw new Exception("getAllTodos method throw");
         }

@@ -5,6 +5,7 @@ namespace Mys\Modules\Todo;
 use Exception;
 use Mys\LoggerSpy;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class TodoCreateTest extends TestCase {
 
@@ -45,7 +46,7 @@ class TodoCreateTest extends TestCase {
      * @throws Exception
      */
     public function test_creates_a_todo() {
-        $request = new CreateTodoRequest();
+        $request = new CreateTodoRequest(new stdClass());
         $this->controller->create($request);
 
         $this->assertInstanceOf(CreateTodoRequest::class, $this->mockPersistence->createWasCalledWith());
@@ -55,9 +56,9 @@ class TodoCreateTest extends TestCase {
      * @throws Exception
      */
     public function test_returns_todo_entry_after_create() {
-        $this->mockPersistence->createReturns(new TodoEntry());
+        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
 
-        $request = new CreateTodoRequest();
+        $request = new CreateTodoRequest(new stdClass());
         $todo = $this->controller->create($request);
 
         $this->assertInstanceOf(TodoEntry::class, $todo);
@@ -71,7 +72,7 @@ class TodoCreateTest extends TestCase {
 
         $this->mockPersistence->createReturns("throw");
 
-        $request = new CreateTodoRequest();
+        $request = new CreateTodoRequest(new stdClass());
         $this->controller->create($request);
     }
 

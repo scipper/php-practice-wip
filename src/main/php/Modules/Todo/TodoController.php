@@ -26,12 +26,12 @@ class TodoController {
     }
 
     /**
-     * @return string[]
+     * @return TodoEntry[]
      * @throws Exception
      */
     public function getAll(): array {
         try {
-            $todos = $this->persistence->getAllTodos();
+            $todos = $this->persistence->getAll();
             if (is_array($todos)) {
                 return $todos;
             }

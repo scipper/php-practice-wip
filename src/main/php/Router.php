@@ -47,7 +47,7 @@ class Router {
             $logger->warning("No module list found under path '$moduleListFile'");
         }
 
-        $application = new Application($logger, $modules, $routeRegister);
+        $application = new Application($logger, $modules, $routeRegister, $injector);
         $application->init();
 
         $router = new Router($routeRegister);
