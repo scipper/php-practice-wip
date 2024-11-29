@@ -53,4 +53,15 @@ class TodoController {
         return $this->persistence->create($request);
     }
 
+    /**
+     * @param int $id
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function delete(int $id): void {
+        $this->persistence->delete($id);
+    }
+
+
 }

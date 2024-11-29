@@ -6,7 +6,7 @@ use Exception;
 use Mys\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
-class TodoCreateTest extends TestCase {
+class TodoDeleteTest extends TestCase {
 
     /**
      * @var TodoController
@@ -23,56 +23,44 @@ class TodoCreateTest extends TestCase {
      */
     public function setUp(): void {
         $this->mockPersistence = new MockTodoTodoPersistence();
-        $this->mockPersistence->createReturns(null);
+        $this->mockPersistence->deleteReturns("");
         $this->controller = new TodoController($this->mockPersistence, new LoggerSpy());
     }
 
     /**
      * @return void
      */
-    public function test_module_has_todo_endpoint_for_create_todo() {
+    public function test_module_has_todo_endpoint_for_delete_todo() {
         $module = new TodoModule();
 
         $endpoints = $module->getEndpoints();
-        $getAllEndpoint = $this->getEndpoint($endpoints, "/todo", "post");
+        $getAllEndpoint = $this->getEndpoint($endpoints, "/todo", "delete");
 
         $this->assertCount(1, $getAllEndpoint);
         $this->assertEquals("/todo", $getAllEndpoint[0]->getPath());
-        $this->assertEquals("post", $getAllEndpoint[0]->getMethod());
+        $this->assertEquals("delete", $getAllEndpoint[0]->getMethod());
     }
 
     /**
+     * @return void
      * @throws Exception
      */
-    public function test_creates_a_todo() {
-        $request = new CreateTodoRequest();
-        $this->controller->create($request);
+    public function test_deletes_a_todo() {
+        $this->controller->delete(1);
 
-        $this->assertInstanceOf(CreateTodoRequest::class, $this->mockPersistence->createWasCalledWith());
+        $this->assertEquals(1, $this->mockPersistence->deleteWasCalledWith());
     }
 
     /**
+     * @return void
      * @throws Exception
      */
-    public function test_returns_todo_entry_after_create() {
-        $this->mockPersistence->createReturns(new TodoEntry());
+    public function test_throws_when_deletion_fails() {
+        $this->expectException(PersistenceDeleteException::class);
 
-        $request = new CreateTodoRequest();
-        $todo = $this->controller->create($request);
+        $this->mockPersistence->deleteReturns("throw");
 
-        $this->assertInstanceOf(TodoEntry::class, $todo);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function test_throws_when_creation_fails() {
-        $this->expectException(PersistenceWriteException::class);
-
-        $this->mockPersistence->createReturns("throw");
-
-        $request = new CreateTodoRequest();
-        $this->controller->create($request);
+        $this->controller->delete(1);
     }
 
     /**

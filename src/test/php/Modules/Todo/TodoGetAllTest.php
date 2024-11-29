@@ -127,9 +127,9 @@ class TodoGetAllTest extends TestCase {
      * @return array
      */
     private function getEndpoint(array $endpoints, string $path, string $method): array {
-        return array_filter($endpoints, function ($endpoint) use ($path, $method) {
+        return array_values(array_filter($endpoints, function ($endpoint) use ($path, $method) {
             return $endpoint->getPath() === $path &&
                 $endpoint->getMethod() === $method;
-        });
+        }));
     }
 }
