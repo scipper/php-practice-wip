@@ -11,8 +11,8 @@ use Mys\Core\Application\Application;
 use Mys\Core\Injection\ClassAlreadyRegisteredException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\Logger;
-use Mys\Core\Module\FileModuleLoader;
 use Mys\Core\Module\ModuleList;
+use Mys\Core\Module\PHPFileModuleLoader;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use Mys\Logging\DateTimeClock;
 use Mys\Logging\SysLogger;
@@ -38,7 +38,7 @@ class Router {
         $injector->register(Logger::class, $logger);
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
-        $moduleList = new ModuleList(new FileModuleLoader($moduleListFile));
+        $moduleList = new ModuleList(new PHPFileModuleLoader($moduleListFile));
         try {
             $modules = $moduleList->get();
         }

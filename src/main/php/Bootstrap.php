@@ -7,6 +7,6 @@ ini_set("display_errors", 0);
 require __DIR__ . "/../../../vendor/autoload.php";
 
 $logsFolder = __DIR__ . "/../../../logs";
-$moduleListFile = __DIR__ . "/../resources/Modules/module-list.txt";
+$moduleListFile = __DIR__ . "/../resources/Modules/module-list.php";
 $response = Router::main($logsFolder, $moduleListFile);
 echo $response;

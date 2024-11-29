@@ -108,4 +108,15 @@ class ModuleLoaderTest extends TestCase
         $this->assertSame(["moduleA"], $moduleList);
     }
 
+    /**
+     * @return void
+     */
+    public function test_returns_array_when_module_loader_returns_array() {
+        $this->moduleLoader->doReturn(["moduleA", "moduleB"]);
+
+        $moduleList = $this->moduleList->get();
+
+        $this->assertSame(["moduleA", "moduleB"], $moduleList);
+    }
+
 }

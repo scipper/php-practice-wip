@@ -29,7 +29,7 @@ class RouterTest extends TestCase {
         parent::setUp();
         $this->logsFolder = __DIR__ . "/logs";
         $this->logFile = "/application.log";
-        $this->moduleListFile = __DIR__ . "/module-list.txt";
+        $this->moduleListFile = __DIR__ . "/module-list.php";
         $_SERVER["REQUEST_METHOD"] = "GET";
     }
 

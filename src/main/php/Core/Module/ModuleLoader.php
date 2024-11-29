@@ -2,10 +2,9 @@
 
 namespace Mys\Core\Module;
 
-interface ModuleLoader
-{
+interface ModuleLoader {
     /**
-     * @return string
+     * @return string|array
      */
-    public function load(): string;
+    public function load(): string|array;
 }

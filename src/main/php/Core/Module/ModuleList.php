@@ -22,7 +22,12 @@ class ModuleList
      */
     public function get(): array
     {
-        $modules = explode("\n", $this->moduleLoader->load());
+        $modulesFromLoader = $this->moduleLoader->load();
+        if (is_array($modulesFromLoader)) {
+            $modules = $modulesFromLoader;
+        } else {
+            $modules = explode("\n", $modulesFromLoader);
+        }
 
         $removedEmptyModules = array_filter($modules);
         $trimmedModules = array_map(function ($module) {
