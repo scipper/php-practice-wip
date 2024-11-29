@@ -10,4 +10,12 @@ interface TodoPersistence {
      * @throws Exception
      */
     public function getAllTodos(): ?array;
+
+    /**
+     * @param CreateTodoRequest $request
+     *
+     * @return TodoEntry|null
+     * @throws Exception
+     */
+    public function create(CreateTodoRequest $request): ?TodoEntry;
 }

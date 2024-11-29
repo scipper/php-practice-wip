@@ -6,7 +6,7 @@ use Exception;
 use Mys\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
-class TodoTest extends TestCase {
+class TodoGetAllTest extends TestCase {
 
     /**
      * @var TodoController

@@ -14,6 +14,10 @@ class TodoModule extends Module {
         $getAll = new Endpoint(TodoController::class, "getAll");
         $getAll->setPath("/todo");
 
-        return [$getAll];
+        $create = new Endpoint(TodoController::class, "create");
+        $create->setPath("/todo");
+        $create->setMethod("post");
+
+        return [$getAll, $create];
     }
 }

@@ -17,6 +17,15 @@ class TodoController {
     private Logger $logger;
 
     /**
+     * @param TodoPersistence $persistence
+     * @param Logger $logger
+     */
+    public function __construct(TodoPersistence $persistence, Logger $logger) {
+        $this->persistence = $persistence;
+        $this->logger = $logger;
+    }
+
+    /**
      * @return string[]
      * @throws Exception
      */
@@ -35,11 +44,13 @@ class TodoController {
     }
 
     /**
-     * @param TodoPersistence $persistence
-     * @param Logger $logger
+     * @param CreateTodoRequest $request
+     *
+     * @return TodoEntry|null
+     * @throws Exception
      */
-    public function __construct(TodoPersistence $persistence, Logger $logger) {
-        $this->persistence = $persistence;
-        $this->logger = $logger;
+    public function create(CreateTodoRequest $request): TodoEntry|null {
+        return $this->persistence->create($request);
     }
+
 }
