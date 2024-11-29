@@ -18,8 +18,6 @@ use Mys\Core\ParameterRecognition\ParameterRecognition;
 use Mys\Logging\DateTimeClock;
 use Mys\Logging\SysLogger;
 
-require "../../../vendor/autoload.php";
-
 class Router {
     /**
      * @var RouteRegister
@@ -27,68 +25,29 @@ class Router {
     private RouteRegister $routeRegister;
 
     /**
-     * @param RouteRegister $routeRegister
-     */
-    public function __construct(RouteRegister $routeRegister) {
-        $this->routeRegister = $routeRegister;
-    }
-
-    /**
-     * @param $request
+     * @param string $logsFolder
+     * @param string $moduleListFile
      *
-     * @return void
-     */
-    public function route($request): void {
-        $response = $this->routeRegister->processRequest($request);
-
-        $this->respond($response);
-    }
-
-    /**
-     * @param Response $response
-     *
-     * @return void
-     */
-    public function respond(Response $response): void {
-        ob_start();
-        ob_clean();
-        header_remove();
-
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: {$response->getContentType()}; charset=utf-8");
-        http_response_code($response->getStatusCode());
-        $content = $response->getContent();
-        if ($content) {
-            echo($content);
-        }
-        if ($response->getStatusCode() >= 400) {
-            echo json_encode($response);
-        }
-
-        exit();
-    }
-
-    /**
-     * @return void
+     * @return false|string
      * @throws ClassAlreadyRegisteredException
      * @throws ClassNotFoundException
      * @throws CyclicDependencyDetectedException
      */
-    public static function main(): void {
+    public static function main(string $logsFolder, string $moduleListFile): false|string {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
-        $injector->register(Logger::class, function () use ($clock) {
-            return new SysLogger(__DIR__ . "/../../../logs", $clock, 10);
+        $injector->register(Logger::class, function () use ($logsFolder, $clock) {
+            return new SysLogger($logsFolder, $clock);
         });
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
-        $moduleList = new ModuleList(new FileModuleLoader("../resources/Modules/module-list.txt"));
+        $moduleList = new ModuleList(new FileModuleLoader($moduleListFile));
 
         $application = new Application($injector, $moduleList->get(), $routeRegister);
         $application->init();
 
         $router = new Router($routeRegister);
-        $router->route(self::getRequest());
+        return $router->route(self::getRequest());
     }
 
     /**
@@ -105,6 +64,46 @@ class Router {
         $request->setPayload($payload);
         return $request;
     }
-}
 
-Router::main();
+    /**
+     * @param RouteRegister $routeRegister
+     */
+    public function __construct(RouteRegister $routeRegister) {
+        $this->routeRegister = $routeRegister;
+    }
+
+    /**
+     * @param $request
+     *
+     * @return false|string
+     */
+    public function route($request): false|string {
+        $response = $this->routeRegister->processRequest($request);
+
+        return $this->respond($response);
+    }
+
+    /**
+     * @param Response $response
+     *
+     * @return false|string
+     */
+    public function respond(Response $response): false|string {
+        ob_start();
+        ob_clean();
+        header_remove();
+
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: {$response->getContentType()}; charset=utf-8");
+        http_response_code($response->getStatusCode());
+        $content = $response->getContent();
+        if ($content) {
+            echo($content);
+        }
+        if ($response->getStatusCode() >= 400) {
+            echo json_encode($response, JSON_PRETTY_PRINT);
+        }
+
+        return ob_get_clean();
+    }
+}

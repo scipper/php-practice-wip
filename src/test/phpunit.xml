@@ -8,6 +8,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
+         stderr="true"
          stopOnFailure="false">
 
     <testsuites>
@@ -22,9 +23,7 @@
         </include>
         <exclude>
             <directory suffix=".php">../main/php/Api</directory>
-            <file>../main/php/Cli.php</file>
-            <file>../main/php/Main.php</file>
-            <file>../main/php/Router.php</file>
+            <file>../main/php/Bootstrap.php</file>
         </exclude>
 
         <report>
