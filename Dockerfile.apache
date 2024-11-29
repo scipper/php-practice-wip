@@ -44,5 +44,6 @@ WORKDIR $HOME
 
 COPY --from=composer app/vendor/ ./vendor/
 COPY config/apache/.htaccess ./src/main/.htaccess
+COPY composer.json composer.json
 
 EXPOSE 80

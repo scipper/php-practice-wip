@@ -8,7 +8,9 @@ class VersionController {
      * @return string
      */
     public function getVersion(): string {
-        return "1.0.0";
+        $composerJson = file_get_contents(__DIR__ . "/../../../../../composer.json");
+        $json = json_decode($composerJson, true);
+        return $json["version"];
     }
 
 }
