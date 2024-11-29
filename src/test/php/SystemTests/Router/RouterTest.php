@@ -123,4 +123,17 @@ class RouterTest extends TestCase {
             "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| WARNING: No module list found under path 'no-module-list.txt'/", $logsArray[0]
         );
     }
+
+    /**
+     * @return void
+     * @throws ClassAlreadyRegisteredException
+     */
+    public function test_return_success_response() {
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER["REDIRECT_URL"] = "/success";
+
+        $response = Router::main($this->logsFolder, $this->moduleListFile);
+
+        $this->assertEquals(JsonResponses::get200(), $response);
+    }
 }

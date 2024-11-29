@@ -24,4 +24,10 @@ EOJ;
 }
 EOJ;
     }
+
+    public static function get200(): string {
+        return <<<EOJ
+{"message":"success"}
+EOJ;
+    }
 }

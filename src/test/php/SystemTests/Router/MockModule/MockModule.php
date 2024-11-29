@@ -5,18 +5,7 @@ namespace Mys\SystemTests\Router\MockModule;
 use Mys\Core\Api\Endpoint;
 use Mys\Core\Module\Module;
 
-class MockModule implements Module {
-
-    /**
-     * @return string[]
-     */
-    public function getClasses(): array {
-        return [];
-    }
-
-    /**
-     * @return string[]
-     */
+class MockModule extends Module {
     public function getModules(): array {
         return [];
     }
@@ -34,6 +23,9 @@ class MockModule implements Module {
         $fatal = new Endpoint(MockClass::class, "fatal");
         $fatal->setPath("/fatal");
 
-        return [$internalServerError, $classNotFound, $fatal];
+        $success = new Endpoint(MockClass::class, "success");
+        $success->setPath("/success");
+
+        return [$internalServerError, $classNotFound, $fatal, $success];
     }
 }

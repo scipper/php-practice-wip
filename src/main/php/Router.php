@@ -35,9 +35,7 @@ class Router {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
         $logger = new SysLogger($logsFolder, $clock);
-        $injector->register(Logger::class, function () use ($logger) {
-            return $logger;
-        });
+        $injector->register(Logger::class, $logger);
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader($moduleListFile));
@@ -69,11 +67,19 @@ class Router {
     private static function getRequest(): Request {
         $payload = file_get_contents("php://input");
         $path = "/";
-        if (array_key_exists("REDIRECT_URL", $_SERVER)) {
+        if (isset($_SERVER["REDIRECT_URL"])) {
             $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
         }
         $request = new Request($path);
-        $request->setMethod($_SERVER["REQUEST_METHOD"]);
+        if (isset($_SERVER["REQUEST_METHOD"])) {
+            $request->setMethod($_SERVER["REQUEST_METHOD"]);
+        }
+        if (isset($_SERVER["HTTP_ACCEPT"])) {
+            $request->setHeader("accept", $_SERVER["HTTP_ACCEPT"]);
+        }
+        if (isset($_SERVER["CONTENT_TYPE"])) {
+            $request->setHeader("content-type", $_SERVER["CONTENT_TYPE"]);
+        }
         $request->setPayload($payload);
         return $request;
     }

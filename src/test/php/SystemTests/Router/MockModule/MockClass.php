@@ -19,4 +19,11 @@ class MockClass {
         $fatal = "";
         $fatal();
     }
+
+    /**
+     * @return Success
+     */
+    public function success(): Success {
+        return new Success();
+    }
 }

@@ -29,12 +29,12 @@ class DependencyInjector implements Injector {
     /**
      *
      * @param string $injectionToken
-     * @param string|Closure|null $class
+     * @param string|object|null $class
      *
      * @return void
      * @throws ClassAlreadyRegisteredException
      */
-    public function register(string $injectionToken, Closure|string $class = null): void {
+    public function register(string $injectionToken, object|string $class = null): void {
         if (isset($this->classList[$injectionToken])) {
             throw new ClassAlreadyRegisteredException($injectionToken);
         }
@@ -90,6 +90,8 @@ class DependencyInjector implements Injector {
             $closureOrString = $this->classList[$injectionToken];
             if ($closureOrString instanceof Closure) {
                 $instance = $closureOrString();
+            } elseif (is_object($closureOrString)) {
+                $instance = $closureOrString;
             } else {
                 $instance = new $this->classList[$injectionToken](...$dependencies);
             }

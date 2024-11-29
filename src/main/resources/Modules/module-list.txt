@@ -1,3 +1,1 @@
-Mys\Modules\Test\TestModule
-Mys\Modules\Welcome\WelcomeModule
-Mys\Modules\Ping\PingModule
+Mys\Modules\Version\VersionModule

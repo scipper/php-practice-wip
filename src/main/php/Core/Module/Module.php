@@ -4,20 +4,17 @@ namespace Mys\Core\Module;
 
 use Mys\Core\Api\Endpoint;
 
-interface Module
+abstract class Module
 {
     /**
      * @return string[]
      */
-    public function getClasses(): array;
-
-    /**
-     * @return string[]
-     */
-    public function getModules(): array;
+    public function getModules(): array {
+        return [];
+    }
 
     /**
      * @return Endpoint[]
      */
-    public function getEndpoints(): array;
+    public abstract function getEndpoints(): array;
 }
