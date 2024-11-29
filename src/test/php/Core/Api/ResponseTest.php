@@ -204,6 +204,23 @@ class ResponseTest extends TestCase
     /**
      * @return void
      */
+    public function test_accepts_any_mime_type_when_wildcard_is_set() {
+        $endpoint = new Endpoint(DummyApi::class, "pathGet");
+        $endpoint->setPath("/pathGet");
+        $endpoint->setProduces("text/plain");
+        $this->routeRegister->registerEndpoint($endpoint);
+
+        $request = new Request("/pathGet");
+        $request->setHeader("Accept", "*/*");
+        $response = $this->routeRegister->processRequest($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals("Ok", $response->getStatusText());
+    }
+
+    /**
+     * @return void
+     */
     public function test_response_is_error_of_unsupported_media_type()
     {
         $endpoint = new Endpoint(DummyApi::class, "pathParam");

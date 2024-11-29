@@ -15,8 +15,7 @@ use Mys\Core\Injection\Injector;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use TypeError;
 
-class HttpRouteRegister implements RouteRegister
-{
+class HttpRouteRegister implements RouteRegister {
     /**
      * @var Endpoint[]
      */
@@ -36,8 +35,7 @@ class HttpRouteRegister implements RouteRegister
      * @param ParameterRecognition $parameterRecognition
      * @param Injector $injector
      */
-    public function __construct(ParameterRecognition $parameterRecognition, Injector $injector)
-    {
+    public function __construct(ParameterRecognition $parameterRecognition, Injector $injector) {
         $this->endpoints = [];
         $this->parameterRecognition = $parameterRecognition;
         $this->injector = $injector;
@@ -48,10 +46,8 @@ class HttpRouteRegister implements RouteRegister
      *
      * @return void
      */
-    public function registerEndpoint(Endpoint $endpoint): void
-    {
-        if (!array_key_exists($endpoint->getPath(), $this->endpoints))
-        {
+    public function registerEndpoint(Endpoint $endpoint): void {
+        if (!array_key_exists($endpoint->getPath(), $this->endpoints)) {
             $this->endpoints[$endpoint->getPath()] = [];
         }
         $this->endpoints[$endpoint->getPath()][$endpoint->getMethod()] = $endpoint;
@@ -62,55 +58,45 @@ class HttpRouteRegister implements RouteRegister
      *
      * @return Response
      */
-    public function processRequest(Request $request): Response
-    {
-        if (!array_key_exists($request->getPath(), $this->endpoints))
-        {
+    public function processRequest(Request $request): Response {
+        if (!array_key_exists($request->getPath(), $this->endpoints)) {
             return new Response(new NotFoundException());
         }
 
         $methods = $this->endpoints[$request->getPath()];
-        if (!array_key_exists($request->getMethod(), $methods))
-        {
+        if (!array_key_exists($request->getMethod(), $methods)) {
             return new Response(new MethodNotAllowedException());
         }
 
         /** @var Endpoint $endpoint */
         $endpoint = $methods[$request->getMethod()];
 
-        if ($endpoint->getProduces() !== $request->getHeaders()["accept"])
-        {
+        if ($request->getHeaders()["accept"] !== "*/*" &&
+            $endpoint->getProduces() !== $request->getHeaders()["accept"]) {
             return new Response(new NotAcceptableException());
         }
-        if ($endpoint->getConsumes() !== $request->getHeaders()["content-type"])
-        {
+        if ($endpoint->getConsumes() !== $request->getHeaders()["content-type"]) {
             return new Response(new UnsupportedMediaTypeException());
         }
 
         $injectionToken = $endpoint->getClass();
         $function = $endpoint->getFunction();
 
-        try
-        {
+        try {
             $payload = $this->parameterRecognition->recognise($injectionToken, $function, $request->getPayload());
             $class = $this->injector->get($injectionToken);
             $content = $class->{$function}(...$payload);
 
-            if ($content === null)
-            {
+            if ($content === null) {
                 return new Response(new NoContent(), $content, $endpoint->getProduces());
-            }
-            else
-            {
+            } else {
                 return new Response(new Ok(), $content, $endpoint->getProduces());
             }
         }
-        catch (HttpStatus $exception)
-        {
+        catch (HttpStatus $exception) {
             return new Response($exception);
         }
-        catch (Exception|TypeError $exception)
-        {
+        catch (Exception|TypeError $exception) {
             return new Response(new InternalServerErrorException($exception->getMessage(), $exception));
         }
     }
