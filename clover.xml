@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1732877778">
-  <project timestamp="1732877778">
+<coverage generated="1732881264">
+  <project timestamp="1732881264">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
@@ -350,10 +350,10 @@
       <class name="Mys\Core\Module\FileModuleLoader" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
       </class>
-      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="17" type="stmt" count="12"/>
-      <line num="23" type="method" name="load" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="25" type="stmt" count="12"/>
+      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="17" type="stmt" count="1"/>
+      <line num="23" type="method" name="load" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="25" type="stmt" count="1"/>
       <metrics loc="27" ncloc="18" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
     <file name="/app/src/main/php/Core/Module/Module.php">
@@ -366,21 +366,34 @@
     </file>
     <file name="/app/src/main/php/Core/Module/ModuleList.php">
       <class name="Mys\Core\Module\ModuleList" namespace="global">
-        <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
+        <metrics complexity="3" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="12" coveredelements="12"/>
       </class>
-      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="19"/>
-      <line num="17" type="stmt" count="19"/>
-      <line num="23" type="method" name="get" visibility="public" complexity="1" crap="1" count="19"/>
-      <line num="25" type="stmt" count="19"/>
-      <line num="27" type="stmt" count="18"/>
-      <line num="28" type="stmt" count="18"/>
-      <line num="29" type="stmt" count="17"/>
-      <line num="31" type="stmt" count="18"/>
-      <line num="32" type="stmt" count="18"/>
-      <metrics loc="34" ncloc="25" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
+      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="21"/>
+      <line num="17" type="stmt" count="21"/>
+      <line num="23" type="method" name="get" visibility="public" complexity="2" crap="2" count="21"/>
+      <line num="25" type="stmt" count="21"/>
+      <line num="26" type="stmt" count="20"/>
+      <line num="27" type="stmt" count="12"/>
+      <line num="29" type="stmt" count="8"/>
+      <line num="32" type="stmt" count="20"/>
+      <line num="33" type="stmt" count="20"/>
+      <line num="34" type="stmt" count="19"/>
+      <line num="36" type="stmt" count="20"/>
+      <line num="37" type="stmt" count="20"/>
+      <metrics loc="39" ncloc="30" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="12" coveredelements="12"/>
     </file>
     <file name="/app/src/main/php/Core/Module/ModuleLoader.php">
-      <metrics loc="11" ncloc="8" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="10" ncloc="7" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/app/src/main/php/Core/Module/PHPFileModuleLoader.php">
+      <class name="Mys\Core\Module\PHPFileModuleLoader" namespace="global">
+        <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+      </class>
+      <line num="15" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="16" type="stmt" count="12"/>
+      <line num="22" type="method" name="load" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="23" type="stmt" count="12"/>
+      <metrics loc="25" ncloc="16" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
     <file name="/app/src/main/php/Core/ParameterRecognition/FunctionNotFoundException.php">
       <class name="Mys\Core\ParameterRecognition\FunctionNotFoundException" namespace="global">
@@ -556,6 +569,6 @@
       <line num="126" type="stmt" count="11"/>
       <metrics loc="129" ncloc="103" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="47" elements="52" coveredelements="52"/>
     </file>
-    <metrics files="36" loc="1598" ncloc="1104" classes="30" methods="83" coveredmethods="83" conditionals="0" coveredconditionals="0" statements="274" coveredstatements="274" elements="357" coveredelements="357"/>
+    <metrics files="37" loc="1627" ncloc="1124" classes="31" methods="85" coveredmethods="85" conditionals="0" coveredconditionals="0" statements="279" coveredstatements="279" elements="364" coveredelements="364"/>
   </project>
 </coverage>
