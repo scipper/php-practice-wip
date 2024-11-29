@@ -2,7 +2,7 @@
 
 namespace Mys\Core\Application;
 
-use Mys\Core\LoggerSpy;
+use Mys\LoggerSpy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase {
