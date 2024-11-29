@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1732896020">
-  <project timestamp="1732896020">
+<coverage generated="1732897530">
+  <project timestamp="1732897530">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
       </class>
-      <line num="41" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="46"/>
-      <line num="43" type="stmt" count="46"/>
-      <line num="44" type="stmt" count="46"/>
-      <line num="45" type="stmt" count="46"/>
-      <line num="46" type="stmt" count="46"/>
-      <line num="47" type="stmt" count="46"/>
-      <line num="48" type="stmt" count="46"/>
-      <line num="54" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="46"/>
-      <line num="56" type="stmt" count="46"/>
-      <line num="64" type="method" name="setPath" visibility="public" complexity="1" crap="1" count="46"/>
-      <line num="66" type="stmt" count="46"/>
+      <line num="41" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="47"/>
+      <line num="43" type="stmt" count="47"/>
+      <line num="44" type="stmt" count="47"/>
+      <line num="45" type="stmt" count="47"/>
+      <line num="46" type="stmt" count="47"/>
+      <line num="47" type="stmt" count="47"/>
+      <line num="48" type="stmt" count="47"/>
+      <line num="54" type="method" name="getPath" visibility="public" complexity="1" crap="1" count="47"/>
+      <line num="56" type="stmt" count="47"/>
+      <line num="64" type="method" name="setPath" visibility="public" complexity="1" crap="1" count="47"/>
+      <line num="66" type="stmt" count="47"/>
       <line num="72" type="method" name="getClass" visibility="public" complexity="1" crap="1" count="34"/>
       <line num="74" type="stmt" count="34"/>
       <line num="80" type="method" name="getFunction" visibility="public" complexity="1" crap="1" count="34"/>
       <line num="82" type="stmt" count="34"/>
-      <line num="88" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="46"/>
-      <line num="90" type="stmt" count="46"/>
-      <line num="98" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="6"/>
-      <line num="100" type="stmt" count="6"/>
+      <line num="88" type="method" name="getMethod" visibility="public" complexity="1" crap="1" count="47"/>
+      <line num="90" type="stmt" count="47"/>
+      <line num="98" type="method" name="setMethod" visibility="public" complexity="1" crap="1" count="7"/>
+      <line num="100" type="stmt" count="7"/>
       <line num="106" type="method" name="getProduces" visibility="public" complexity="1" crap="1" count="39"/>
       <line num="108" type="stmt" count="39"/>
       <line num="116" type="method" name="setProduces" visibility="public" complexity="1" crap="1" count="14"/>
@@ -504,6 +504,14 @@
       <line num="12" type="stmt" count="2"/>
       <metrics loc="14" ncloc="11" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
     </file>
+    <file name="/app/src/main/php/Modules/Todo/PersistenceDeleteException.php">
+      <class name="Mys\Modules\Todo\PersistenceDeleteException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </class>
+      <line num="11" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="12" type="stmt" count="1"/>
+      <metrics loc="14" ncloc="11" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+    </file>
     <file name="/app/src/main/php/Modules/Todo/PersistenceWriteException.php">
       <class name="Mys\Modules\Todo\PersistenceWriteException" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
@@ -514,11 +522,11 @@
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoController.php">
       <class name="Mys\Modules\Todo\TodoController" namespace="global">
-        <metrics complexity="5" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="13" coveredelements="13"/>
+        <metrics complexity="6" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="15" coveredelements="15"/>
       </class>
-      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="24" type="stmt" count="11"/>
-      <line num="25" type="stmt" count="11"/>
+      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="14"/>
+      <line num="24" type="stmt" count="14"/>
+      <line num="25" type="stmt" count="14"/>
       <line num="32" type="method" name="getAll" visibility="public" complexity="3" crap="3" count="6"/>
       <line num="34" type="stmt" count="6"/>
       <line num="35" type="stmt" count="4"/>
@@ -529,7 +537,9 @@
       <line num="42" type="stmt" count="4"/>
       <line num="52" type="method" name="create" visibility="public" complexity="1" crap="1" count="3"/>
       <line num="53" type="stmt" count="3"/>
-      <metrics loc="56" ncloc="36" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="13" coveredelements="13"/>
+      <line num="62" type="method" name="delete" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="63" type="stmt" count="2"/>
+      <metrics loc="67" ncloc="41" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="15" coveredelements="15"/>
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoEntry.php">
       <class name="Mys\Modules\Todo\TodoEntry" namespace="global">
@@ -539,19 +549,22 @@
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoModule.php">
       <class name="Mys\Modules\Todo\TodoModule" namespace="global">
-        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="10" coveredelements="10"/>
       </class>
-      <line num="13" type="method" name="getEndpoints" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="14" type="stmt" count="2"/>
-      <line num="15" type="stmt" count="2"/>
-      <line num="17" type="stmt" count="2"/>
-      <line num="18" type="stmt" count="2"/>
-      <line num="19" type="stmt" count="2"/>
-      <line num="21" type="stmt" count="2"/>
-      <metrics loc="23" ncloc="20" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+      <line num="13" type="method" name="getEndpoints" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="14" type="stmt" count="3"/>
+      <line num="15" type="stmt" count="3"/>
+      <line num="17" type="stmt" count="3"/>
+      <line num="18" type="stmt" count="3"/>
+      <line num="19" type="stmt" count="3"/>
+      <line num="21" type="stmt" count="3"/>
+      <line num="22" type="stmt" count="3"/>
+      <line num="23" type="stmt" count="3"/>
+      <line num="25" type="stmt" count="3"/>
+      <metrics loc="27" ncloc="24" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="10" coveredelements="10"/>
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoPersistence.php">
-      <metrics loc="21" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="29" ncloc="13" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/app/src/main/php/Modules/Version/VersionController.php">
       <class name="Mys\Modules\Version\VersionController" namespace="global">
@@ -632,6 +645,6 @@
       <line num="126" type="stmt" count="11"/>
       <metrics loc="129" ncloc="103" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="47" elements="52" coveredelements="52"/>
     </file>
-    <metrics files="44" loc="1769" ncloc="1227" classes="35" methods="91" coveredmethods="91" conditionals="0" coveredconditionals="0" statements="297" coveredstatements="297" elements="388" coveredelements="388"/>
+    <metrics files="45" loc="1806" ncloc="1249" classes="36" methods="93" coveredmethods="93" conditionals="0" coveredconditionals="0" statements="302" coveredstatements="302" elements="395" coveredelements="395"/>
   </project>
 </coverage>
