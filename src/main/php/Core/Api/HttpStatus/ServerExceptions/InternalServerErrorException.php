@@ -2,17 +2,15 @@
 
 namespace Mys\Core\Api\HttpStatus\ServerExceptions;
 
-use Exception;
 use Mys\Core\Api\HttpStatus\HttpException;
-use TypeError;
+use Throwable;
 
-class InternalServerErrorException extends HttpException
-{
+class InternalServerErrorException extends HttpException {
     /**
-     *
+     * @param string $errorMessage
+     * @param Throwable|null $exception
      */
-    public function __construct(Exception|TypeError $exception = null)
-    {
-        parent::__construct(500, "Internal Server Error", $exception);
+    public function __construct(string $errorMessage, Throwable $exception = null) {
+        parent::__construct(500, "Internal Server Error", $errorMessage, $exception);
     }
 }

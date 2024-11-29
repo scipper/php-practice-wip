@@ -3,13 +3,12 @@
 namespace Mys;
 
 use Mys\Core\Api\HttpRouteRegister;
+use Mys\Core\Api\HttpStatus\ServerExceptions\InternalServerErrorException;
 use Mys\Core\Api\Request;
 use Mys\Core\Api\Response;
 use Mys\Core\Api\RouteRegister;
 use Mys\Core\Application\Application;
-use Mys\Core\ClassNotFoundException;
 use Mys\Core\Injection\ClassAlreadyRegisteredException;
-use Mys\Core\Injection\CyclicDependencyDetectedException;
 use Mys\Core\Injection\DependencyInjector;
 use Mys\Core\Logging\Logger;
 use Mys\Core\Module\FileModuleLoader;
@@ -17,6 +16,7 @@ use Mys\Core\Module\ModuleList;
 use Mys\Core\ParameterRecognition\ParameterRecognition;
 use Mys\Logging\DateTimeClock;
 use Mys\Logging\SysLogger;
+use Throwable;
 
 class Router {
     /**
@@ -30,24 +30,37 @@ class Router {
      *
      * @return false|string
      * @throws ClassAlreadyRegisteredException
-     * @throws ClassNotFoundException
-     * @throws CyclicDependencyDetectedException
      */
     public static function main(string $logsFolder, string $moduleListFile): false|string {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
-        $injector->register(Logger::class, function () use ($logsFolder, $clock) {
-            return new SysLogger($logsFolder, $clock);
+        $logger = new SysLogger($logsFolder, $clock);
+        $injector->register(Logger::class, function () use ($logger) {
+            return $logger;
         });
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new FileModuleLoader($moduleListFile));
+        try {
+            $modules = $moduleList->get();
+        }
+        catch (Throwable) {
+            $modules = [];
+            $logger->warning("No module list found under path '$moduleListFile'");
+        }
 
-        $application = new Application($injector, $moduleList->get(), $routeRegister);
+        $application = new Application($logger, $modules, $routeRegister);
         $application->init();
 
         $router = new Router($routeRegister);
-        return $router->route(self::getRequest());
+        try {
+            return $router->route(self::getRequest());
+        }
+        catch (Throwable $exception) {
+            $logger->exception($exception);
+            $errorResponse = new Response(new InternalServerErrorException($exception->getMessage(), $exception));
+            return $router->respond($errorResponse);
+        }
     }
 
     /**
@@ -73,11 +86,11 @@ class Router {
     }
 
     /**
-     * @param $request
+     * @param Request $request
      *
      * @return false|string
      */
-    public function route($request): false|string {
+    public function route(Request $request): false|string {
         $response = $this->routeRegister->processRequest($request);
 
         return $this->respond($response);

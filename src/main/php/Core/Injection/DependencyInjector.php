@@ -35,7 +35,7 @@ class DependencyInjector implements Injector {
      * @throws ClassAlreadyRegisteredException
      */
     public function register(string $injectionToken, Closure|string $class = null): void {
-        if (in_array($injectionToken, $this->classList)) {
+        if (isset($this->classList[$injectionToken])) {
             throw new ClassAlreadyRegisteredException($injectionToken);
         }
 

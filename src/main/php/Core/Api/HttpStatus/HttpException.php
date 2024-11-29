@@ -3,7 +3,7 @@
 namespace Mys\Core\Api\HttpStatus;
 
 use Exception;
-use TypeError;
+use Throwable;
 
 class HttpException extends Exception implements HttpStatus
 {
@@ -25,14 +25,15 @@ class HttpException extends Exception implements HttpStatus
     /**
      * @param int $statusCode
      * @param string $statusText
-     * @param Exception|TypeError|null $exception
+     * @param string $errorMessage
+     * @param Throwable|null $exception
      */
-    public function __construct(int $statusCode, string $statusText, Exception|TypeError $exception = null)
+    public function __construct(int $statusCode, string $statusText, string $errorMessage = "Http Exception", Throwable $exception = null)
     {
         parent::__construct("HttpException");
         $this->statusCode = $statusCode;
         $this->statusText = $statusText;
-        $this->errorMessage = "Http Exception";
+        $this->errorMessage = $errorMessage;
         if ($exception)
         {
             $this->errorMessage = $exception->getMessage();

@@ -2,22 +2,22 @@
 
 namespace Mys\Core;
 
-use Exception;
 use Mys\Core\Logging\Logger;
+use Throwable;
 
 class LoggerSpy implements Logger {
 
-    private Exception $errorClass;
+    private Throwable $errorClass;
 
     private string $warningMessage;
 
     public function __construct() {}
 
-    public function exception(Exception $errorClass): void {
+    public function exception(Throwable $errorClass): void {
         $this->errorClass = $errorClass;
     }
 
-    public function exceptionWasCalledWith(): Exception {
+    public function exceptionWasCalledWith(): Throwable {
         return $this->errorClass;
     }
 

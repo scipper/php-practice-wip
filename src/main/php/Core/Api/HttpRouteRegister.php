@@ -111,7 +111,7 @@ class HttpRouteRegister implements RouteRegister
         }
         catch (Exception|TypeError $exception)
         {
-            return new Response(new InternalServerErrorException($exception));
+            return new Response(new InternalServerErrorException($exception->getMessage(), $exception));
         }
     }
 }

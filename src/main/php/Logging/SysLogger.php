@@ -2,11 +2,11 @@
 
 namespace Mys\Logging;
 
-use Exception;
 use FilesystemIterator;
 use Mys\Core\Logging\Clock;
 use Mys\Core\Logging\Logger;
 use SplFileObject;
+use Throwable;
 
 use function error_log;
 
@@ -50,11 +50,11 @@ class SysLogger implements Logger {
     }
 
     /**
-     * @param Exception $errorClass
+     * @param Throwable $errorClass
      *
      * @return void
      */
-    public function exception(Exception $errorClass): void {
+    public function exception(Throwable $errorClass): void {
         $this->error($errorClass->getMessage());
         foreach (explode("\n", $errorClass->getTraceAsString()) as $item) {
             $this->log("", $item);

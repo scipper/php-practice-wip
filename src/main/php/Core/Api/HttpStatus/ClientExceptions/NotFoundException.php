@@ -11,6 +11,6 @@ class NotFoundException extends HttpException
      */
     public function __construct()
     {
-        parent::__construct(404, "Not Found");
+        parent::__construct(404, "Not Found", "Not Found Exception");
     }
 }

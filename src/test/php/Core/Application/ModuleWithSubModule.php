@@ -19,7 +19,7 @@ class ModuleWithSubModule implements Module
      */
     public function getModules(): array
     {
-        return [DummyModule::class];
+        return [DummyModule::class, DummyModuleWithEndpointToken::class];
     }
 
     public function getEndpoints(): array

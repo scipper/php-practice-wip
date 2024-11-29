@@ -2,16 +2,16 @@
 
 namespace Mys\Core\Logging;
 
-use Exception;
+use Throwable;
 
 interface Logger
 {
     /**
-     * @param Exception $errorClass
+     * @param Throwable $errorClass
      *
      * @return void
      */
-    public function exception(Exception $errorClass): void;
+    public function exception(Throwable $errorClass): void;
 
     /**
      * @param string $errorMessage

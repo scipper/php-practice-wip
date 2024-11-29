@@ -11,6 +11,6 @@ class UnsupportedMediaTypeException extends HttpException
      */
     public function __construct()
     {
-        parent::__construct(415, "Unsupported Media Type");
+        parent::__construct(415, "Unsupported Media Type", "Unsupported Media Type Exception");
     }
 }
