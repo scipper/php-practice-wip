@@ -8,7 +8,7 @@ class JsonResponses {
 {
     "statusCode": 404,
     "statusText": "Not Found",
-    "errorMessage": "Not Found Exception",
+    "errorMessage": "Not Found",
     "contentType": "application\/json"
 }
 EOJ;

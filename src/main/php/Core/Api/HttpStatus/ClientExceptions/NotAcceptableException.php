@@ -11,6 +11,6 @@ class NotAcceptableException extends HttpException
      */
     public function __construct()
     {
-        parent::__construct(406, "Not Acceptable", "Not Acceptable Exception");
+        parent::__construct(406, "Not Acceptable");
     }
 }

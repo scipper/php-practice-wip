@@ -25,15 +25,15 @@ class HttpException extends Exception implements HttpStatus
     /**
      * @param int $statusCode
      * @param string $statusText
-     * @param string $errorMessage
+     * @param string|null $errorMessage
      * @param Throwable|null $exception
      */
-    public function __construct(int $statusCode, string $statusText, string $errorMessage = "Http Exception", Throwable $exception = null)
+    public function __construct(int $statusCode, string $statusText, string $errorMessage = null, Throwable $exception = null)
     {
         parent::__construct("HttpException");
         $this->statusCode = $statusCode;
         $this->statusText = $statusText;
-        $this->errorMessage = $errorMessage;
+        $this->errorMessage = $errorMessage ?? $statusText;
         if ($exception)
         {
             $this->errorMessage = $exception->getMessage();
