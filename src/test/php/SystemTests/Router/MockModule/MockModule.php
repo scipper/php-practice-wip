@@ -26,6 +26,14 @@ class MockModule extends Module {
         $success = new Endpoint(MockClass::class, "success");
         $success->setPath("/success");
 
-        return [$internalServerError, $classNotFound, $fatal, $success];
+        $contentTypeText = new Endpoint(MockClass::class, "");
+        $contentTypeText->setConsumes("text/plain");
+        $contentTypeText->setPath("/contentTypeText");
+
+        $acceptText = new Endpoint(MockClass::class, "");
+        $acceptText->setProduces("text/plain");
+        $acceptText->setPath("/acceptText");
+
+        return [$internalServerError, $classNotFound, $fatal, $success, $contentTypeText, $acceptText];
     }
 }

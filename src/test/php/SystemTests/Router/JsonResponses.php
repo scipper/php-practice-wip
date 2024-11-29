@@ -25,6 +25,28 @@ EOJ;
 EOJ;
     }
 
+    public static function get415(): string {
+        return <<<EOJ
+{
+    "statusCode": 415,
+    "statusText": "Unsupported Media Type",
+    "errorMessage": "Unsupported Media Type",
+    "contentType": "application\/json"
+}
+EOJ;
+    }
+
+    public static function get406(): string {
+        return <<<EOJ
+{
+    "statusCode": 406,
+    "statusText": "Not Acceptable",
+    "errorMessage": "Not Acceptable",
+    "contentType": "application\/json"
+}
+EOJ;
+    }
+
     public static function get200(): string {
         return <<<EOJ
 {"message":"success"}
