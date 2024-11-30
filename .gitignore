@@ -2,3 +2,4 @@
 /vendor/
 /.idea/
 /.env
+/config/mysql/connection-data.ini

@@ -10,8 +10,13 @@ class MysqlTodoPersistence implements TodoPersistence {
      */
     private PDO $pdo;
 
-    public function __construct() {
-        $this->pdo = new PDO("mysql:host=localhost:3800;dbname=testing_db", 'root', 'example');
+    public function __construct(MysqlConnectionData $connectionData) {
+        $host = $connectionData->getHost();
+        $port = $connectionData->getPort();
+        $db = $connectionData->getDatabase();
+        $username = $connectionData->getUsername();
+        $password = $connectionData->getPassword();
+        $this->pdo = new PDO("mysql:host=$host:$port;dbname=$db", $username, $password);
         $this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
     }
 
