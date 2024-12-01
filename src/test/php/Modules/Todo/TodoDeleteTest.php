@@ -4,6 +4,7 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\LoggerSpy;
+use Mys\Modules\Todo\Persistence\PersistenceDeleteException;
 use PHPUnit\Framework\TestCase;
 
 class TodoDeleteTest extends TestCase {

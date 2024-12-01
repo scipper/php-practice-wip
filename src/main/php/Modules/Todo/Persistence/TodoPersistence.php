@@ -1,8 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Modules\Todo;
+namespace Mys\Modules\Todo\Persistence;
 
 use Exception;
+use Mys\Modules\Todo\CreateTodoRequest;
+use Mys\Modules\Todo\TodoEntry;
 
 interface TodoPersistence {
     /**

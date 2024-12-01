@@ -3,6 +3,9 @@
 namespace Mys\Modules\Todo;
 
 use Exception;
+use Mys\Modules\Todo\Persistence\PersistenceDeleteException;
+use Mys\Modules\Todo\Persistence\PersistenceWriteException;
+use Mys\Modules\Todo\Persistence\TodoPersistence;
 
 class MockTodoTodoPersistence implements TodoPersistence {
     private mixed $getAllReturnValue;

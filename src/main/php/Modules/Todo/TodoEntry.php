@@ -2,7 +2,10 @@
 
 namespace Mys\Modules\Todo;
 
-class TodoEntry {
+use JsonSerializable;
+use stdClass;
+
+class TodoEntry implements JsonSerializable {
 
     /**
      * @var int
@@ -35,6 +38,17 @@ class TodoEntry {
      */
     public function getTitle(): string {
         return $this->title;
+    }
+
+    /**
+     * @return stdClass
+     */
+    public function jsonSerialize(): stdClass {
+        $json = new stdClass();
+        $json->id = $this->getId();
+        $json->title = $this->getTitle();
+
+        return $json;
     }
 
 }

@@ -45,6 +45,7 @@ WORKDIR $HOME
 
 COPY --from=composer app/vendor/ ./vendor/
 COPY config/apache/.htaccess ./src/main/.htaccess
+COPY config/mysql/connection-data.docker.ini ./config/mysql/connection-data.ini
 COPY composer.json composer.json
 
 EXPOSE 80

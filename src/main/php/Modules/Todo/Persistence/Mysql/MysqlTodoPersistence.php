@@ -1,7 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Modules\Todo;
+namespace Mys\Modules\Todo\Persistence\Mysql;
 
+use Mys\Modules\Todo\CreateTodoRequest;
+use Mys\Modules\Todo\Persistence\TodoPersistence;
+use Mys\Modules\Todo\TodoEntry;
 use PDO;
 
 class MysqlTodoPersistence implements TodoPersistence {
@@ -10,14 +13,12 @@ class MysqlTodoPersistence implements TodoPersistence {
      */
     private PDO $pdo;
 
-    public function __construct(MysqlConnectionData $connectionData) {
-        $host = $connectionData->getHost();
-        $port = $connectionData->getPort();
-        $db = $connectionData->getDatabase();
-        $username = $connectionData->getUsername();
-        $password = $connectionData->getPassword();
-        $this->pdo = new PDO("mysql:host=$host:$port;dbname=$db", $username, $password);
-        $this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+    public static string $TABLE_NAME = "todos";
+
+    public function __construct(MysqlConnection $connection) {
+        $this->pdo = $connection->getConnection();
+        $sql = file_get_contents(__DIR__ . "/todos.sql");
+        $this->pdo->exec($sql);
     }
 
     /**
@@ -25,7 +26,7 @@ class MysqlTodoPersistence implements TodoPersistence {
      */
     public function getAll(): ?array {
         $todos = [];
-        $queryResult = $this->pdo->query("SELECT * FROM todos");
+        $queryResult = $this->pdo->query("SELECT * FROM " . self::$TABLE_NAME);
         foreach ($queryResult as $row) {
             $todos[] = new TodoEntry($row["id"], $row["title"]);
         }
@@ -39,7 +40,7 @@ class MysqlTodoPersistence implements TodoPersistence {
      */
     public function create(CreateTodoRequest $request): ?TodoEntry {
         $title = $request->getTitle();
-        $statement = $this->pdo->prepare("INSERT INTO todos(title) values(:title)");
+        $statement = $this->pdo->prepare("INSERT INTO " . self::$TABLE_NAME . "(title) values(:title)");
         $statement->bindParam(":title", $title);
         $statement->execute();
         $id = $this->pdo->lastInsertId();
@@ -53,7 +54,7 @@ class MysqlTodoPersistence implements TodoPersistence {
      * @return void
      */
     public function delete(int $id): void {
-        $statement = $this->pdo->prepare("DELETE FROM todos WHERE id = :id");
+        $statement = $this->pdo->prepare("DELETE FROM " . self::$TABLE_NAME . " WHERE id = :id");
         $statement->bindParam(":id", $id);
         $statement->execute();
     }

@@ -4,6 +4,7 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\LoggerSpy;
+use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 

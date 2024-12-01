@@ -1,4 +1,4 @@
-create table todos
+create table if not exists todos
 (
     id    int auto_increment,
     title VARCHAR(255) not null,

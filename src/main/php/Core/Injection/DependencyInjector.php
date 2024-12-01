@@ -11,7 +11,7 @@ class DependencyInjector implements Injector {
     /**
      * @var Closure|string[]
      */
-    private array $classList;
+    private array $registeredClasses;
 
     /**
      * @var array
@@ -22,7 +22,7 @@ class DependencyInjector implements Injector {
      *
      */
     public function __construct() {
-        $this->classList = [];
+        $this->registeredClasses = [];
         $this->instances = [];
     }
 
@@ -35,11 +35,11 @@ class DependencyInjector implements Injector {
      * @throws ClassAlreadyRegisteredException
      */
     public function register(string $injectionToken, object|string $class = null): void {
-        if (isset($this->classList[$injectionToken])) {
+        if (isset($this->registeredClasses[$injectionToken])) {
             throw new ClassAlreadyRegisteredException($injectionToken);
         }
 
-        $this->classList[$injectionToken] = $class ?: $injectionToken;
+        $this->registeredClasses[$injectionToken] = $class ?: $injectionToken;
     }
 
     /**
@@ -62,7 +62,7 @@ class DependencyInjector implements Injector {
      * @throws CyclicDependencyDetectedException
      */
     private function getWithCyclicDependencyDetection(string $injectionToken, array $callChain = []): mixed {
-        if (array_key_exists($injectionToken, $this->instances)) {
+        if (isset($this->instances[$injectionToken])) {
             return $this->instances[$injectionToken];
         }
 
@@ -70,15 +70,22 @@ class DependencyInjector implements Injector {
             throw new CyclicDependencyDetectedException($callChain);
         }
         $callChain[] = $injectionToken;
+        $realClass = $injectionToken;
+        if (isset($this->registeredClasses[$injectionToken])) {
+            $realClass = $this->registeredClasses[$injectionToken];
+        }
 
         try {
             $dependencies = [];
-            $reflector = new ReflectionClass($injectionToken);
+            $reflector = new ReflectionClass($realClass);
             $constructor = $reflector->getConstructor();
             if ($constructor) {
                 $reflectionParameters = $constructor->getParameters();
                 foreach ($reflectionParameters as $parameter) {
-                    $dependencies[] = $this->getWithCyclicDependencyDetection($parameter->getType()->getName(), $callChain);
+                    $parameterTypeName = $parameter->getType()->getName();
+                    if ($parameterTypeName !== "string" && $parameterTypeName !== "int") {
+                        $dependencies[] = $this->getWithCyclicDependencyDetection($parameterTypeName, $callChain);
+                    }
                 }
             }
         }
@@ -86,14 +93,14 @@ class DependencyInjector implements Injector {
             throw new ClassNotFoundException();
         }
 
-        if (array_key_exists($injectionToken, $this->classList)) {
-            $closureOrString = $this->classList[$injectionToken];
+        if (isset($this->registeredClasses[$injectionToken])) {
+            $closureOrString = $this->registeredClasses[$injectionToken];
             if ($closureOrString instanceof Closure) {
                 $instance = $closureOrString();
             } elseif (is_object($closureOrString)) {
                 $instance = $closureOrString;
             } else {
-                $instance = new $this->classList[$injectionToken](...$dependencies);
+                $instance = new $this->registeredClasses[$injectionToken](...$dependencies);
             }
         } else {
             $instance = new $injectionToken(...$dependencies);

@@ -10,6 +10,7 @@ use Mys\Core\Api\RouteRegister;
 use Mys\Core\Application\Application;
 use Mys\Core\Injection\ClassAlreadyRegisteredException;
 use Mys\Core\Injection\DependencyInjector;
+use Mys\Core\Logging\Clock;
 use Mys\Core\Logging\Logger;
 use Mys\Core\Module\ModuleList;
 use Mys\Core\Module\PHPFileModuleLoader;
@@ -35,6 +36,7 @@ class Router {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
         $logger = new SysLogger($logsFolder, $clock);
+        $injector->register(Clock::class, $clock);
         $injector->register(Logger::class, $logger);
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);

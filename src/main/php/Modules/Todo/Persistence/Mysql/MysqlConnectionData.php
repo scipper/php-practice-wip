@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mys\Modules\Todo;
+namespace Mys\Modules\Todo\Persistence\Mysql;
 
 class MysqlConnectionData {
     /**
@@ -28,8 +28,11 @@ class MysqlConnectionData {
      */
     private string $password;
 
-    public function __construct() {
-        $file = parse_ini_file(__DIR__ . "/../../../../../config/mysql/connection-data.ini");
+    /**
+     * @param string $configFile
+     */
+    public function __construct(string $configFile) {
+        $file = parse_ini_file($configFile);
         $this->host = $file["host"];
         $this->port = (int)$file["port"];
         $this->database = $file["database"];

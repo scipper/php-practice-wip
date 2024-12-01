@@ -152,4 +152,39 @@ class DependencyInjectorTest extends TestCase {
 
         $this->assertSame($dummyClass, $get);
     }
+
+    /**
+     * @return void
+     * @throws ClassAlreadyRegisteredException
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    public function test_resolved_classes_dependencies_when_registered_with_interface() {
+        $this->injector->register(DummyInterface::class, DummyClassWithDependency::class);
+        $get = $this->injector->get(DummyInterface::class);
+
+        $this->assertInstanceOf(DummyClassWithDependency::class, $get);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    public function test_does_not_try_to_inject_string_parameter() {
+        $get = $this->injector->get(DummyStringInConstructor::class);
+
+        $this->assertInstanceOf(DummyStringInConstructor::class, $get);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     */
+    public function test_does_not_try_to_inject_int_parameter() {
+        $get = $this->injector->get(DummyIntInConstructor::class);
+
+        $this->assertInstanceOf(DummyIntInConstructor::class, $get);
+    }
 }

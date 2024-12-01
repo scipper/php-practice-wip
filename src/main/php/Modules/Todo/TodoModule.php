@@ -4,11 +4,16 @@ namespace Mys\Modules\Todo;
 
 use Mys\Core\Api\Endpoint;
 use Mys\Core\Module\Module;
+use Mys\Modules\Todo\Persistence\Mysql\MysqlConnectionData;
+use Mys\Modules\Todo\Persistence\Mysql\MysqlTodoPersistence;
+use Mys\Modules\Todo\Persistence\TodoPersistence;
 
 class TodoModule extends Module {
 
     public function getServices(): array {
+        $configFile = __DIR__ . "/../../../../../config/mysql/connection-data.ini";
         return [
+            MysqlConnectionData::class => new MysqlConnectionData($configFile),
             TodoPersistence::class => MysqlTodoPersistence::class,
         ];
     }
