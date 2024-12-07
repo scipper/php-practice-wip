@@ -4,8 +4,8 @@ namespace Mys\Modules\Todo\Persistence;
 
 use Exception;
 
-class PersistenceWriteException extends Exception {
+class PersistenceReadException extends Exception {
     public function __construct() {
-        parent::__construct("Failed to persist data: See log for more details.");
+        parent::__construct("Failed to read data: See log for more details.");
     }
 }

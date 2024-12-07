@@ -8,18 +8,18 @@ use Mys\Modules\Todo\TodoEntry;
 
 interface TodoPersistence {
     /**
-     * @return TodoEntry|null
+     * @return TodoEntry[]
      * @throws Exception
      */
-    public function getAll(): ?array;
+    public function getAll(): array;
 
     /**
      * @param CreateTodoRequest $request
      *
-     * @return TodoEntry|null
+     * @return TodoEntry
      * @throws Exception
      */
-    public function create(CreateTodoRequest $request): ?TodoEntry;
+    public function create(CreateTodoRequest $request): TodoEntry;
 
     /**
      * @param int $id

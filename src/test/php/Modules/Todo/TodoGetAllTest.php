@@ -4,24 +4,16 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\LoggerSpy;
-use Mys\Modules\Todo\Persistence\NullReturnsFromPersistenceException;
+use Mys\Modules\Todo\Persistence\PersistenceReadException;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class TodoGetAllTest extends TestCase {
 
-    /**
-     * @var TodoController
-     */
     private TodoController $controller;
 
-    /**
-     * @var MockTodoTodoPersistence
-     */
     private MockTodoTodoPersistence $mockPersistence;
 
-    /**
-     * @var LoggerSpy
-     */
     private LoggerSpy $loggerSpy;
 
     /**
@@ -75,12 +67,12 @@ class TodoGetAllTest extends TestCase {
      * @return void
      * @throws Exception
      */
-    public function test_returns_empty_array_when_persistence_throws() {
+    public function test_throws_when_get_all_fails() {
+        $this->expectException(PersistenceReadException::class);
+
         $this->mockPersistence->getAllReturns("throw");
 
         $result = $this->controller->getAll();
-
-        $this->assertSame($result, []);
     }
 
     /**
@@ -90,35 +82,12 @@ class TodoGetAllTest extends TestCase {
     public function test_logs_exception_when_persistence_throws() {
         $this->mockPersistence->getAllReturns("throw");
 
-        $this->controller->getAll();
-
-        $exception = $this->loggerSpy->exceptionWasCalledWith();
-        $this->assertEquals("getAllTodos method throw", $exception->getMessage());
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function test_returns_empty_array_when_persistence_returns_null() {
-        $this->mockPersistence->getAllReturns(null);
-
-        $result = $this->controller->getAll();
-
-        $this->assertSame($result, []);
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function test_logs_exception_when_persistence_returns_null() {
-        $this->mockPersistence->getAllReturns(null);
-
-        $this->controller->getAll();
-
-        $exception = $this->loggerSpy->exceptionWasCalledWith();
-        $this->assertInstanceOf(NullReturnsFromPersistenceException::class, $exception);
+        try {
+            $this->controller->getAll();
+        }
+        catch (Throwable $_) {
+            $this->assertInstanceOf(PersistenceReadException::class, $this->loggerSpy->exceptionWasCalledWith());
+        }
     }
 
     /**

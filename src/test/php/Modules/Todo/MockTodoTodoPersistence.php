@@ -2,8 +2,8 @@
 
 namespace Mys\Modules\Todo;
 
-use Exception;
 use Mys\Modules\Todo\Persistence\PersistenceDeleteException;
+use Mys\Modules\Todo\Persistence\PersistenceReadException;
 use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use Mys\Modules\Todo\Persistence\TodoPersistence;
 
@@ -18,9 +18,9 @@ class MockTodoTodoPersistence implements TodoPersistence {
 
     private string $deleteReturnValue;
 
-    public function getAll(): ?array {
+    public function getAll(): array {
         if ($this->getAllReturnValue === "throw") {
-            throw new Exception("getAllTodos method throw");
+            throw new PersistenceReadException();
         }
         return $this->getAllReturnValue;
     }
@@ -29,7 +29,7 @@ class MockTodoTodoPersistence implements TodoPersistence {
         $this->getAllReturnValue = $array;
     }
 
-    public function create(CreateTodoRequest $request): ?TodoEntry {
+    public function create(CreateTodoRequest $request): TodoEntry {
         if ($this->createReturnValue === "throw") {
             throw new PersistenceWriteException();
         }

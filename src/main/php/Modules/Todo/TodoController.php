@@ -4,8 +4,10 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\Core\Logging\Logger;
-use Mys\Modules\Todo\Persistence\NullReturnsFromPersistenceException;
+use Mys\Modules\Todo\Persistence\PersistenceReadException;
+use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use Mys\Modules\Todo\Persistence\TodoPersistence;
+use Throwable;
 
 class TodoController {
     /**
@@ -33,26 +35,28 @@ class TodoController {
      */
     public function getAll(): array {
         try {
-            $todos = $this->persistence->getAll();
-            if (is_array($todos)) {
-                return $todos;
-            }
-            throw new NullReturnsFromPersistenceException();
+            return $this->persistence->getAll();
         }
         catch (Exception $exception) {
             $this->logger->exception($exception);
-            return [];
+            throw new PersistenceReadException();
         }
     }
 
     /**
      * @param CreateTodoRequest $request
      *
-     * @return TodoEntry|null
+     * @return TodoEntry
      * @throws Exception
      */
-    public function create(CreateTodoRequest $request): TodoEntry|null {
-        return $this->persistence->create($request);
+    public function create(CreateTodoRequest $request): TodoEntry {
+        try {
+            return $this->persistence->create($request);
+        }
+        catch (Throwable $exception) {
+            $this->logger->exception($exception);
+            throw new PersistenceWriteException();
+        }
     }
 
     /**
@@ -64,6 +68,5 @@ class TodoController {
     public function delete(int $id): void {
         $this->persistence->delete($id);
     }
-
 
 }

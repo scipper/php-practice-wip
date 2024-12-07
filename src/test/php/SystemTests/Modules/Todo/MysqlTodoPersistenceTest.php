@@ -35,7 +35,7 @@ class MysqlTodoPersistenceTest extends TestCase {
      * @return void
      */
     public function tearDown(): void {
-        $this->pdo->query("DROP DATABASE IF EXISTS " . $this->connectionData->getDatabase());
+        $this->pdo->query("drop database if exists " . $this->connectionData->getDatabase());
     }
 
     /**

@@ -22,9 +22,9 @@ class MysqlTodoPersistence implements TodoPersistence {
     }
 
     /**
-     * @return array|null
+     * @return TodoEntry[]
      */
-    public function getAll(): ?array {
+    public function getAll(): array {
         $todos = [];
         $queryResult = $this->pdo->query("SELECT * FROM " . self::$TABLE_NAME);
         foreach ($queryResult as $row) {
@@ -36,9 +36,9 @@ class MysqlTodoPersistence implements TodoPersistence {
     /**
      * @param CreateTodoRequest $request
      *
-     * @return TodoEntry|null
+     * @return TodoEntry
      */
-    public function create(CreateTodoRequest $request): ?TodoEntry {
+    public function create(CreateTodoRequest $request): TodoEntry {
         $title = $request->getTitle();
         $statement = $this->pdo->prepare("INSERT INTO " . self::$TABLE_NAME . "(title) values(:title)");
         $statement->bindParam(":title", $title);

@@ -7,30 +7,29 @@ use Mys\LoggerSpy;
 use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Throwable;
 
 class TodoCreateTest extends TestCase {
 
-    /**
-     * @var TodoController
-     */
     private TodoController $controller;
 
-    /**
-     * @var MockTodoTodoPersistence
-     */
     private MockTodoTodoPersistence $mockPersistence;
 
+    private LoggerSpy $logger;
+
     /**
-     * @return void
+     *
      */
     public function setUp(): void {
         $this->mockPersistence = new MockTodoTodoPersistence();
         $this->mockPersistence->createReturns(null);
-        $this->controller = new TodoController($this->mockPersistence, new LoggerSpy());
+        $this->logger = new LoggerSpy();
+        $this->controller = new TodoController($this->mockPersistence, $this->logger);
+        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
     }
 
     /**
-     * @return void
+     *
      */
     public function test_module_has_todo_endpoint_for_create_todo() {
         $module = new TodoModule();
@@ -57,8 +56,6 @@ class TodoCreateTest extends TestCase {
      * @throws Exception
      */
     public function test_returns_todo_entry_after_create() {
-        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
-
         $request = new CreateTodoRequest(new stdClass());
         $todo = $this->controller->create($request);
 
@@ -75,6 +72,21 @@ class TodoCreateTest extends TestCase {
 
         $request = new CreateTodoRequest(new stdClass());
         $this->controller->create($request);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_logs_exception_when_creation_fails() {
+        $this->mockPersistence->createReturns("throw");
+
+        $request = new CreateTodoRequest(new stdClass());
+        try {
+            $this->controller->create($request);
+        }
+        catch (Throwable $_) {
+            $this->assertInstanceOf(PersistenceWriteException::class, $this->logger->exceptionWasCalledWith());
+        }
     }
 
     /**
