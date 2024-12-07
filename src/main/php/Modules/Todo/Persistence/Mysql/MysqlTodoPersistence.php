@@ -2,6 +2,7 @@
 
 namespace Mys\Modules\Todo\Persistence\Mysql;
 
+use Exception;
 use Mys\Modules\Todo\CreateTodoRequest;
 use Mys\Modules\Todo\Persistence\TodoPersistence;
 use Mys\Modules\Todo\TodoEntry;
@@ -39,7 +40,7 @@ class MysqlTodoPersistence implements TodoPersistence {
      * @return TodoEntry
      */
     public function create(CreateTodoRequest $request): TodoEntry {
-        $title = $request->getTitle();
+        $title = $request->title;
         $statement = $this->pdo->prepare("INSERT INTO " . self::$TABLE_NAME . "(title) values(:title)");
         $statement->bindParam(":title", $title);
         $statement->execute();
@@ -57,5 +58,15 @@ class MysqlTodoPersistence implements TodoPersistence {
         $statement = $this->pdo->prepare("DELETE FROM " . self::$TABLE_NAME . " WHERE id = :id");
         $statement->bindParam(":id", $id);
         $statement->execute();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function done(int $id): void {
+        throw new Exception("Implement done() method");
     }
 }

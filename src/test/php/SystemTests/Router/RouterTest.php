@@ -98,7 +98,7 @@ class RouterTest extends TestCase {
 
         $logs = file_get_contents($this->logsFolder . $this->logFile);
         $logsArray = explode("\n", $logs);
-        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: Call to undefined function \(\)/", $logsArray[0]);
+        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| Error: Call to undefined function \(\)/", $logsArray[0]);
         $this->assertStringContainsString("| #0", $logsArray[1]);
     }
 

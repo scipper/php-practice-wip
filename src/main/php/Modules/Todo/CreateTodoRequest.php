@@ -2,26 +2,18 @@
 
 namespace Mys\Modules\Todo;
 
-class CreateTodoRequest {
+readonly class CreateTodoRequest {
 
     /**
-     * @var string|null
+     * @var string
      */
-    public ?string $title;
+    public string $title;
 
     /**
      * @param mixed $rawData
      */
     public function __construct(mixed $rawData) {
-        if (property_exists($rawData, "title")) {
-            $this->title = $rawData->title;
-        }
+        $this->title = $rawData->title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle(): ?string {
-        return $this->title;
-    }
 }

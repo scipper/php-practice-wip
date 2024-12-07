@@ -55,7 +55,7 @@ class SysLogger implements Logger {
      * @return void
      */
     public function exception(Throwable $errorClass): void {
-        $this->error($errorClass->getMessage());
+        $this->log($errorClass::class . ": ", $errorClass->getMessage());
         foreach (explode("\n", $errorClass->getTraceAsString()) as $item) {
             $this->log("", $item);
         }

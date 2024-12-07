@@ -10,10 +10,19 @@ use Throwable;
 
 class TodoGetAllTest extends TestCase {
 
+    /**
+     * @var TodoController
+     */
     private TodoController $controller;
 
+    /**
+     * @var MockTodoTodoPersistence
+     */
     private MockTodoTodoPersistence $mockPersistence;
 
+    /**
+     * @var LoggerSpy
+     */
     private LoggerSpy $loggerSpy;
 
     /**

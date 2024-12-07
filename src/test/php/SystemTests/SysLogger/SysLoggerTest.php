@@ -31,6 +31,11 @@ class SysLoggerTest extends TestCase {
     private SysLogger $sysLogger;
 
     /**
+     * @var string
+     */
+    private string $dateFormat;
+
+    /**
      * @return void
      */
     public function setUp(): void {
@@ -38,6 +43,7 @@ class SysLoggerTest extends TestCase {
         $this->logFile = "/application.log";
         $this->clock = new DateTimeClock();
         $this->sysLogger = new SysLogger($this->logsFolder, $this->clock);
+        $this->dateFormat = "\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}";
     }
 
     /**
@@ -83,7 +89,7 @@ class SysLoggerTest extends TestCase {
     public function test_info_log() {
         $this->sysLogger->info("info message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message\\n/", $logs);
+        $this->assertMatchesRegularExpression("/^$this->dateFormat \| INFO: info message\\n/", $logs);
     }
 
     /**
@@ -92,7 +98,7 @@ class SysLoggerTest extends TestCase {
     public function test_warning_log() {
         $this->sysLogger->warning("warning message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| WARNING: warning message\\n/", $logs);
+        $this->assertMatchesRegularExpression("/^$this->dateFormat \| WARNING: warning message\\n/", $logs);
     }
 
     /**
@@ -101,7 +107,7 @@ class SysLoggerTest extends TestCase {
     public function test_error_log() {
         $this->sysLogger->error("error message");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
-        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: error message\\n/", $logs);
+        $this->assertMatchesRegularExpression("/^$this->dateFormat \| ERROR: error message\\n/", $logs);
     }
 
     /**
@@ -112,7 +118,7 @@ class SysLoggerTest extends TestCase {
         $this->sysLogger->info("info message 2");
         $logs = file_get_contents($this->logsFolder . $this->logFile);
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 1\\n\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 2\\n/",
+            "/^$this->dateFormat \| INFO: info message 1\\n$this->dateFormat \| INFO: info message 2\\n/",
             $logs
         );
     }
@@ -124,7 +130,7 @@ class SysLoggerTest extends TestCase {
         $this->sysLogger->exception(new Exception("exception message"));
         $logs = file_get_contents($this->logsFolder . $this->logFile);
         $logsArray = explode("\n", $logs);
-        $this->assertMatchesRegularExpression("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| ERROR: exception message/", $logsArray[0]);
+        $this->assertMatchesRegularExpression("/^$this->dateFormat \| Exception: exception message/", $logsArray[0]);
         $this->assertStringContainsString("| #0", $logsArray[1]);
         $this->assertStringContainsString("| #1", $logsArray[2]);
     }
@@ -146,23 +152,26 @@ class SysLoggerTest extends TestCase {
         $rotatedLogsArray = explode("\n", $rotatedLogs);
 
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 3/",
+            "/^$this->dateFormat \| INFO: info message 3/",
             $currentLogsArray[0]
         );
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 4/",
+            "/^$this->dateFormat \| INFO: info message 4/",
             $currentLogsArray[1]
         );
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 1/",
+            "/^$this->dateFormat \| INFO: info message 1/",
             $rotatedLogsArray[0]
         );
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 2/",
+            "/^$this->dateFormat \| INFO: info message 2/",
             $rotatedLogsArray[1]
         );
     }
 
+    /**
+     * @return void
+     */
     public function test_rotates_multiple_times() {
         $this->sysLogger = new SysLogger($this->logsFolder, $this->clock, 1);
         $this->sysLogger->info("info message 1");
@@ -178,15 +187,15 @@ class SysLoggerTest extends TestCase {
         $rotatedLogsArray2 = explode("\n", $rotatedLogs2);
 
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 3/",
+            "/^$this->dateFormat \| INFO: info message 3/",
             $currentLogsArray[0]
         );
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 1/",
+            "/^$this->dateFormat \| INFO: info message 1/",
             $rotatedLogsArray1[0]
         );
         $this->assertMatchesRegularExpression(
-            "/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6} \| INFO: info message 2/",
+            "/^$this->dateFormat \| INFO: info message 2/",
             $rotatedLogsArray2[0]
         );
     }

@@ -4,7 +4,9 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\Core\Logging\Logger;
+use Mys\Modules\Todo\Persistence\PersistenceDeleteException;
 use Mys\Modules\Todo\Persistence\PersistenceReadException;
+use Mys\Modules\Todo\Persistence\PersistenceUpdateException;
 use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use Mys\Modules\Todo\Persistence\TodoPersistence;
 use Throwable;
@@ -66,7 +68,29 @@ class TodoController {
      * @throws Exception
      */
     public function delete(int $id): void {
-        $this->persistence->delete($id);
+        try {
+            $this->persistence->delete($id);
+        }
+        catch (Throwable $exception) {
+            $this->logger->exception($exception);
+            throw new PersistenceDeleteException();
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function done(int $id): void {
+        try {
+            $this->persistence->done($id);
+        }
+        catch (Throwable $exception) {
+            $this->logger->exception($exception);
+            throw new PersistenceUpdateException();
+        }
     }
 
 }

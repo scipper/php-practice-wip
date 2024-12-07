@@ -28,4 +28,12 @@ interface TodoPersistence {
      * @throws Exception
      */
     public function delete(int $id): void;
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function done(int $id): void;
 }

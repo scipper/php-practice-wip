@@ -11,14 +11,28 @@ use Throwable;
 
 class TodoCreateTest extends TestCase {
 
+    /**
+     * @var TodoController
+     */
     private TodoController $controller;
 
+    /**
+     * @var MockTodoTodoPersistence
+     */
     private MockTodoTodoPersistence $mockPersistence;
 
+    /**
+     * @var LoggerSpy
+     */
     private LoggerSpy $logger;
 
     /**
-     *
+     * @var CreateTodoRequest
+     */
+    private CreateTodoRequest $request;
+
+    /**
+     * @return void
      */
     public function setUp(): void {
         $this->mockPersistence = new MockTodoTodoPersistence();
@@ -26,6 +40,9 @@ class TodoCreateTest extends TestCase {
         $this->logger = new LoggerSpy();
         $this->controller = new TodoController($this->mockPersistence, $this->logger);
         $this->mockPersistence->createReturns(new TodoEntry(0, ""));
+        $rawData = new stdClass();
+        $rawData->title = "";
+        $this->request = new CreateTodoRequest($rawData);
     }
 
     /**
@@ -46,8 +63,7 @@ class TodoCreateTest extends TestCase {
      * @throws Exception
      */
     public function test_creates_a_todo() {
-        $request = new CreateTodoRequest(new stdClass());
-        $this->controller->create($request);
+        $this->controller->create($this->request);
 
         $this->assertInstanceOf(CreateTodoRequest::class, $this->mockPersistence->createWasCalledWith());
     }
@@ -56,7 +72,7 @@ class TodoCreateTest extends TestCase {
      * @throws Exception
      */
     public function test_returns_todo_entry_after_create() {
-        $request = new CreateTodoRequest(new stdClass());
+        $request = new CreateTodoRequest($this->request);
         $todo = $this->controller->create($request);
 
         $this->assertInstanceOf(TodoEntry::class, $todo);
@@ -70,7 +86,7 @@ class TodoCreateTest extends TestCase {
 
         $this->mockPersistence->createReturns("throw");
 
-        $request = new CreateTodoRequest(new stdClass());
+        $request = new CreateTodoRequest($this->request);
         $this->controller->create($request);
     }
 
@@ -80,7 +96,7 @@ class TodoCreateTest extends TestCase {
     public function test_logs_exception_when_creation_fails() {
         $this->mockPersistence->createReturns("throw");
 
-        $request = new CreateTodoRequest(new stdClass());
+        $request = new CreateTodoRequest($this->request);
         try {
             $this->controller->create($request);
         }

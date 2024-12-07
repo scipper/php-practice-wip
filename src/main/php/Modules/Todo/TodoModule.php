@@ -33,6 +33,10 @@ class TodoModule extends Module {
         $delete->setPath("/todo");
         $delete->setMethod("delete");
 
-        return [$getAll, $create, $delete];
+        $markAsDone = new Endpoint(TodoController::class, "done");
+        $markAsDone->setPath("/todo/done");
+        $markAsDone->setMethod("post");
+
+        return [$getAll, $create, $delete, $markAsDone];
     }
 }

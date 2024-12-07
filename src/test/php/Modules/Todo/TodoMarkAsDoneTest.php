@@ -4,11 +4,11 @@ namespace Mys\Modules\Todo;
 
 use Exception;
 use Mys\LoggerSpy;
-use Mys\Modules\Todo\Persistence\PersistenceDeleteException;
+use Mys\Modules\Todo\Persistence\PersistenceUpdateException;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
-class TodoDeleteTest extends TestCase {
+class TodoMarkAsDoneTest extends TestCase {
 
     /**
      * @var TodoController
@@ -26,62 +26,62 @@ class TodoDeleteTest extends TestCase {
     private LoggerSpy $logger;
 
     /**
-     * @return void
+     *
      */
     public function setUp(): void {
         $this->mockPersistence = new MockTodoTodoPersistence();
-        $this->mockPersistence->deleteReturns("");
+        $this->mockPersistence->doneReturns("");
         $this->logger = new LoggerSpy();
         $this->controller = new TodoController($this->mockPersistence, $this->logger);
+        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
     }
 
     /**
      * @return void
      */
-    public function test_module_has_todo_endpoint_for_delete_todo() {
+    public function test_module_has_todo_endpoint_for_mark_as_done() {
         $module = new TodoModule();
 
         $endpoints = $module->getEndpoints();
-        $getAllEndpoint = $this->getEndpoint($endpoints, "/todo", "delete");
+        $endpoint = $this->getEndpoint($endpoints, "/todo/done", "post");
 
-        $this->assertCount(1, $getAllEndpoint);
-        $this->assertEquals("/todo", $getAllEndpoint[0]->getPath());
-        $this->assertEquals("delete", $getAllEndpoint[0]->getMethod());
+        $this->assertCount(1, $endpoint);
+        $this->assertEquals("/todo/done", $endpoint[0]->getPath());
+        $this->assertEquals("post", $endpoint[0]->getMethod());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_marks_todo_as_done() {
+        $this->controller->done(1);
+
+        $this->assertEquals(1, $this->mockPersistence->doneWasCalledWith());
     }
 
     /**
      * @return void
      * @throws Exception
      */
-    public function test_deletes_a_todo() {
-        $this->controller->delete(1);
+    public function test_throws_when_done_fails() {
+        $this->expectException(PersistenceUpdateException::class);
 
-        $this->assertEquals(1, $this->mockPersistence->deleteWasCalledWith());
-    }
+        $this->mockPersistence->doneReturns("throw");
 
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function test_throws_when_deletion_fails() {
-        $this->expectException(PersistenceDeleteException::class);
-
-        $this->mockPersistence->deleteReturns("throw");
-
-        $this->controller->delete(1);
+        $this->controller->done(1);
     }
 
     /**
      * @throws Exception
      */
-    public function test_logs_exception_when_delete_fails() {
-        $this->mockPersistence->deleteReturns("throw");
+    public function test_logs_exception_when_done_fails() {
+        $this->mockPersistence->doneReturns("throw");
 
         try {
-            $this->controller->delete(1);
+            $this->controller->done(1);
         }
         catch (Throwable $_) {
-            $this->assertInstanceOf(PersistenceDeleteException::class, $this->logger->exceptionWasCalledWith());
+            $this->assertInstanceOf(PersistenceUpdateException::class, $this->logger->exceptionWasCalledWith());
         }
     }
 
