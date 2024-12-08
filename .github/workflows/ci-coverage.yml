@@ -9,10 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: php-actions/composer@v6
-        with:
-          php_version: 8.3
-
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
 
@@ -27,6 +23,10 @@ jobs:
           #          mysql root password: ${{ secrets.MysqlPassword }}
           mysql user: ${{ secrets.MYSQLUSER }}
           mysql password: ${{ secrets.MYSQLPASSWORD }}
+
+      - uses: php-actions/composer@v6
+        with:
+          php_version: 8.3
 
       - name: Create Connection Data config
         run: |
