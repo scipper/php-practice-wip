@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1733691478">
-  <project timestamp="1733691478">
+<coverage generated="1733691892">
+  <project timestamp="1733691892">
     <file name="/app/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
@@ -645,21 +645,12 @@
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoEntry.php">
       <class name="Mys\Modules\Todo\TodoEntry" namespace="global">
-        <metrics complexity="4" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="4" elements="12" coveredelements="7"/>
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </class>
-      <line num="24" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
-      <line num="25" type="stmt" count="12"/>
-      <line num="26" type="stmt" count="12"/>
-      <line num="32" type="method" name="getId" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="33" type="stmt" count="2"/>
-      <line num="39" type="method" name="getTitle" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="40" type="stmt" count="1"/>
-      <line num="46" type="method" name="jsonSerialize" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="47" type="stmt" count="0"/>
-      <line num="48" type="stmt" count="0"/>
-      <line num="49" type="stmt" count="0"/>
-      <line num="51" type="stmt" count="0"/>
-      <metrics loc="54" ncloc="35" classes="1" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="4" elements="12" coveredelements="7"/>
+      <line num="11" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="12" type="stmt" count="12"/>
+      <line num="13" type="stmt" count="12"/>
+      <metrics loc="16" ncloc="16" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
     </file>
     <file name="/app/src/main/php/Modules/Todo/TodoModule.php">
       <class name="Mys\Modules\Todo\TodoModule" namespace="global">
@@ -763,6 +754,6 @@
       <line num="128" type="stmt" count="11"/>
       <metrics loc="131" ncloc="105" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="48" coveredstatements="48" elements="53" coveredelements="53"/>
     </file>
-    <metrics files="49" loc="2117" ncloc="1461" classes="42" methods="115" coveredmethods="112" conditionals="0" coveredconditionals="0" statements="374" coveredstatements="367" elements="489" coveredelements="479"/>
+    <metrics files="49" loc="2079" ncloc="1442" classes="42" methods="112" coveredmethods="110" conditionals="0" coveredconditionals="0" statements="368" coveredstatements="365" elements="480" coveredelements="475"/>
   </project>
 </coverage>
