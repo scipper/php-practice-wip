@@ -11,7 +11,7 @@ jobs:
 
       - uses: php-actions/composer@v6
         with:
-          php_extensions: pdo_mysql opcache zip xdebug
+          php_version: 8.3
 
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
@@ -39,8 +39,9 @@ jobs:
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         with:
+          php_version: 8.3
           version: 9.5.26
-          php_extensions: xdebug
+          php_extensions: pdo_mysql opcache zip xdebug
           bootstrap: vendor/autoload.php
           configuration: src/test/phpunit.xml
           args: --coverage-text
