@@ -19,13 +19,13 @@ class MysqlTodoPersistenceTest extends TestCase {
 
     private PDO $pdo;
 
-    private $persistence;
+    private MysqlTodoPersistence $persistence;
 
     /**
      * @return void
      */
     public function setUp(): void {
-        $this->connectionData = new MysqlConnectionData(__DIR__ . "/test-connection-data.ini");
+        $this->connectionData = new MysqlConnectionData(__DIR__ . "/../../../../../../config/mysql/connection-data.ini");
         $connection = new MysqlConnection($this->connectionData);
         $this->persistence = new MysqlTodoPersistence($connection);
         $this->pdo = $connection->getConnection();
