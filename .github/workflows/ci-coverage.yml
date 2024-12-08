@@ -18,7 +18,7 @@ jobs:
           character set server: 'utf8'
           collation server: 'utf8_general_ci'
           mysql version: '8.0.32'
-          #          mysql root password: ${{ secrets.MysqlPassword }}
+          #          mysql root password: ${{ secrets.MYSQLPASSWORD }}
           mysql user: ${{ secrets.MYSQLUSER }}
           mysql password: ${{ secrets.MYSQLPASSWORD }}
 
@@ -33,8 +33,8 @@ jobs:
           echo "host = localhost" >> config/mysql/connection-data.ini
           echo "port = 3800" >> config/mysql/connection-data.ini
           echo "database = testing_db" >> config/mysql/connection-data.ini
-          echo "username = ${{ secrets.MysqlUser }}" >> config/mysql/connection-data.ini
-          echo "password = ${{ secrets.MysqlPassword }}" >> config/mysql/connection-data.ini
+          echo "username = ${{ secrets.MYSQLUSER }}" >> config/mysql/connection-data.ini
+          echo "password = ${{ secrets.MYSQLPASSWORD }}" >> config/mysql/connection-data.ini
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
