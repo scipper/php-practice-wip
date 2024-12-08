@@ -30,7 +30,7 @@ jobs:
 
       - name: Create Connection Data config
         run: |
-          echo "host = localhost" >> config/mysql/connection-data.ini
+          echo "host = 127.0.0.1" >> config/mysql/connection-data.ini
           echo "port = 3306" >> config/mysql/connection-data.ini
           echo "database = testing_db" >> config/mysql/connection-data.ini
           echo "username = ${{ secrets.MysqlUser }}" >> config/mysql/connection-data.ini
