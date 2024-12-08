@@ -7,15 +7,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
 
       - name: Set up MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          host port: 3306
+          host port: 3800
           container port: 3306
           character set server: 'utf8'
           collation server: 'utf8_general_ci'
@@ -24,14 +22,16 @@ jobs:
           mysql user: ${{ secrets.MYSQLUSER }}
           mysql password: ${{ secrets.MYSQLPASSWORD }}
 
+      - uses: actions/checkout@v3
+
       - uses: php-actions/composer@v6
         with:
           php_version: 8.3
 
       - name: Create Connection Data config
         run: |
-          echo "host = 127.0.0.1" >> config/mysql/connection-data.ini
-          echo "port = 3306" >> config/mysql/connection-data.ini
+          echo "host = localhost" >> config/mysql/connection-data.ini
+          echo "port = 3800" >> config/mysql/connection-data.ini
           echo "database = testing_db" >> config/mysql/connection-data.ini
           echo "username = ${{ secrets.MysqlUser }}" >> config/mysql/connection-data.ini
           echo "password = ${{ secrets.MysqlPassword }}" >> config/mysql/connection-data.ini
