@@ -2,53 +2,15 @@
 
 namespace Mys\Modules\Todo;
 
-use JsonSerializable;
-use stdClass;
+readonly class TodoEntry {
 
-class TodoEntry implements JsonSerializable {
+    public int $id;
 
-    /**
-     * @var int
-     */
-    private int $id;
+    public string $title;
 
-    /**
-     * @var string
-     */
-    private string $title;
-
-    /**
-     * @param int $id
-     * @param string $title
-     */
     public function __construct(int $id, string $title) {
         $this->id = $id;
         $this->title = $title;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string {
-        return $this->title;
-    }
-
-    /**
-     * @return stdClass
-     */
-    public function jsonSerialize(): stdClass {
-        $json = new stdClass();
-        $json->id = $this->getId();
-        $json->title = $this->getTitle();
-
-        return $json;
     }
 
 }

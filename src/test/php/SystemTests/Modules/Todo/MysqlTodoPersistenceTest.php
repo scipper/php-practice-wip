@@ -83,8 +83,8 @@ class MysqlTodoPersistenceTest extends TestCase {
         $todos = $controller->getAll();
 
         $this->assertCount(1, $todos);
-        $this->assertGreaterThan(0, $todos[0]->getId());
-        $this->assertEquals("Test Todo", $todos[0]->getTitle());
+        $this->assertGreaterThan(0, $todos[0]->id);
+        $this->assertEquals("Test Todo", $todos[0]->title);
     }
 
     /**
@@ -98,7 +98,7 @@ class MysqlTodoPersistenceTest extends TestCase {
         $request = new CreateTodoRequest($requestRaw);
 
         $todoEntry = $controller->create($request);
-        $controller->delete($todoEntry->getId());
+        $controller->delete($todoEntry->id);
         $todos = $controller->getAll();
 
         $this->assertCount(0, $todos);
