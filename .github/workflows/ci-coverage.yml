@@ -17,15 +17,22 @@ jobs:
       - name: Set up MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          host port: 3800
-          container port: 3307
+          host port: 3306
+          container port: 3306
           character set server: 'utf8'
           collation server: 'utf8_general_ci'
           mysql version: '8.0.32'
-          mysql database: 'testing_db'
-          mysql root password: ${{ secrets.RootPassword }}
-          mysql user: 'developer'
-          mysql password: ${{ secrets.DatabasePassword }}
+          #          mysql root password: ${{ secrets.MysqlRootPassword }}
+          mysql user: ${{ secrets.MysqlUser }}
+          mysql password: ${{ secrets.MysqlPassword }}
+
+      - name: Create Connection Data config
+        run: |
+          echo "host = localhost" >> config/mysql/connection-data.ini
+          echo "port = 3306" >> config/mysql/connection-data.ini
+          echo "database = testing_db" >> config/mysql/connection-data.ini
+          echo "username = ${{ secrets.MysqlUser }}" >> config/mysql/connection-data.ini
+          echo "password = ${{ secrets.MysqlPassword }}" >> config/mysql/connection-data.ini
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
