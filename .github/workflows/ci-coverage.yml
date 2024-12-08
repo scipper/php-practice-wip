@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
+      - uses: php-actions/composer@v6
+        with:
+          php_version: 8.3
+
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
 
@@ -19,14 +25,12 @@ jobs:
           collation server: 'utf8_general_ci'
           mysql version: '8.0.32'
           mysql root password: ${{ secrets.MYSQLPASSWORD }}
-      #          mysql user: ${{ secrets.MYSQLUSER }}
-      #          mysql password: ${{ secrets.MYSQLPASSWORD }}
 
-      - uses: actions/checkout@v3
-
-      - uses: php-actions/composer@v6
-        with:
-          php_version: 8.3
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping --host=127.0.0.1 -P 3800 --password=${{ secrets.MYSQLPASSWORD }} --silent; do
+            sleep 1
+          done
 
       - name: Create Connection Data config
         run: |
