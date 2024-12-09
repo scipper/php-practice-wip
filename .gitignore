@@ -1,5 +1,5 @@
 /.phpunit.result.cache
-/vendor/
+/backend/vendor/
 /.idea/
-/.env
-/config/mysql/connection-data.ini
+/backend/.env
+/backend/config/mysql/connection-data.ini

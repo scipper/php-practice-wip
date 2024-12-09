@@ -36,11 +36,11 @@ jobs:
 
       - name: Create Connection Data config
         run: |
-          echo "host = 127.0.0.1" >> config/mysql/connection-data.ini
-          echo "port = 3800" >> config/mysql/connection-data.ini
-          echo "database = testing_db" >> config/mysql/connection-data.ini
-          echo "username = root" >> config/mysql/connection-data.ini
-          echo "password = ${{ secrets.MYSQLPASSWORD }}" >> config/mysql/connection-data.ini
+          echo "host = 127.0.0.1" >> backend/config/mysql/connection-data.ini
+          echo "port = 3800" >> backend/config/mysql/connection-data.ini
+          echo "database = testing_db" >> backend/config/mysql/connection-data.ini
+          echo "username = root" >> backend/config/mysql/connection-data.ini
+          echo "password = ${{ secrets.MYSQLPASSWORD }}" >> backend/config/mysql/connection-data.ini
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
@@ -48,8 +48,8 @@ jobs:
           php_version: 8.3
           version: 9.5.26
           php_extensions: pdo_mysql opcache zip xdebug
-          bootstrap: vendor/autoload.php
-          configuration: src/test/phpunit.xml
+          bootstrap: backend/vendor/autoload.php
+          configuration: backend/src/test/phpunit.xml
           args: --coverage-text
         env:
           XDEBUG_MODE: coverage
