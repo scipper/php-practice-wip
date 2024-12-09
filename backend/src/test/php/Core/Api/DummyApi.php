@@ -33,7 +33,7 @@ class DummyApi
 
     public function throwsException()
     {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException("some internal server error");
     }
 
     public function unhandledException()
