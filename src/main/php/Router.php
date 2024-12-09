@@ -28,11 +28,12 @@ class Router {
     /**
      * @param string $logsFolder
      * @param string $moduleListFile
+     * @param string|null $apiPath
      *
      * @return false|string
      * @throws ClassAlreadyRegisteredException
      */
-    public static function main(string $logsFolder, string $moduleListFile): false|string {
+    public static function main(string $logsFolder, string $moduleListFile, ?string $apiPath = null): false|string {
         $injector = new DependencyInjector();
         $clock = new DateTimeClock();
         $logger = new SysLogger($logsFolder, $clock);
@@ -54,7 +55,7 @@ class Router {
 
         $router = new Router($routeRegister);
         try {
-            return $router->route(self::getRequest());
+            return $router->route(self::getRequest($apiPath));
         }
         catch (Throwable $exception) {
             $logger->exception($exception);
@@ -64,14 +65,22 @@ class Router {
     }
 
     /**
+     * @param string|null $apiPath
+     *
      * @return Request
      */
-    private static function getRequest(): Request {
+    private static function getRequest(?string $apiPath): Request {
         $payload = file_get_contents("php://input");
-        $path = "/";
-        if (isset($_SERVER["REDIRECT_URL"])) {
-            $path = str_replace("api/", "", $_SERVER["REDIRECT_URL"]);
+        $path = $_SERVER["REDIRECT_URL"] ?? "";
+
+        if (!empty($apiPath)) {
+            if (str_starts_with($path, $apiPath)) {
+                $path = str_replace($apiPath, "", $path);
+            } else {
+                $path = "";
+            }
         }
+
         $request = new Request($path);
         if (isset($_SERVER["REQUEST_METHOD"])) {
             $request->setMethod($_SERVER["REQUEST_METHOD"]);

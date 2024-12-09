@@ -8,5 +8,5 @@ require __DIR__ . "/../../../vendor/autoload.php";
 
 $logsFolder = __DIR__ . "/../../../logs";
 $moduleListFile = __DIR__ . "/../resources/Modules/module-list.php";
-$response = Router::main($logsFolder, $moduleListFile);
+$response = Router::main($logsFolder, $moduleListFile, "/api");
 echo $response;

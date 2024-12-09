@@ -14,6 +14,9 @@ class MockModule extends Module {
      * @return Endpoint[]
      */
     public function getEndpoints(): array {
+        $rootPath = new Endpoint(MockClass::class, "root");
+        $rootPath->setPath("/");
+
         $internalServerError = new Endpoint(MockClass::class, "internalServerError");
         $internalServerError->setPath("/internalServerError");
 
@@ -34,6 +37,14 @@ class MockModule extends Module {
         $acceptText->setProduces("text/plain");
         $acceptText->setPath("/acceptText");
 
-        return [$internalServerError, $classNotFound, $fatal, $success, $contentTypeText, $acceptText];
+        return [
+            $rootPath,
+            $internalServerError,
+            $classNotFound,
+            $fatal,
+            $success,
+            $contentTypeText,
+            $acceptText,
+        ];
     }
 }

@@ -45,7 +45,7 @@ class RouterTest extends TestCase {
      * @return void
      * @throws ClassAlreadyRegisteredException
      */
-    public function test_404_not_found() {
+    public function test_404_not_found_when_no_redirect_path_is_given() {
         $response = Router::main($this->logsFolder, $this->moduleListFile);
 
         $this->assertEquals(JsonResponses::get404(), $response);
@@ -128,6 +128,30 @@ class RouterTest extends TestCase {
         $response = Router::main($this->logsFolder, $this->moduleListFile);
 
         $this->assertEquals(JsonResponses::get200(), $response);
+    }
+
+    /**
+     * @return void
+     * @throws ClassAlreadyRegisteredException
+     */
+    public function test_removes_configured_root_path_from_redirect_url() {
+        $_SERVER["REDIRECT_URL"] = "/api/success";
+
+        $response = Router::main($this->logsFolder, $this->moduleListFile, "/api");
+
+        $this->assertEquals(JsonResponses::get200(), $response);
+    }
+
+    /**
+     * @return void
+     * @throws ClassAlreadyRegisteredException
+     */
+    public function test_returns_404_when_api_path_is_configured_but_not_in_redirect_url() {
+        $_SERVER["REDIRECT_URL"] = "/success";
+
+        $response = Router::main($this->logsFolder, $this->moduleListFile, "/api");
+
+        $this->assertEquals(JsonResponses::get404(), $response);
     }
 
     /**
