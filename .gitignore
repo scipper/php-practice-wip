@@ -3,3 +3,4 @@
 /.idea/
 /backend/.env
 /backend/config/mysql/connection-data.ini
+/backend/src/test/.phpunit.result.cache
