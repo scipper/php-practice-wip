@@ -12,6 +12,7 @@ jobs:
       - uses: php-actions/composer@v6
         with:
           php_version: 8.3
+          working_dir: "backend"
 
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
