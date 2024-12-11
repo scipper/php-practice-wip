@@ -1,5 +1,7 @@
 import {MainClass} from "../resources/decorators/MainClass";
 import "../resources/styles/style.scss";
+import {VersionController} from "./Version/VersionController";
+import {VersionApi} from "./Api/Version/VersionApi";
 
 @MainClass
 export class Main {
@@ -9,6 +11,8 @@ export class Main {
         if (h1) {
             h1.innerText = "It's working!";
         }
+
+        new VersionController(new VersionApi());
     }
 
 }
