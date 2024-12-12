@@ -42,6 +42,7 @@ class Router {
         $parameterRecognition = new ParameterRecognition();
         $routeRegister = new HttpRouteRegister($parameterRecognition, $injector);
         $moduleList = new ModuleList(new PHPFileModuleLoader($moduleListFile));
+        $injector->register(ModuleList::class, $moduleList);
         try {
             $modules = $moduleList->get();
         }

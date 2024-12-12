@@ -66,6 +66,20 @@ class DependencyInjector implements Injector {
             return $this->instances[$injectionToken];
         }
 
+        if (isset($this->registeredClasses[$injectionToken])) {
+            $closureOrString = $this->registeredClasses[$injectionToken];
+            if ($closureOrString instanceof Closure) {
+                $instance = $closureOrString();
+            } elseif (is_object($closureOrString)) {
+                $instance = $closureOrString;
+            }
+        }
+        if (isset($instance)) {
+            $this->instances[$injectionToken] = $instance;
+
+            return $instance;
+        }
+
         if (in_array($injectionToken, $callChain)) {
             throw new CyclicDependencyDetectedException($callChain);
         }
@@ -94,14 +108,7 @@ class DependencyInjector implements Injector {
         }
 
         if (isset($this->registeredClasses[$injectionToken])) {
-            $closureOrString = $this->registeredClasses[$injectionToken];
-            if ($closureOrString instanceof Closure) {
-                $instance = $closureOrString();
-            } elseif (is_object($closureOrString)) {
-                $instance = $closureOrString;
-            } else {
-                $instance = new $this->registeredClasses[$injectionToken](...$dependencies);
-            }
+            $instance = new $this->registeredClasses[$injectionToken](...$dependencies);
         } else {
             $instance = new $injectionToken(...$dependencies);
         }

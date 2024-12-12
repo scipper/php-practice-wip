@@ -144,11 +144,29 @@ class DependencyInjectorTest extends TestCase {
      * @throws CyclicDependencyDetectedException
      * @throws ClassAlreadyRegisteredException
      */
-    public function test_can_returns_already_instantiated_classed(): void {
+    public function test_can_returns_already_instantiated_classes(): void {
         $dummyClass = new DummyClass();
 
         $this->injector->register(DummyClass::class, $dummyClass);
         $get = $this->injector->get(DummyClass::class);
+
+        $this->assertSame($dummyClass, $get);
+    }
+
+    /**
+     * @return void
+     * @throws ClassNotFoundException
+     * @throws CyclicDependencyDetectedException
+     * @throws ClassAlreadyRegisteredException
+     */
+    public function test_does_not_try_to_reinstantiate_class_when_instance_is_registered(): void {
+        $dummyClass = new DummyClassWithSecretDep(
+            new class {
+            }
+        );
+
+        $this->injector->register(DummyClassWithSecretDep::class, $dummyClass);
+        $get = $this->injector->get(DummyClassWithSecretDep::class);
 
         $this->assertSame($dummyClass, $get);
     }
