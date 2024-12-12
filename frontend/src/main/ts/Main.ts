@@ -10,6 +10,7 @@ export class Main {
         const moduleMap: { [key: string]: () => Promise<any> } = {
             "Mys\\Modules\\Version\\VersionModule": () => import("./Modules/Version/VersionModule"),
             "Mys\\Modules\\Todo\\TodoModule": () => import("./Modules/Todo/TodoModule"),
+            "Mys\\Modules\\RegisteredModules\\RegisteredModulesModule": () => import("./Modules/RegisteredModules/RegisteredModulesModule"),
         };
         const registeredModulesApi = new RegisteredModulesApi();
         const modulesList = await registeredModulesApi.getRegisteredModulesList();
