@@ -1,5 +1,5 @@
 import "./Version.scss";
-import {VersionApi} from "../Api/Version/VersionApi";
+import {VersionApi} from "../../Api/Version/VersionApi";
 
 export class VersionController {
 

@@ -1,18 +1,33 @@
 import {MainClass} from "../resources/decorators/MainClass";
 import "../resources/styles/style.scss";
-import {VersionController} from "./Version/VersionController";
-import {VersionApi} from "./Api/Version/VersionApi";
+import {RegisteredModulesApi} from "./Api/RegisteredModules/RegisteredModulesApi";
+import {Module} from "./Core/Module/Module";
 
 @MainClass
 export class Main {
 
-    public static main(): void {
-        const h1 = document.querySelector("h1");
-        if (h1) {
-            h1.innerText = "It's working!";
+    public static async main(): Promise<void> {
+        const moduleMap: { [key: string]: () => Promise<any> } = {
+            "Mys\\Modules\\Version\\VersionModule": () => import("./Modules/Version/VersionModule"),
+            "Mys\\Modules\\Todo\\TodoModule": () => import("./Modules/Todo/TodoModule"),
+        };
+        const registeredModulesApi = new RegisteredModulesApi();
+        const modulesList = await registeredModulesApi.getRegisteredModulesList();
+        for (const moduleKey of modulesList) {
+            const moduleImport = moduleMap[moduleKey];
+            if (moduleImport) {
+                const importedModule = await moduleImport();
+                const moduleConstructor: any = Object.values(importedModule)[0];
+                if (moduleConstructor) {
+                    const module = new moduleConstructor();
+                    if (module instanceof Module) {
+                        module.init();
+                    }
+                }
+            }
         }
 
-        new VersionController(new VersionApi());
+        // new VersionController(new VersionApi());
     }
 
 }
