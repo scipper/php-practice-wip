@@ -1,0 +1,19 @@
+@import "./colors";
+@import "./sizes";
+
+footer {
+  box-shadow: 0 3px 5px 0 $black;
+  width: calc(100% - $space);
+  margin-left: 20px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  height: $footerHeight;
+  background-color: $grey-2;
+  border-top: 1px solid $grey-3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+  padding: 0 5px;
+  line-height: 19px;
+}

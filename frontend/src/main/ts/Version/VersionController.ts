@@ -9,7 +9,7 @@ export class VersionController {
             versionApi.getVersion()
                 .then((version) => {
                     const versionDiv = document.createElement("div");
-                    versionDiv.innerText = `Version: ${version}`;
+                    versionDiv.innerText = `version ${version}`;
                     versionDiv.classList.add("version");
                     footer.insertAdjacentElement("beforeend", versionDiv);
                 })

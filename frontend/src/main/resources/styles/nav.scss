@@ -1,0 +1,59 @@
+@import "./colors";
+@import "./sizes";
+
+nav {
+  background-color: $grey-1;
+  width: 280px;
+  height: calc(100% - 20px);
+  margin-left: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      padding: 10px 15px;
+      cursor: pointer;
+      color: $highlight;
+      text-align: center;
+      position: relative;
+
+      &:after {
+        display: block;
+        content: "";
+        background-color: $highlight;
+        width: 0;
+        height: 3px;
+        border-radius: 3px;
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        transition: width .2s;
+      }
+
+      &:hover {
+        &:after {
+          width: calc(100% - 20px);
+        }
+      }
+
+      &:active,
+      &.active {
+        color: $active;
+
+        &:after {
+          background-color: $active;
+          width: calc(100% - 20px);
+        }
+      }
+    }
+  }
+}
+
+#nav-content {
+  width: 100%;
+}

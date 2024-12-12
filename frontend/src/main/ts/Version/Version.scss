@@ -1,5 +1,7 @@
+@import "../../resources/styles/colors";
+
 .version {
-  font-size: 16px;
   float: right;
-  padding: 0 5px;
+  color: $active;
+  text-shadow: 0 1px 1px #000;
 }

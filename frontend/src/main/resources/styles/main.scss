@@ -1,0 +1,17 @@
+@import "./colors";
+@import "./sizes";
+
+main {
+  width: calc(100% - $space);
+  height: calc(100% - $space - $footerHeight);
+  position: absolute;
+  top: calc($space / 2);
+  left: calc($space / 2);
+  background-color: $grey-2;
+  border-radius: 10px;
+  box-shadow: 0 3px 5px 0 $black;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid $grey-3;
+  overflow: hidden;
+}

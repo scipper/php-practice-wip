@@ -1,68 +1,24 @@
+@import "./colors";
+@import "./main";
+@import "./sizes";
+@import "./nav";
+@import "./footer";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  color: #fff;
-  background: url("../images/bg-space-1.jpg") no-repeat center center fixed #333;
+  color: rgba(255, 255, 255, .8);
+  background: url("../images/bg-space-1.jpg") no-repeat center center fixed #000;
   background-size: cover;
-  font-family: sans-serif;
+  font-family: monospace;
   font-size: 18px;
-}
-
-$footerHeight: 20px;
-
-main {
-  $space: 40px;
-  width: calc(100% - $space);
-  height: calc(100% - $space - $footerHeight);
-  position: absolute;
-  top: calc($space / 2);
-  left: calc($space / 2);
-  background-color: rgba(51, 51, 51, 0.4);
-  border-radius: 10px;
-  box-shadow: 0 3px 5px 0 #000;
-  display: flex;
-  flex-direction: row;
-
-  overflow: hidden;
-}
-
-nav {
-  background-color: rgba(51, 51, 51, 0.4);
-  border-right: 1px solid #000;
-  width: 300px;
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-      padding: 10px 15px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #333;
-      }
-
-      &:active {
-        background-color: #23535f;
-      }
-
-      &.active {
-        background-color: #343f5e;
-      }
-    }
-  }
-}
-
-#nav-content {
-  width: 100%;
-}
-
-footer {
-  width: 100%;
-  height: $footerHeight;
-  background-color: #15282d;
-  border-top: 1px solid #0e3840;
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
