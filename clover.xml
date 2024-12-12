@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1734030484">
-  <project timestamp="1734030484">
+<coverage generated="1734031148">
+  <project timestamp="1734031148">
     <file name="/app/backend/src/main/php/Core/Api/Endpoint.php">
       <class name="Mys\Core\Api\Endpoint" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="27" coveredelements="27"/>
