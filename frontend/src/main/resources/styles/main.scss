@@ -2,16 +2,16 @@
 @import "./sizes";
 
 main {
-  width: calc(100% - $space);
-  height: calc(100% - $space - $footerHeight);
+  width: calc(100% - $space * $scalingFactor);
+  height: calc(100% - $space * $scalingFactor - $footerHeight * $scalingFactor);
   position: absolute;
-  top: calc($space / 2);
-  left: calc($space / 2);
-  background-color: $grey-2;
-  border-radius: 10px;
+  top: calc($space * $scalingFactor / 2);
+  left: calc($space * $scalingFactor / 2);
+  background-color: $grey-3;
+  border-radius: calc(10px * $scalingFactor);
   box-shadow: 0 3px 5px 0 $black;
   display: flex;
   flex-direction: row;
-  border-top: 1px solid $grey-3;
+  border-top: calc(1px * $scalingFactor) solid $grey-4;
   overflow: hidden;
 }

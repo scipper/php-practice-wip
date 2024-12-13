@@ -3,17 +3,17 @@
 
 footer {
   box-shadow: 0 3px 5px 0 $black;
-  width: calc(100% - $space);
-  margin-left: 20px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  height: $footerHeight;
-  background-color: $grey-2;
-  border-top: 1px solid $grey-3;
+  width: calc(100% - $space * $scalingFactor);
+  margin-left: calc(20px * $scalingFactor);
+  border-top-right-radius: calc(10px * $scalingFactor);
+  border-top-left-radius: calc(10px * $scalingFactor);
+  height: $footerHeight * $scalingFactor;
+  background-color: $grey-3;
+  border-top: calc(1px * $scalingFactor) solid $grey-4;
   position: absolute;
   bottom: 0;
   left: 0;
-  font-size: 14px;
-  padding: 0 5px;
-  line-height: 19px;
+  font-size: calc(14px * $scalingFactor);
+  padding: 0 calc(5px * $scalingFactor);
+  line-height: calc(19px * $scalingFactor);
 }

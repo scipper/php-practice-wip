@@ -20,5 +20,5 @@ body {
   background: url("../images/bg-space-1.jpg") no-repeat center center fixed #000;
   background-size: cover;
   font-family: monospace;
-  font-size: 18px;
+  font-size: calc(18px * $scalingFactor);
 }
