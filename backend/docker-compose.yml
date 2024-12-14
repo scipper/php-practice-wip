@@ -26,6 +26,11 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - whatever
+    volumes:
+      - mysqldatavolume:/var/lib/mysql
+
+volumes:
+  mysqldatavolume:
 
 networks:
   whatever:

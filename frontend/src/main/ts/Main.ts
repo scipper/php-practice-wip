@@ -27,8 +27,6 @@ export class Main {
                 }
             }
         }
-
-        // new VersionController(new VersionApi());
     }
 
 }

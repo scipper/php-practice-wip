@@ -18,7 +18,13 @@ const config = {
         open: true,
         host: "localhost",
         hot: true,
-        watchFiles: ["./src/main/resources/*"]
+        watchFiles: ["./src/main/resources/*"],
+        proxy: [
+            {
+                context: ['/api'],
+                target: 'http://localhost:8080',
+            },
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({

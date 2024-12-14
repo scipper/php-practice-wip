@@ -1,6 +1,6 @@
 export class RegisteredModulesApi {
     public async getRegisteredModulesList() {
-        const response = await fetch("http://localhost:8080/api/registeredmodules");
+        const response = await fetch("/api/registeredmodules");
         return await response.json() as string[];
     }
 }
