@@ -1,10 +1,12 @@
 import {TodoApi} from "../../Api/Todo/TodoApi";
+import {Controller} from "../../Core/Module/Controller";
 
-export class TodoController {
+export class TodoController extends Controller {
     private todoApi: TodoApi;
     private readonly ul: HTMLUListElement;
 
     public constructor(todoApi: TodoApi) {
+        super();
         this.todoApi = todoApi;
         this.ul = document.createElement("ul");
     }
@@ -16,7 +18,7 @@ export class TodoController {
             .catch((error) => console.error(error));
     }
 
-    public async render() {
+    override async render() {
         while (this.ul.lastElementChild) {
             this.ul.removeChild(this.ul.lastElementChild);
         }

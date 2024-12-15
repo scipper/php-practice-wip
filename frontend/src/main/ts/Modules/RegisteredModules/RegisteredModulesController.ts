@@ -1,6 +1,5 @@
-export class RegisteredModulesController {
+import {Controller} from "../../Core/Module/Controller";
 
-    public constructor() {
-    }
+export class RegisteredModulesController extends Controller {
 
 }

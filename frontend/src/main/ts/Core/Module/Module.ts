@@ -1,6 +1,8 @@
+import {Controller} from "./Controller";
+
 export abstract class Module {
 
-    protected routes?: { route: string, controller: () => Promise<any> }[];
+    protected routes?: { route: string, controller: () => Promise<Controller> }[];
     protected navigation?: string;
 
     public init(): void {
@@ -40,10 +42,15 @@ export abstract class Module {
         if (Array.isArray(this.routes) && this.routes[0]) {
             this.routes[0].controller()
                 .then((instance) => instance.render())
-                .then((template) => content.insertAdjacentElement("beforeend", template))
+                .then((template) => {
+                    if (template) {
+                        content.insertAdjacentElement("beforeend", template)
+                    }
+                })
                 .catch((error) => console.log(error));
         }
 
         li?.classList.toggle("active", true);
     }
+
 }
