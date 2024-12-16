@@ -1,43 +1,61 @@
 import {TodoApi} from "../../Api/Todo/TodoApi";
 import {Controller} from "../../Core/Module/Controller";
+import "./Todo.scss";
 
 export class TodoController extends Controller {
     private todoApi: TodoApi;
-    private readonly ul: HTMLUListElement;
+    private readonly todoController: HTMLDivElement;
 
     public constructor(todoApi: TodoApi) {
         super();
         this.todoApi = todoApi;
-        this.ul = document.createElement("ul");
+        this.todoController = document.createElement("div");
+        this.todoController.classList.add("todo-controller");
     }
 
     public deleteTodo(id: number) {
-        console.log("delete todo: " + id);
         this.todoApi.delete(id)
             .then(() => this.render())
             .catch((error) => console.error(error));
     }
 
+    public createTodo(title: string) {
+        this.todoApi.create(title)
+            .then(() => this.render())
+            .catch((error) => console.error(error));
+    }
+
     override async render() {
-        while (this.ul.lastElementChild) {
-            this.ul.removeChild(this.ul.lastElementChild);
+        while (this.todoController.lastElementChild) {
+            this.todoController.removeChild(this.todoController.lastElementChild);
         }
-        const todos = await this.getAllTodos();
+        const todosList = document.createElement("ul");
+        const todos = await this.todoApi.getAllTodos();
         todos.forEach((todo) => {
             const button = document.createElement("button");
-            button.innerText = "delete";
-            button.onclick = () => this.deleteTodo(todo["id"]);
+            button.innerText = "X";
+            button.onclick = () => {
+                if (confirm(`Delete todo ${todo["title"]}?`)) {
+                    this.deleteTodo(todo["id"]);
+                }
+            };
             const li = document.createElement("li");
             li.innerText = todo["title"];
             li.insertAdjacentElement("beforeend", button);
-            this.ul.insertAdjacentElement("beforeend", li);
+            todosList.insertAdjacentElement("beforeend", li);
         });
+        this.todoController.insertAdjacentElement("beforeend", todosList);
 
-        return this.ul;
+        const inputContainer = document.createElement("div");
+        inputContainer.classList.add("input-container");
+        const input = document.createElement("input");
+        inputContainer.insertAdjacentElement("beforeend", input);
+        const saveNewTodoButton = document.createElement("button");
+        saveNewTodoButton.innerText = ">";
+        saveNewTodoButton.onclick = () => this.createTodo(input.value);
+        inputContainer.insertAdjacentElement("beforeend", saveNewTodoButton);
+
+        this.todoController.insertAdjacentElement("beforeend", inputContainer);
+        return this.todoController;
     }
-
-    private getAllTodos() {
-        return this.todoApi.getAllTodos();
-    }
-
 }

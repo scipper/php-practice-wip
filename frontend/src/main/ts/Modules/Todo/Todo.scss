@@ -1,0 +1,87 @@
+@import "../../../resources/styles/sizes";
+@import "../../../resources/styles/colors";
+
+.todo-controller {
+  height: 100%;
+  position: relative;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    height: calc(100% - 44px * $scalingFactor);
+
+    li {
+      padding: calc(5px * $scalingFactor) calc(10px * $scalingFactor);
+      border-radius: calc(3px * $scalingFactor);
+      background-color: $grey-4;
+      position: relative;
+      margin-bottom: calc(5px * $scalingFactor);
+      height: calc(31px * $scalingFactor);
+
+      button {
+        border: none;
+        background-color: $grey-6;
+        color: $white;
+        border-radius: 100%;
+        font-size: calc(9px * $scalingFactor);
+        width: calc(21px * $scalingFactor);
+        height: calc(21px * $scalingFactor);
+        line-height: calc(21px * $scalingFactor);
+        position: absolute;
+        right: calc(5px * $scalingFactor);
+        top: calc(5px * $scalingFactor);
+        cursor: pointer;
+
+        &:hover {
+          background-color: $red;
+        }
+      }
+    }
+  }
+
+  .input-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    input {
+      padding: calc(5px * $scalingFactor) calc(10px * $scalingFactor);
+      border: 3px solid $grey-5;
+      border-radius: calc(3px * $scalingFactor);
+      background-color: $grey-4;
+      position: relative;
+      margin-bottom: calc(5px * $scalingFactor);
+      outline: none;
+      color: $white;
+      font-family: monospace;
+      font-size: calc(18px * $scalingFactor);
+      width: 100%;
+
+      &:focus {
+        border: 3px solid $highlight;
+      }
+    }
+
+    button {
+      border: none;
+      background-color: $grey-6;
+      color: $white;
+      border-radius: 100%;
+      font-size: calc(9px * $scalingFactor);
+      width: calc(21px * $scalingFactor);
+      height: calc(21px * $scalingFactor);
+      line-height: calc(21px * $scalingFactor);
+      position: absolute;
+      right: calc(5px * $scalingFactor);
+      top: calc(5px * $scalingFactor + 3px);
+      cursor: pointer;
+
+      &:hover {
+        background-color: $active;
+      }
+    }
+  }
+}

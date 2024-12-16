@@ -1,8 +1,21 @@
 export class TodoApi {
 
     public async getAllTodos() {
-        const response = await fetch("/api/todo");
-        return await response.json() as any[];
+        return await fetch("/api/todo")
+            .then((response) => response.json() as Promise<any[]>)
+    }
+
+    public async create(title: string) {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({title})
+        };
+
+        return fetch("/api/todo", requestOptions)
+            .then((response) => response.json() as Promise<any[]>)
     }
 
     public async delete(id: number) {
