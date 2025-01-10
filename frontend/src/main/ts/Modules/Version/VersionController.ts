@@ -2,16 +2,12 @@ import "./Version.scss";
 import {VersionApi} from "../../Api/Version/VersionApi";
 import {Controller} from "../../Core/Module/Controller";
 
-export class VersionController extends Controller {
+export class VersionController implements Controller {
 
-    private versionApi: VersionApi;
-
-    public constructor(versionApi: VersionApi) {
-        super();
-        this.versionApi = versionApi;
+    public constructor(private versionApi: VersionApi) {
     }
 
-    override async render(): Promise<HTMLElement | undefined> {
+    async render(): Promise<HTMLElement | undefined> {
         const footer = document.querySelector("footer");
         if (footer) {
             this.versionApi.getVersion()

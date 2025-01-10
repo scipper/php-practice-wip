@@ -8,12 +8,12 @@ export class TodoModule extends Module {
         this.routes = [
             {
                 route: "#/todo",
-                controller: () => import("./TodoController")
-                    .then((module) => module.TodoController)
+                controller: () => import("./TodoList")
+                    .then((module) => module.TodoList)
                     .then((controller) => new controller(new TodoApi()))
             }
         ]
-        this.navigation = "Todo";
+        this.navigation = "Todos";
     }
 
 }

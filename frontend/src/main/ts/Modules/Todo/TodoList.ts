@@ -2,15 +2,13 @@ import {TodoApi} from "../../Api/Todo/TodoApi";
 import {Controller} from "../../Core/Module/Controller";
 import "./Todo.scss";
 
-export class TodoController extends Controller {
-    private todoApi: TodoApi;
-    private readonly todoController: HTMLDivElement;
+export class TodoList implements Controller {
 
-    public constructor(todoApi: TodoApi) {
-        super();
-        this.todoApi = todoApi;
-        this.todoController = document.createElement("div");
-        this.todoController.classList.add("todo-controller");
+    private readonly todoList: HTMLDivElement;
+
+    public constructor(private todoApi: TodoApi) {
+        this.todoList = document.createElement("div");
+        this.todoList.classList.add("todo-list");
     }
 
     public deleteTodo(id: number) {
@@ -25,9 +23,9 @@ export class TodoController extends Controller {
             .catch((error) => console.error(error));
     }
 
-    override async render() {
-        while (this.todoController.lastElementChild) {
-            this.todoController.removeChild(this.todoController.lastElementChild);
+    async render() {
+        while (this.todoList.lastElementChild) {
+            this.todoList.removeChild(this.todoList.lastElementChild);
         }
         const todosList = document.createElement("ul");
         const todos = await this.todoApi.getAllTodos();
@@ -44,7 +42,7 @@ export class TodoController extends Controller {
             li.insertAdjacentElement("beforeend", button);
             todosList.insertAdjacentElement("beforeend", li);
         });
-        this.todoController.insertAdjacentElement("beforeend", todosList);
+        this.todoList.insertAdjacentElement("beforeend", todosList);
 
         const inputContainer = document.createElement("div");
         inputContainer.classList.add("input-container");
@@ -55,7 +53,7 @@ export class TodoController extends Controller {
         saveNewTodoButton.onclick = () => this.createTodo(input.value);
         inputContainer.insertAdjacentElement("beforeend", saveNewTodoButton);
 
-        this.todoController.insertAdjacentElement("beforeend", inputContainer);
-        return this.todoController;
+        this.todoList.insertAdjacentElement("beforeend", inputContainer);
+        return this.todoList;
     }
 }

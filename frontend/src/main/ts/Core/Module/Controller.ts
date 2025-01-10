@@ -1,5 +1,3 @@
-export class Controller {
-    async render(): Promise<HTMLElement | undefined> {
-        return;
-    }
+export interface Controller {
+    render(): Promise<HTMLElement | undefined>;
 }
