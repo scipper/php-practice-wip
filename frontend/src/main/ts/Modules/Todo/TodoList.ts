@@ -1,6 +1,7 @@
 import {TodoApi} from "../../Api/Todo/TodoApi";
 import {Controller} from "../../Core/Module/Controller";
 import "./Todo.scss";
+import {TodoItem} from "./TodoItem";
 
 export class TodoList implements Controller {
 
@@ -29,19 +30,10 @@ export class TodoList implements Controller {
         }
         const todosList = document.createElement("ul");
         const todos = await this.todoApi.getAllTodos();
-        todos.forEach((todo) => {
-            const button = document.createElement("button");
-            button.innerText = "X";
-            button.onclick = () => {
-                if (confirm(`Delete todo ${todo["title"]}?`)) {
-                    this.deleteTodo(todo["id"]);
-                }
-            };
-            const li = document.createElement("li");
-            li.innerText = todo["title"];
-            li.insertAdjacentElement("beforeend", button);
-            todosList.insertAdjacentElement("beforeend", li);
-        });
+        for (const todo of todos) {
+            const todoItem = new TodoItem(todo, this.todoApi);
+            todosList.insertAdjacentElement("beforeend", await todoItem.render());
+        }
         this.todoList.insertAdjacentElement("beforeend", todosList);
 
         const inputContainer = document.createElement("div");
