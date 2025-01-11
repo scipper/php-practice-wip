@@ -3,7 +3,8 @@ import {TodoApi} from "../../Api/Todo/TodoApi";
 
 export class AddTodo implements Controller {
 
-    public constructor(private todoApi: TodoApi) {
+    public constructor(private todoApi: TodoApi,
+                       private refresh: () => void) {
     }
 
     async render(): Promise<HTMLElement> {
@@ -21,7 +22,7 @@ export class AddTodo implements Controller {
 
     private createTodo(title: string) {
         this.todoApi.create(title)
-            .then(() => this.render())
+            .then(() => this.refresh())
             .catch((error) => console.error(error));
     }
 

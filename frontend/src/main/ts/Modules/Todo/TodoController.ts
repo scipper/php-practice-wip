@@ -16,10 +16,10 @@ export class TodoController implements Controller {
         while (this.todoController.lastElementChild) {
             this.todoController.removeChild(this.todoController.lastElementChild);
         }
-        const todosList = new TodoList(this.todoApi);
+        const todosList = new TodoList(this.todoApi, () => this.render());
         this.todoController.insertAdjacentElement("beforeend", await todosList.render());
 
-        const addTodo = new AddTodo(this.todoApi);
+        const addTodo = new AddTodo(this.todoApi, () => this.render());
         this.todoController.insertAdjacentElement("beforeend", await addTodo.render());
 
         return this.todoController;

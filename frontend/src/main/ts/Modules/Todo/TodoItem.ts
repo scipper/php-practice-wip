@@ -4,7 +4,8 @@ import {TodoApi} from "../../Api/Todo/TodoApi";
 export class TodoItem implements Controller {
 
     public constructor(private todo: any,
-                       private todoApi: TodoApi) {
+                       private todoApi: TodoApi,
+                       private refresh: () => void) {
     }
 
     async render(): Promise<HTMLElement> {
@@ -23,7 +24,7 @@ export class TodoItem implements Controller {
 
     private deleteTodo(id: number) {
         this.todoApi.delete(id)
-            .then(() => this.render())
+            .then(() => this.refresh())
             .catch((error) => console.error(error));
     }
 
