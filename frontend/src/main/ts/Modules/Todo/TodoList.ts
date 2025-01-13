@@ -1,8 +1,8 @@
-import {Controller} from "../../Core/Module/Controller";
+import {Renderable} from "../../Core/Module/Renderable";
 import {TodoApi} from "../../Api/Todo/TodoApi";
 import {TodoItem} from "./TodoItem";
 
-export class TodoList implements Controller {
+export class TodoList implements Renderable {
 
     public constructor(private todoApi: TodoApi,
                        private refresh: () => void) {

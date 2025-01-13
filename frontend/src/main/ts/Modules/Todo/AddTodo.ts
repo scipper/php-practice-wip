@@ -1,7 +1,9 @@
-import {Controller} from "../../Core/Module/Controller";
+import {Renderable} from "../../Core/Module/Renderable";
 import {TodoApi} from "../../Api/Todo/TodoApi";
+import {IconButton} from "../../Components/Button/IconButton";
+import {Input} from "../../Components/Input/Input";
 
-export class AddTodo implements Controller {
+export class AddTodo implements Renderable {
 
     public constructor(private todoApi: TodoApi,
                        private refresh: () => void) {
@@ -10,12 +12,12 @@ export class AddTodo implements Controller {
     async render(): Promise<HTMLElement> {
         const inputContainer = document.createElement("div");
         inputContainer.classList.add("input-container");
-        const input = document.createElement("input");
-        inputContainer.insertAdjacentElement("beforeend", input);
-        const saveNewTodoButton = document.createElement("button");
-        saveNewTodoButton.innerText = ">";
-        saveNewTodoButton.onclick = () => this.createTodo(input.value);
-        inputContainer.insertAdjacentElement("beforeend", saveNewTodoButton);
+
+        const input = new Input();
+        inputContainer.insertAdjacentElement("beforeend", await input.render());
+
+        const saveNewTodoButton = new IconButton(">", () => this.createTodo(input.getValue()));
+        inputContainer.insertAdjacentElement("beforeend", await saveNewTodoButton.render());
 
         return inputContainer;
     }

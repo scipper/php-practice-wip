@@ -1,8 +1,8 @@
-import {Controller} from "./Controller";
+import {Renderable} from "./Renderable";
 
 export abstract class Module {
 
-    protected routes?: { route: string, controller: () => Promise<Controller> }[];
+    protected routes?: { route: string, controller: () => Promise<Renderable> }[];
     protected navigation?: string;
 
     public init(): void {

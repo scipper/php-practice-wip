@@ -1,8 +1,8 @@
 import "./Version.scss";
 import {VersionApi} from "../../Api/Version/VersionApi";
-import {Controller} from "../../Core/Module/Controller";
+import {Renderable} from "../../Core/Module/Renderable";
 
-export class VersionController implements Controller {
+export class VersionController implements Renderable {
 
     public constructor(private versionApi: VersionApi) {
     }

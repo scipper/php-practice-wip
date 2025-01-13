@@ -1,10 +1,10 @@
 import {TodoApi} from "../../Api/Todo/TodoApi";
-import {Controller} from "../../Core/Module/Controller";
+import {Renderable} from "../../Core/Module/Renderable";
 import "./Todo.scss";
 import {AddTodo} from "./AddTodo";
 import {TodoList} from "./TodoList";
 
-export class TodoController implements Controller {
+export class TodoController implements Renderable {
 
     private readonly todoController: HTMLElement;
 

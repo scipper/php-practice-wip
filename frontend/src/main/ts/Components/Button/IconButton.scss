@@ -1,0 +1,29 @@
+@import "../../../resources/styles/sizes";
+@import "../../../resources/styles/colors";
+
+button {
+  &.icon-button {
+    border: none;
+    background-color: $grey-6;
+    color: $white;
+    border-radius: 100%;
+    font-size: calc(9px * $scalingFactor);
+    width: calc(21px * $scalingFactor);
+    height: calc(21px * $scalingFactor);
+    line-height: calc(21px * $scalingFactor);
+    position: absolute;
+    right: calc(5px * $scalingFactor);
+    top: calc(5px * $scalingFactor);
+    cursor: pointer;
+
+    &:hover {
+      background-color: $active;
+    }
+
+    &.red {
+      &:hover {
+        background-color: $red;
+      }
+    }
+  }
+}
