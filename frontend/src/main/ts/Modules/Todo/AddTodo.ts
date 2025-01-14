@@ -16,8 +16,8 @@ export class AddTodo implements Renderable {
         const input = new Input();
         inputContainer.insertAdjacentElement("beforeend", await input.render());
 
-        const saveNewTodoButton = new IconButton(">", () => this.createTodo(input.getValue()));
-        inputContainer.insertAdjacentElement("beforeend", await saveNewTodoButton.render());
+        const createTodoButton = new IconButton(">", () => this.createTodo(input.getValue()));
+        inputContainer.insertAdjacentElement("beforeend", await createTodoButton.render());
 
         return inputContainer;
     }
