@@ -22,10 +22,13 @@ export class AddTodo implements Renderable {
         return inputContainer;
     }
 
-    private createTodo(title: string) {
-        this.todoApi.create(title)
-            .then(() => this.refresh())
-            .catch((error) => console.error(error));
+    private async createTodo(title: string) {
+        try {
+            await this.todoApi.create(title);
+            this.refresh();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 }

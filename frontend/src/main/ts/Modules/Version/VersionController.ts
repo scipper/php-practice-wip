@@ -10,13 +10,11 @@ export class VersionController implements Renderable {
     async render(): Promise<HTMLElement | undefined> {
         const footer = document.querySelector("footer");
         if (footer) {
-            this.versionApi.getVersion()
-                .then((version) => {
-                    const versionDiv = document.createElement("div");
-                    versionDiv.innerText = `version ${version}`;
-                    versionDiv.classList.add("version");
-                    footer.insertAdjacentElement("beforeend", versionDiv);
-                })
+            const version = await this.versionApi.getVersion()
+            const versionDiv = document.createElement("div");
+            versionDiv.innerText = `version ${version}`;
+            versionDiv.classList.add("version");
+            footer.insertAdjacentElement("beforeend", versionDiv);
         }
 
         return;

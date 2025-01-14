@@ -22,10 +22,13 @@ export class TodoItem implements Renderable {
         return li;
     }
 
-    private deleteTodo(id: number) {
-        this.todoApi.delete(id)
-            .then(() => this.refresh())
-            .catch((error) => console.error(error));
+    private async deleteTodo(id: number) {
+        try {
+            await this.todoApi.delete(id);
+            this.refresh();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 }

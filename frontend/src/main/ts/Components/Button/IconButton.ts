@@ -3,8 +3,8 @@ import "./IconButton.scss";
 
 export class IconButton implements Renderable {
 
-    private classList: string[];
-    private iconButton: HTMLButtonElement;
+    private readonly classList: string[];
+    private readonly iconButton: HTMLButtonElement;
 
     public constructor(private text: string, private clickFunction: () => void) {
         this.classList = [];
