@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0] -
+## [1.0.0] - 14.01.2025
 
 ### Added
 
@@ -11,4 +11,5 @@
 - Logging with rotating logfiles
 - Mapping of json payload to according data structures
 - Content negotiation for the current needs
+- UI for Todo and Version 
 
