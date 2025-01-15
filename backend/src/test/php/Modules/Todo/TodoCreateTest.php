@@ -17,9 +17,9 @@ class TodoCreateTest extends TestCase {
     private TodoController $controller;
 
     /**
-     * @var MockTodoTodoPersistence
+     * @var MockTodoPersistence
      */
-    private MockTodoTodoPersistence $mockPersistence;
+    private MockTodoPersistence $mockPersistence;
 
     /**
      * @var LoggerSpy
@@ -35,11 +35,11 @@ class TodoCreateTest extends TestCase {
      * @return void
      */
     public function setUp(): void {
-        $this->mockPersistence = new MockTodoTodoPersistence();
+        $this->mockPersistence = new MockTodoPersistence();
         $this->mockPersistence->createReturns(null);
         $this->logger = new LoggerSpy();
         $this->controller = new TodoController($this->mockPersistence, $this->logger);
-        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
+        $this->mockPersistence->createReturns(new TodoEntry(0, "", false));
         $rawData = new stdClass();
         $rawData->title = "";
         $this->request = new CreateTodoRequest($rawData);

@@ -78,14 +78,14 @@ class TodoController {
     }
 
     /**
-     * @param int $id
+     * @param UpdateTodoRequest $request
      *
-     * @return void
+     * @return TodoEntry
      * @throws Exception
      */
-    public function done(int $id): void {
+    public function update(UpdateTodoRequest $request): TodoEntry {
         try {
-            $this->persistence->done($id);
+            return $this->persistence->update($request);
         }
         catch (Throwable $exception) {
             $this->logger->exception($exception);

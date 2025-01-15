@@ -16,9 +16,9 @@ class TodoDeleteTest extends TestCase {
     private TodoController $controller;
 
     /**
-     * @var MockTodoTodoPersistence
+     * @var MockTodoPersistence
      */
-    private MockTodoTodoPersistence $mockPersistence;
+    private MockTodoPersistence $mockPersistence;
 
     /**
      * @var LoggerSpy
@@ -29,7 +29,7 @@ class TodoDeleteTest extends TestCase {
      * @return void
      */
     public function setUp(): void {
-        $this->mockPersistence = new MockTodoTodoPersistence();
+        $this->mockPersistence = new MockTodoPersistence();
         $this->mockPersistence->deleteReturns("");
         $this->logger = new LoggerSpy();
         $this->controller = new TodoController($this->mockPersistence, $this->logger);

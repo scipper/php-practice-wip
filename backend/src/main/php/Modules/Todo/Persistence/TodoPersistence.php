@@ -5,6 +5,7 @@ namespace Mys\Modules\Todo\Persistence;
 use Exception;
 use Mys\Modules\Todo\CreateTodoRequest;
 use Mys\Modules\Todo\TodoEntry;
+use Mys\Modules\Todo\UpdateTodoRequest;
 
 interface TodoPersistence {
     /**
@@ -30,10 +31,10 @@ interface TodoPersistence {
     public function delete(int $id): void;
 
     /**
-     * @param int $id
+     * @param UpdateTodoRequest $request
      *
-     * @return void
+     * @return TodoEntry
      * @throws Exception
      */
-    public function done(int $id): void;
+    public function update(UpdateTodoRequest $request): TodoEntry;
 }

@@ -8,7 +8,7 @@ use Mys\Modules\Todo\Persistence\PersistenceUpdateException;
 use Mys\Modules\Todo\Persistence\PersistenceWriteException;
 use Mys\Modules\Todo\Persistence\TodoPersistence;
 
-class MockTodoTodoPersistence implements TodoPersistence {
+class MockTodoPersistence implements TodoPersistence {
     private mixed $getAllReturnValue;
 
     private CreateTodoRequest $createdCalledWith;
@@ -19,9 +19,9 @@ class MockTodoTodoPersistence implements TodoPersistence {
 
     private string $deleteReturnValue;
 
-    private int $doneCalledWith;
+    private UpdateTodoRequest $updateCalledWith;
 
-    private string $doneReturnValue;
+    private mixed $updateReturnValue;
 
     public function getAll(): array {
         if ($this->getAllReturnValue === "throw") {
@@ -65,19 +65,21 @@ class MockTodoTodoPersistence implements TodoPersistence {
         $this->deleteReturnValue = $value;
     }
 
-    public function doneWasCalledWith() {
-        return $this->doneCalledWith;
+    public function updateWasCalledWith() {
+        return $this->updateCalledWith;
     }
 
-    public function done(int $id): void {
-        if ($this->doneReturnValue === "throw") {
+    public function update(UpdateTodoRequest $request): TodoEntry {
+        if ($this->updateReturnValue === "throw") {
             throw new PersistenceUpdateException();
         }
-        $this->doneCalledWith = $id;
+        $this->updateCalledWith = $request;
+
+        return $this->updateReturnValue;
     }
 
-    public function doneReturns(string $value) {
-        $this->doneReturnValue = $value;
+    public function updateReturns($value) {
+        $this->updateReturnValue = $value;
     }
 
 }

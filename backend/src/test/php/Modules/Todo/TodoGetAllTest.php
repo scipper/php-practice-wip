@@ -16,9 +16,9 @@ class TodoGetAllTest extends TestCase {
     private TodoController $controller;
 
     /**
-     * @var MockTodoTodoPersistence
+     * @var MockTodoPersistence
      */
-    private MockTodoTodoPersistence $mockPersistence;
+    private MockTodoPersistence $mockPersistence;
 
     /**
      * @var LoggerSpy
@@ -30,7 +30,7 @@ class TodoGetAllTest extends TestCase {
      */
     public function setUp(): void {
         $this->loggerSpy = new LoggerSpy();
-        $this->mockPersistence = new MockTodoTodoPersistence();
+        $this->mockPersistence = new MockTodoPersistence();
         $this->mockPersistence->getAllReturns([]);
         $this->controller = new TodoController($this->mockPersistence, $this->loggerSpy);
     }
@@ -64,7 +64,7 @@ class TodoGetAllTest extends TestCase {
      * @throws Exception
      */
     public function test_returns_todo() {
-        $todoEntry = new TodoEntry(0, "");
+        $todoEntry = new TodoEntry(0, "", false);
         $this->mockPersistence->getAllReturns([$todoEntry]);
 
         $result = $this->controller->getAll();

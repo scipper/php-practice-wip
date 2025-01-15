@@ -1,8 +1,10 @@
+import {TodoEntry} from "./TodoEntry";
+
 export class TodoApi {
 
     public async getAllTodos() {
         return await fetch("/api/todo")
-            .then((response) => response.json() as Promise<any[]>)
+            .then((response) => response.json() as Promise<TodoEntry[]>)
     }
 
     public async create(title: string) {
@@ -15,7 +17,20 @@ export class TodoApi {
         };
 
         return fetch("/api/todo", requestOptions)
-            .then((response) => response.json() as Promise<any[]>)
+            .then((response) => response.json() as Promise<TodoEntry>)
+    }
+
+    public async done(id: number, done: boolean) {
+        const requestOptions = {
+            method: "PATCH",
+            body: JSON.stringify({id, done}),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        };
+
+        return fetch("/api/todo", requestOptions)
+            .then((response) => response.json() as Promise<TodoEntry>)
     }
 
     public async delete(id: number) {

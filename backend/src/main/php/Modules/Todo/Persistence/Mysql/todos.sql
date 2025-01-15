@@ -7,3 +7,5 @@ create table if not exists todos
 )
     charset = utf16;
 
+alter table todos
+    add column if not exists done TINYINT default 0 not null;

@@ -8,9 +8,12 @@ readonly class TodoEntry {
 
     public string $title;
 
-    public function __construct(int $id, string $title) {
+    public bool $done;
+
+    public function __construct(int $id, string $title, bool $done) {
         $this->id = $id;
         $this->title = $title;
+        $this->done = $done;
     }
 
 }

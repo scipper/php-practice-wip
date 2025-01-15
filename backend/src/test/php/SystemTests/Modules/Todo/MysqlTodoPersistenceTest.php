@@ -9,6 +9,7 @@ use Mys\Modules\Todo\Persistence\Mysql\MysqlConnection;
 use Mys\Modules\Todo\Persistence\Mysql\MysqlConnectionData;
 use Mys\Modules\Todo\Persistence\Mysql\MysqlTodoPersistence;
 use Mys\Modules\Todo\TodoController;
+use Mys\Modules\Todo\UpdateTodoRequest;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -102,5 +103,26 @@ class MysqlTodoPersistenceTest extends TestCase {
         $todos = $controller->getAll();
 
         $this->assertCount(0, $todos);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function test_marks_todo_as_done() {
+        $controller = new TodoController($this->persistence, new LoggerSpy());
+        $createRequestRaw = new stdClass();
+        $createRequestRaw->title = "Test Todo";
+        $createRequest = new CreateTodoRequest($createRequestRaw);
+        $todoEntry = $controller->create($createRequest);
+
+        $updateRequestRaw = new stdClass();
+        $updateRequestRaw->id = $todoEntry->id;
+        $updateRequestRaw->done = true;
+        $updateRequest = new UpdateTodoRequest($updateRequestRaw);
+
+        $todoDone = $controller->update($updateRequest);
+
+        $this->assertTrue($todoDone->done);
     }
 }

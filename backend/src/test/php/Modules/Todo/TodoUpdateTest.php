@@ -6,9 +6,10 @@ use Exception;
 use Mys\LoggerSpy;
 use Mys\Modules\Todo\Persistence\PersistenceUpdateException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Throwable;
 
-class TodoMarkAsDoneTest extends TestCase {
+class TodoUpdateTest extends TestCase {
 
     /**
      * @var TodoController
@@ -16,9 +17,9 @@ class TodoMarkAsDoneTest extends TestCase {
     private TodoController $controller;
 
     /**
-     * @var MockTodoTodoPersistence
+     * @var MockTodoPersistence
      */
-    private MockTodoTodoPersistence $mockPersistence;
+    private MockTodoPersistence $mockPersistence;
 
     /**
      * @var LoggerSpy
@@ -26,59 +27,78 @@ class TodoMarkAsDoneTest extends TestCase {
     private LoggerSpy $logger;
 
     /**
+     * @var UpdateTodoRequest
+     */
+    private UpdateTodoRequest $request;
+
+    /**
      *
      */
     public function setUp(): void {
-        $this->mockPersistence = new MockTodoTodoPersistence();
-        $this->mockPersistence->doneReturns("");
+        $this->mockPersistence = new MockTodoPersistence();
+        $this->mockPersistence->updateReturns("");
         $this->logger = new LoggerSpy();
         $this->controller = new TodoController($this->mockPersistence, $this->logger);
-        $this->mockPersistence->createReturns(new TodoEntry(0, ""));
+        $this->mockPersistence->updateReturns(new TodoEntry(0, "", true));
+        $rawData = new stdClass();
+        $rawData->id = 1;
+        $rawData->done = true;
+        $this->request = new UpdateTodoRequest($rawData);
     }
 
     /**
      * @return void
      */
-    public function test_module_has_todo_endpoint_for_mark_as_done() {
+    public function test_module_has_todo_endpoint_for_update() {
         $module = new TodoModule();
 
         $endpoints = $module->getEndpoints();
-        $endpoint = $this->getEndpoint($endpoints, "/todo/done", "post");
+        $endpoint = $this->getEndpoint($endpoints, "/todo", "patch");
 
         $this->assertCount(1, $endpoint);
-        $this->assertEquals("/todo/done", $endpoint[0]->getPath());
-        $this->assertEquals("post", $endpoint[0]->getMethod());
+        $this->assertEquals("/todo", $endpoint[0]->getPath());
+        $this->assertEquals("patch", $endpoint[0]->getMethod());
     }
 
     /**
      * @throws Exception
      */
     public function test_marks_todo_as_done() {
-        $this->controller->done(1);
+        $this->controller->update($this->request);
 
-        $this->assertEquals(1, $this->mockPersistence->doneWasCalledWith());
+        $this->assertInstanceOf(UpdateTodoRequest::class, $this->mockPersistence->updateWasCalledWith());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_returns_todo_entry_with_done_set_to_true() {
+        $todo = $this->controller->update($this->request);
+
+        $this->assertInstanceOf(TodoEntry::class, $todo);
+        $this->assertTrue($todo->done);
     }
 
     /**
      * @return void
      * @throws Exception
      */
-    public function test_throws_when_done_fails() {
+    public function test_throws_when_Update_fails() {
         $this->expectException(PersistenceUpdateException::class);
 
-        $this->mockPersistence->doneReturns("throw");
+        $this->mockPersistence->updateReturns("throw");
 
-        $this->controller->done(1);
+        $this->controller->update($this->request);
     }
 
     /**
      * @throws Exception
      */
-    public function test_logs_exception_when_done_fails() {
-        $this->mockPersistence->doneReturns("throw");
+    public function test_logs_exception_when_update_fails() {
+        $this->mockPersistence->updateReturns("throw");
 
         try {
-            $this->controller->done(1);
+            $this->controller->update($this->request);
         }
         catch (Throwable $_) {
             $this->assertInstanceOf(PersistenceUpdateException::class, $this->logger->exceptionWasCalledWith());

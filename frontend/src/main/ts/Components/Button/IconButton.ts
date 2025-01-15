@@ -6,7 +6,7 @@ export class IconButton implements Renderable {
     private readonly classList: string[];
     private readonly iconButton: HTMLButtonElement;
 
-    public constructor(private text: string, private clickFunction: () => void) {
+    public constructor(private text: string, private clickFunction: (event?: MouseEvent) => void) {
         this.classList = [];
         this.iconButton = document.createElement("button");
     }

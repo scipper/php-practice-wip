@@ -20,6 +20,11 @@ todo-controller {
       position: relative;
       margin-bottom: calc(5px * $scalingFactor);
       height: calc(31px * $scalingFactor);
+      cursor: pointer;
+
+      &.done {
+        opacity: .4;
+      }
     }
   }
 
