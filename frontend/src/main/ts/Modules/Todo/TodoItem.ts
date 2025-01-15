@@ -11,9 +11,9 @@ export class TodoItem implements Renderable {
     }
 
     async render(): Promise<HTMLElement> {
-        const deleteButton = new IconButton("X", (event?: MouseEvent) => {
-            event?.stopPropagation();
-            event?.preventDefault();
+        const deleteButton = new IconButton("X", (event: MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
 
             if (confirm(`Delete todo ${this.todo.title}?`)) {
                 this.deleteTodo(this.todo.id);
